@@ -17,25 +17,23 @@ const SALARY_RANGES = [
 
 function FilterField({ icon: Icon, label, value, onChange, options, placeholder }) {
   return (
-    <div>
-      <label className="mb-1.5 flex items-center gap-2 text-sm font-extrabold text-pine-800">
-        <Icon size={15} className="text-pine-700" aria-hidden="true" /> {label}
+    <div className="space-y-1.5">
+      <label className="flex items-center gap-2 text-sm font-extrabold text-[#1a4a4a]">
+        <Icon size={16} className="text-[#1a4a4a]" aria-hidden="true" /> {label}
       </label>
       <select
         value={value}
         onChange={onChange}
-        className="w-full rounded-lg border border-cream-200 bg-white px-3 py-2.5 text-sm text-ink/80 focus:border-rust-500 focus:outline-none"
+        className="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-[#333] focus:border-rust-500 focus:outline-none focus:ring-2 focus:ring-rust-500/20 transition-all duration-200"
       >
         <option value="">{placeholder}</option>
         {options.map((opt) =>
           typeof opt === 'string' ? (
-            <option key={opt}>{opt}</option>
+            <option key={opt} value={opt}>{opt}</option>
           ) : (
-            opt.value !== '' && (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            )
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
           )
         )}
       </select>
@@ -48,10 +46,13 @@ export default function FilterSidebar({ filters, onChange, onReset }) {
   const set = (key) => (e) => onChange({ ...filters, [key]: e.target.value })
 
   return (
-    <aside className="card sticky top-24 h-fit w-full shrink-0 p-6 lg:w-72" aria-label="Filter jobs">
-      <h2 className="font-serif text-xl font-bold text-pine-800">Filter Jobs</h2>
+    <aside 
+      className="sticky top-24 h-fit w-full shrink-0 rounded-2xl bg-white p-6 shadow-lg lg:w-72 mx-4" 
+      aria-label="Filter jobs"
+    >
+      <h2 className="font-serif text-2xl font-bold text-[#1a4a4a]">Filter Jobs</h2>
 
-      <div className="mt-5 space-y-5">
+      <div className="mt-6 space-y-5">
         <FilterField
           icon={FiGrid}
           label="Category"
@@ -102,16 +103,16 @@ export default function FilterSidebar({ filters, onChange, onReset }) {
         />
       </div>
 
-      <div className="mt-6 flex items-center gap-3 border-t border-cream-200 pt-5">
+      <div className="mt-8 flex items-center gap-3 border-t border-gray-200 pt-6">
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex items-center gap-1.5 text-sm font-bold text-ink/70 hover:text-rust-600"
+          className="inline-flex items-center gap-1.5 text-sm font-bold text-[#666] transition-colors hover:text-rust-600"
         >
           <FiRotateCcw size={14} aria-hidden="true" /> Reset Filters
         </button>
-        <span className="btn-rust ml-auto !px-4 !py-2 text-xs" aria-hidden="true">
-          <FiSliders size={13} /> Filters Live
+        <span className="ml-auto inline-flex items-center gap-1.5 rounded-lg bg-rust-500 px-4 py-2 text-xs font-bold text-white">
+          <FiSliders size={13} aria-hidden="true" /> Filters Live
         </span>
       </div>
     </aside>

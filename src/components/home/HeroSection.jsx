@@ -40,8 +40,8 @@ export default function Hero() {
             Indigenous Job Board
           </div>
           <h1 className="font-serif text-4xl font-bold leading-[1.12] sm:text-5xl xl:text-6xl">
-            <span className="text-[oklch(38.6%_0.063_188.416)]">Find Aboriginal</span> and Indigenous Jobs <br />
-            <span className="text-[oklch(38.6%_0.063_188.416)]">Across Canada</span>
+            <span className="text-[oklch(38.6%_0.063_188.416)]">Find Aboriginal and Indigenous Jobs  </span> <br />
+            <span className="text-[oklch(47%_0.157_37.304)]">Across Canada</span>
           </h1>
           <span className="mt-5 block h-1 w-20 rounded-full bg-[oklch(38.6%_0.063_188.416)]" aria-hidden="true" />
           <p className="mt-6 max-w-md text-base leading-relaxed text-[#2C1810]/75 sm:text-lg">
@@ -129,7 +129,7 @@ export default function Hero() {
               </label>
             </div>
 
-            <button type="submit" className="inline-flex items-center gap-2 bg-[oklch(38.6%_0.063_188.416)] text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-[oklch(32%_0.06_188.416)] transition-all hover:scale-105 shadow-lg w-full md:w-auto">
+            <button type="submit" className="inline-flex items-center gap-2 bg-[oklch(47%_0.157_37.304)] text-white px-8 py-3.5 rounded-lg font-semibold hover:bg-[oklch(32%_0.06_188.416)] transition-all hover:scale-105 shadow-lg w-full md:w-auto">
               <FiSearch aria-hidden="true" /> Search Jobs
             </button>
           </div>

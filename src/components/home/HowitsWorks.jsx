@@ -26,10 +26,10 @@ export default function HowItWorks() {
     <section className="bg-[#F5F0E8] py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <span className="inline-block text-[oklch(38.6%_0.063_188.416)] font-semibold text-sm uppercase tracking-wider mb-2">
-            How It Works
+          <span className="inline-block text-[oklch(47%_0.157_37.304)] font-semibold text-sm uppercase tracking-wider mb-2">
+            ---How Jobline Works---
           </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-[#2C1810]">
+          <h2 className="text-3xl md:text-4xl font-bold text-[oklch(47%_0.157_37.304)]">
             Three Simple Steps to <span className="text-[oklch(38.6%_0.063_188.416)]">Your Dream Job</span>
           </h2>
           <p className="text-[#2C1810]/70 max-w-2xl mx-auto mt-3">
@@ -40,11 +40,11 @@ export default function HowItWorks() {
         <div className="grid gap-8 md:grid-cols-3 md:gap-6">
           {STEPS.map(({ icon: Icon, title, text, number }, i) => (
             <div key={title} className="bg-white rounded-2xl shadow-lg p-8 hover:shadow-2xl transition-all hover:-translate-y-2 border border-[#EDE4D8] group relative">
-              <div className="absolute -top-3 -right-3 bg-[oklch(38.6%_0.063_188.416)] text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
+              <div className="absolute -top-3 -right-3 bg-[oklch(47%_0.157_37.304)] text-white w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
                 {number}
               </div>
               
-              <div className="w-16 h-16 rounded-full bg-[oklch(38.6%_0.063_188.416)]/10 text-[oklch(38.6%_0.063_188.416)] flex items-center justify-center text-2xl mb-4 group-hover:bg-[oklch(38.6%_0.063_188.416)] group-hover:text-white transition-all duration-300">
+              <div className="w-16 h-16 rounded-full bg-[oklch(47%_0.157_37.304)] text-white flex items-center justify-center text-2xl mb-4 group-hover:bg-[oklch(38.6%_0.063_188.416)] group-hover:text-white transition-all duration-300">
                 <Icon size={28} />
               </div>
               

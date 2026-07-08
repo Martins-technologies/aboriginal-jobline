@@ -11,7 +11,7 @@ export default function Mission() {
     <section id="about-us" className="bg-[#F5F0E8]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid items-center gap-10 py-16 sm:py-20 lg:grid-cols-2">
         <div>
-          <span className="inline-block text-[oklch(38.6%_0.063_188.416)] font-semibold text-sm uppercase tracking-wider mb-2">
+          <span className="inline-block  text-[oklch(47%_0.157_37.304)] border-b-2 border-[oklch(47%_0.157_37.304)] font-semibold text-sm uppercase tracking-wider mb-2">
             Our Mission
           </span>
           <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-[oklch(38.6%_0.063_188.416)] sm:text-4xl">

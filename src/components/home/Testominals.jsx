@@ -58,7 +58,7 @@ export default function Testimonials() {
                     <FiBriefcase size={12} /> {role}
                   </p>
                 </div>
-                <div className="w-12 h-12 rounded-full bg-[oklch(38.6%_0.063_188.416)]/10 text-[oklch(38.6%_0.063_188.416)] flex items-center justify-center text-lg font-bold">
+                <div className="w-12 h-12 rounded-full bg-[oklch(38.6%_0.063_188.416)]/10 text-[oklch(47%_0.157_37.304)] flex items-center justify-center text-lg font-bold">
                   {name.charAt(0)}
                 </div>
               </figcaption>

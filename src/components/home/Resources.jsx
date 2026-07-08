@@ -44,9 +44,10 @@ export default function Resources() {
     <section className="bg-white pb-16 sm:pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeading
-          eyebrow="Resources & Insights"
+          eyebrow="---Resources & Insights---"
           title="Career Resources & Community Stories"
           subtitle="Practical advice, inclusive hiring strategies, and inspiring stories from across Canada."
+          className='text-[oklch(47%_0.157_37.304)]'
         />
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {RESOURCES.map(({ badge, title, text, icon: Icon, color }) => (
@@ -56,7 +57,7 @@ export default function Resources() {
             >
               <div className={`relative h-32 bg-gradient-to-br ${color} flex items-center justify-center`}>
                 <Icon size={40} className="text-[oklch(38.6%_0.063_188.416)]/20 group-hover:text-[oklch(38.6%_0.063_188.416)]/40 transition-colors" />
-                <span className="absolute right-3 top-3 rounded-full px-3 py-1 text-[10px] font-extrabold tracking-wider text-white bg-[oklch(38.6%_0.063_188.416)]">
+                <span className="absolute right-3 top-3 rounded-full px-3 py-1 text-[10px] font-extrabold tracking-wider text-white bg-[oklch(47%_0.157_37.304)]">
                   {badge}
                 </span>
               </div>
@@ -67,7 +68,7 @@ export default function Resources() {
                 <p className="mt-2 flex-1 text-xs leading-relaxed text-[#2C1810]/70 sm:text-sm">{text}</p>
                 <a 
                   href="#resources" 
-                  className="mt-4 inline-flex items-center gap-2 text-[oklch(38.6%_0.063_188.416)] font-semibold hover:text-[oklch(32%_0.06_188.416)] transition group"
+                  className="mt-4 inline-flex items-center gap-2  text-[oklch(47%_0.157_37.304)] font-semibold hover:text-[oklch(32%_0.06_188.416)] transition group"
                 >
                   Read More <FiArrowRight className="transition-transform group-hover:translate-x-1" />
                 </a>

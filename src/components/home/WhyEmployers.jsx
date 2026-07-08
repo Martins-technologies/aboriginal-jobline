@@ -48,8 +48,8 @@ export default function WhyEmployers() {
     <section className="bg-white py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <span className="inline-block text-[oklch(38.6%_0.063_188.416)] font-semibold text-sm uppercase tracking-wider mb-2">
-            Why Employers Choose
+          <span className="inline-block text-[oklch(47%_0.157_37.304)] font-semibold text-sm uppercase tracking-wider mb-2">
+            ---Why Employers Choose---
           </span>
           <h2 className="mt-3 font-serif text-3xl font-bold text-[oklch(38.6%_0.063_188.416)] sm:text-4xl">
             Aboriginal Jobline
@@ -64,7 +64,7 @@ export default function WhyEmployers() {
               key={title} 
               className="bg-white rounded-2xl shadow-lg border border-[#EDE4D8] flex items-start gap-4 p-6 hover:shadow-2xl transition-all hover:-translate-y-1 group"
             >
-              <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[oklch(38.6%_0.063_188.416)]/10 text-[oklch(38.6%_0.063_188.416)] group-hover:scale-110 group-hover:bg-[oklch(38.6%_0.063_188.416)] group-hover:text-white transition-all">
+              <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[oklch(38.6%_0.063_188.416)]/10 text-[oklch(47%_0.157_37.304)] group-hover:scale-110 group-hover:bg-[oklch(38.6%_0.063_188.416)] group-hover:text-white transition-all">
                 <span
                   className="absolute inset-[-4px] rounded-full border border-dashed border-current opacity-40"
                   aria-hidden="true"
@@ -72,7 +72,7 @@ export default function WhyEmployers() {
                 <Icon size={22} aria-hidden="true" />
               </span>
               <div>
-                <h3 className="font-sans text-sm font-extrabold text-[oklch(38.6%_0.063_188.416)] group-hover:text-[oklch(32%_0.06_188.416)] transition-colors">
+                <h3 className="font-sans text-sm font-extrabold text-[oklch(47%_0.157_37.304)] group-hover:text-[oklch(32%_0.06_188.416)] transition-colors">
                   {title}
                 </h3>
                 <p className="mt-1.5 text-xs leading-relaxed text-[#2C1810]/70 sm:text-sm">{text}</p>

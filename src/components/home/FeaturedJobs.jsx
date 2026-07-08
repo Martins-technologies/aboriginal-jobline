@@ -7,7 +7,7 @@ function JobCard({ job, onApply, applied }) {
   return (
     <article className="bg-white rounded-2xl shadow-lg p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-2xl border border-[#EDE4D8]">
       <div className="flex items-start gap-4">
-        <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[oklch(38.6%_0.063_188.416)]/10 text-[oklch(38.6%_0.063_188.416)]">
+        <span className="relative grid h-14 w-14 shrink-0 place-items-center rounded-full text-white bg-[oklch(47%_0.157_37.304)]">
           <span
             className="absolute inset-[-4px] rounded-full border border-dashed border-current opacity-40"
             aria-hidden="true"
@@ -35,7 +35,7 @@ function JobCard({ job, onApply, applied }) {
           <button
             type="button"
             onClick={() => onApply(job.title)}
-            className="inline-flex items-center gap-2 bg-[oklch(38.6%_0.063_188.416)] text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-[oklch(32%_0.06_188.416)] transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 bg-[oklch(47%_0.157_37.304)] text-white px-4 py-2 rounded-lg text-xs font-semibold hover:bg-[oklch(32%_0.06_188.416)] transition-all hover:scale-105"
           >
             Apply Now
           </button>
@@ -53,8 +53,8 @@ export default function FeaturedJobs() {
     <section id="browse-jobs" className="bg-[#EDE4D8] py-16 sm:py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid gap-10 lg:grid-cols-[1fr_2.2fr] lg:gap-14">
         <div>
-          <p className="inline-block text-[oklch(38.6%_0.063_188.416)] font-semibold text-sm uppercase tracking-wider mb-2">
-            Featured Opportunities
+          <p className="inline-block text-[oklch(47%_0.157_37.304)] font-semibold text-sm uppercase tracking-wider mb-2">
+            ---Featured Opportunities---
           </p>
           <h2 className="mt-4 font-serif text-3xl font-bold leading-tight text-[oklch(38.6%_0.063_188.416)] sm:text-4xl">
             Featured Jobs Across Canada
@@ -65,7 +65,7 @@ export default function FeaturedJobs() {
           </p>
           <a 
             href="#browse-jobs" 
-            className="inline-flex items-center gap-2 border-2 border-[oklch(38.6%_0.063_188.416)] text-[oklch(38.6%_0.063_188.416)] px-6 py-2.5 rounded-lg font-semibold mt-8 hover:bg-[oklch(38.6%_0.063_188.416)] hover:text-white transition-all hover:scale-105"
+            className="inline-flex items-center gap-2 border-2 border-[oklch(47%_0.157_37.304)] bg-[oklch(47%_0.157_37.304)] px-6 py-2.5 rounded-lg font-semibold mt-8 hover:bg-[oklch(47%_0.157_37.304)] hover:text-white transition-all hover:scale-105"
           >
             <FiSearch aria-hidden="true" /> Browse All Jobs
           </a>

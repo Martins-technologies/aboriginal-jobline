@@ -9,7 +9,7 @@ export default function JobCard({ job }) {
   const Icon = job.icon
 
   return (
-    <article className="card flex flex-col p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-lift">
+    <article className="group rounded-2xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-start gap-3.5">
           <span
@@ -19,79 +19,83 @@ export default function JobCard({ job }) {
               className="absolute inset-[-4px] rounded-full border border-dashed border-current opacity-40"
               aria-hidden="true"
             />
-            <Icon size={20} aria-hidden="true" />
+            <Icon size={20} className="text-white" aria-hidden="true" />
           </span>
           <div>
-            <h3 className="font-sans text-sm font-extrabold leading-snug text-pine-800">
+            <h3 className="font-sans text-base font-extrabold leading-snug text-[#1a4a4a]">
               {job.title}
             </h3>
-            <p className="mt-0.5 text-xs text-ink/60">{job.company}</p>
+            <p className="mt-0.5 text-sm text-[#666]">{job.company}</p>
           </div>
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-gold-500/50 bg-gold-500/10 px-2 py-0.5 text-[10px] font-extrabold text-gold-600">
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-[#c9a96e]/50 bg-[#c9a96e]/10 px-2.5 py-1 text-[10px] font-extrabold text-[#b8944a]">
           <FiAward size={10} aria-hidden="true" /> Inclusive Employer
         </span>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-ink/70">
+      <div className="mt-3 flex flex-wrap gap-x-5 gap-y-1.5 text-sm text-[#666]">
         <span className="inline-flex items-center gap-1.5">
-          <FiMapPin className="text-rust-600" aria-hidden="true" /> {job.location}
+          <FiMapPin className="text-rust-500" aria-hidden="true" /> {job.location}
         </span>
         <span className="inline-flex items-center gap-1.5">
-          <FiBriefcase className="text-rust-600" aria-hidden="true" /> {job.type}
+          <FiBriefcase className="text-rust-500" aria-hidden="true" /> {job.type}
         </span>
       </div>
 
-      <p className="mt-3 text-xs leading-relaxed text-ink/70 sm:text-sm">{job.description}</p>
-      <p className="mt-3 text-sm font-extrabold text-rust-600">{job.salaryText}</p>
+      <p className="mt-3 text-sm leading-relaxed text-[#666] line-clamp-2">{job.description}</p>
+      
+      <div className="mt-3 flex items-center justify-between">
+        <p className="text-lg font-extrabold text-rust-500">{job.salaryText}</p>
+        <span className="text-xs text-[#999]">Posted {job.postedDays} day{job.postedDays > 1 ? 's' : ''} ago</span>
+      </div>
 
       {showDetails && (
-        <dl className="mt-3 grid grid-cols-2 gap-2 rounded-xl bg-cream-100 p-3 text-xs">
+        <dl className="mt-4 grid grid-cols-2 gap-3 rounded-xl bg-[#f5f7f6] p-4 text-sm">
           <div>
-            <dt className="font-extrabold text-pine-800">Category</dt>
-            <dd className="text-ink/70">{job.category}</dd>
+            <dt className="font-extrabold text-[#1a4a4a]">Category</dt>
+            <dd className="text-[#666]">{job.category}</dd>
           </div>
           <div>
-            <dt className="font-extrabold text-pine-800">Workplace</dt>
-            <dd className="text-ink/70">{job.workplace}</dd>
+            <dt className="font-extrabold text-[#1a4a4a]">Workplace</dt>
+            <dd className="text-[#666]">{job.workplace}</dd>
           </div>
           <div>
-            <dt className="font-extrabold text-pine-800">Experience</dt>
-            <dd className="text-ink/70">{job.experience}</dd>
+            <dt className="font-extrabold text-[#1a4a4a]">Experience</dt>
+            <dd className="text-[#666]">{job.experience}</dd>
           </div>
           <div>
-            <dt className="font-extrabold text-pine-800">Posted</dt>
-            <dd className="text-ink/70">{job.postedDays} day{job.postedDays > 1 ? 's' : ''} ago</dd>
+            <dt className="font-extrabold text-[#1a4a4a]">Posted</dt>
+            <dd className="text-[#666]">{job.postedDays} day{job.postedDays > 1 ? 's' : ''} ago</dd>
           </div>
         </dl>
       )}
 
-      <div className="mt-4 flex items-center justify-between gap-3 border-t border-cream-200 pt-4">
+      <div className="mt-5 flex items-center justify-between gap-3 border-t border-gray-200 pt-5">
         <button
           type="button"
           onClick={() => setShowDetails((s) => !s)}
           aria-expanded={showDetails}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-cream-200 px-4 py-2 text-xs font-bold text-pine-800 transition-colors hover:border-pine-700"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-sm font-bold text-[#1a4a4a] transition-all duration-200 hover:border-rust-500 hover:bg-rust-50 hover:text-rust-600"
         >
           {showDetails ? (
             <>
-              Hide Details <FiChevronUp aria-hidden="true" />
+              Hide Details <FiChevronUp size={16} aria-hidden="true" />
             </>
           ) : (
             'View Details'
           )}
         </button>
         {applied ? (
-          <span className="inline-flex items-center gap-1.5 text-sm font-bold text-pine-700">
-            <FiCheckCircle aria-hidden="true" /> Applied
+          <span className="inline-flex items-center gap-2 text-sm font-bold text-green-600">
+            <FiCheckCircle size={18} aria-hidden="true" /> Applied Successfully
           </span>
         ) : (
           <button
             type="button"
             onClick={() => setApplied(true)}
-            className="inline-flex items-center gap-1.5 text-sm font-extrabold text-rust-600 hover:text-rust-500"
+            className="inline-flex items-center gap-2 rounded-lg bg-rust-500 px-5 py-2.5 text-sm font-bold text-white bg-[oklch(47%_0.157_37.304)]  transition-all duration-200 hover:bg-rust-600 hover:shadow-md active:scale-95"
           >
-            Apply Now <FiArrowRight aria-hidden="true" />
+            Apply Now <FiArrowRight size={16} aria-hidden="true" />
           </button>
         )}
       </div>
