@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { FiMenu, FiX } from 'react-icons/fi'
 import { PiBriefcaseBold } from 'react-icons/pi'
 import Logo from './Logo'
+import { useAuth } from '../../dashboard/auth/AuthContext'
 
 const LINKS = [
   { label: 'Home', path: '/' },
@@ -15,6 +16,9 @@ const LINKS = [
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const location = useLocation()
+  const { isAuthenticated, role } = useAuth()
+
+  const dashboardPath = role === 'recruiter' ? '/dashboard/recruiter' : '/dashboard/seeker'
 
   // Determine active link based on current path
   const isActive = (path) => {
@@ -52,13 +56,23 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Post a Job — right (desktop) */}
-        <Link
-          to="/post-job"
-          className="bg-[oklch(47%_0.157_37.304)] items-center gap-2.5 rounded-xl bg-rust-500 px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-rust-600 lg:inline-flex"
-        >
-          <PiBriefcaseBold size={19} aria-hidden="true" /> Post a Job
-        </Link>
+        {/* Dashboard / Sign in — right (desktop) */}
+        <div className="hidden items-center gap-4 lg:flex">
+          <Link
+            to={isAuthenticated ? dashboardPath : '/login'}
+            className="text-[15px] font-semibold text-ink/80 hover:text-pine-700"
+          >
+            {isAuthenticated ? 'My Dashboard' : 'Sign In'}
+          </Link>
+
+          {/* Post a Job */}
+          <Link
+            to="/post-job"
+            className="bg-[oklch(47%_0.157_37.304)] inline-flex items-center gap-2.5 rounded-xl bg-rust-500 px-6 py-3.5 text-[15px] font-bold text-white transition-colors hover:bg-rust-600"
+          >
+            <PiBriefcaseBold size={19} aria-hidden="true" /> Post a Job
+          </Link>
+        </div>
 
         {/* Hamburger (mobile) */}
         <button
@@ -92,6 +106,15 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                to={isAuthenticated ? dashboardPath : '/login'}
+                onClick={() => setOpen(false)}
+                className="block rounded-lg px-3 py-3 text-[15px] font-bold text-ink/80 hover:bg-cream-100 hover:text-pine-700"
+              >
+                {isAuthenticated ? 'My Dashboard' : 'Sign In'}
+              </Link>
+            </li>
             <li className="mt-2">
               <Link
                 to="/post-job"

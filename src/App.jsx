@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
 import { ThemeProvider } from './context/ThemeContext';
+import { AuthProvider } from './dashboard/auth/AuthContext';
 
 function App() {
   useEffect(() => {
@@ -9,7 +10,9 @@ function App() {
 
   return (
     <ThemeProvider>
-      <AppRoutes />
+      <AuthProvider>
+        <AppRoutes />
+      </AuthProvider>
     </ThemeProvider>
   );
 }

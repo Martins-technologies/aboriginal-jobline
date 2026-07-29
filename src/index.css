@@ -9,3 +9,49 @@
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 }
+
+/* ==========================================================================
+   DASHBOARD THEME TOKENS — Aboriginal Jobline
+   Every dashboard component (src/dashboard) reads colors from these CSS
+   variables, never hardcoded hex values. To re-skin the dashboard, only
+   this block needs to change — it mirrors src/dashboard/theme/theme.js.
+   Built from the same palette as tailwind.config.js (aboriginal-brown,
+   aboriginal-dark, aboriginal-cream, etc.) so the dashboard and marketing
+   site feel like one product.
+   ========================================================================== */
+:root {
+  /* Brand */
+  --color-primary: #2C1810;        /* aboriginal-dark — header, sidebar, headings */
+  --color-primary-light: #4A2A1A;  /* aboriginal-medium */
+  --color-accent: #C97C2C;         /* warm ochre — primary CTAs, active nav */
+  --color-accent-hover: #AD6620;
+  --color-secondary: #8B4513;      /* aboriginal-brown — secondary actions, stats */
+  --color-secondary-light: #EDE4D8;/* aboriginal-warm */
+
+  /* Surfaces */
+  --color-bg: #F5F0E8;             /* aboriginal-cream */
+  --color-surface: #ffffff;
+  --color-border: #D4C5B2;         /* aboriginal-light */
+
+  /* Text */
+  --color-text: #2C1810;           /* aboriginal-dark */
+  --color-text-muted: #7A6355;
+  --color-text-inverted: #ffffff;
+
+  /* Status badges (fixed palette) */
+  --status-active-bg: #E7EFE1;
+  --status-active-text: #3F6B2A;
+  --status-pending-bg: #FBEEDA;
+  --status-pending-text: #A66A1E;
+  --status-closed-bg: #EDE4D8;
+  --status-closed-text: #7A6355;
+  --status-rejected-bg: #F7E4E0;
+  --status-rejected-text: #A13A2A;
+
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --shadow-card: 0 1px 2px rgba(44, 24, 16, 0.06), 0 1px 3px rgba(44, 24, 16, 0.08);
+}
+
+.dashboard-shell ::-webkit-scrollbar { width: 8px; height: 8px; }
+.dashboard-shell ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 8px; }
