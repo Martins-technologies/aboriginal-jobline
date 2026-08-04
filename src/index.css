@@ -27,7 +27,7 @@
   --color-accent-hover: #AD6620;
   --color-secondary: #8B4513;      /* aboriginal-brown — secondary actions, stats */
   --color-secondary-light: #EDE4D8;/* aboriginal-warm */
-
+--color-success:rgb(0, 100, 58);
   /* Surfaces */
   --color-bg: #F5F0E8;             /* aboriginal-cream */
   --color-surface: #ffffff;
