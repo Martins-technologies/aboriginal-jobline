@@ -18,9 +18,9 @@ export default function SectionHeader({
       {eyebrow ? (
         <SectionEyebrow className={isCenter ? "" : "justify-start"}>{eyebrow}</SectionEyebrow>
       ) : null}
-      <Heading className={`${eyebrow ? "mt-3" : ""} section-title`}>{title}</Heading>
+      <Heading className={`${eyebrow ? "mt-2" : ""} section-title`}>{title}</Heading>
       {description ? <p className="section-copy">{description}</p> : null}
-      {action ? <div className="mt-6">{action}</div> : null}
+      {action ? <div className="mt-4">{action}</div> : null}
     </div>
   );
 }

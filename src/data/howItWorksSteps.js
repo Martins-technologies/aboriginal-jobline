@@ -4,6 +4,7 @@ export const howItWorksSteps = [
     title: "Create Employer Account",
     description: "Sign up in minutes and build your employer profile to get started.",
     icon: "user-plus",
+    to: "/create-employer-account",
   },
   {
     number: 2,
@@ -11,6 +12,7 @@ export const howItWorksSteps = [
     description:
       "Create job postings, manage your listings, and highlight your company culture and values.",
     icon: "briefcase",
+    to: "/post-a-job",
   },
   {
     number: 3,
@@ -18,5 +20,6 @@ export const howItWorksSteps = [
     description:
       "Review applications, connect with qualified Indigenous talent, and build lasting workplace relationships.",
     icon: "users",
+    to: "/contact",
   },
 ];

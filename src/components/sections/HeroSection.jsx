@@ -8,12 +8,8 @@ import WaveDecoration from "../common/WaveDecoration";
 import { images } from "../../data/images";
 
 export default function HeroSection({ filters, onSearch, onTagSelect }) {
-  const scrollToJobs = () => {
-    document.getElementById("featured-jobs")?.scrollIntoView({ behavior: "smooth" });
-  };
-
   return (
-    <PageSection className="bg-topo overflow-hidden pt-5 pb-6 lg:pt-6 lg:pb-8" contained={false}>
+    <PageSection className="bg-topo overflow-hidden hero-pad" contained={false}>
       <div
         className="pointer-events-none absolute inset-y-0 right-0 w-[78%] sm:w-[64%] lg:w-[56%] xl:w-[52%]"
         aria-hidden="true"
@@ -43,7 +39,7 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
             community, and culturally safe workplaces from coast to coast to coast.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Button variant="primary" icon={Search} onClick={scrollToJobs}>
+            <Button href="#featured-jobs" variant="primary" icon={Search}>
               Search Jobs
             </Button>
             <Button to="/employers" variant="outline" icon={Users}>
@@ -52,7 +48,7 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
           </div>
         </div>
 
-        <div className="relative z-20 mt-8 lg:mt-10">
+          <div className="relative z-20 mt-5 lg:mt-6">
           <JobSearchBar filters={filters} onSearch={onSearch} />
           <div className="mt-4">
             <PopularSearchTags activeFilters={filters} onSelect={onTagSelect} />

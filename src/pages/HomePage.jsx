@@ -30,7 +30,7 @@ export default function HomePage() {
       <PromoBanner
         eyebrow="For Employers"
         heading="Hire Aboriginal Talent. Build Stronger Teams."
-        description="Reach qualified Aboriginal and Indigenous candidates across Canada. Post roles, build inclusive teams, and partner with a platform grounded in community."
+        description="Post jobs, reach qualified Indigenous candidates, and build a more inclusive and diverse workplace."
         image={images.employerPromo}
         buttons={
           <>
@@ -44,7 +44,7 @@ export default function HomePage() {
         }
       />
       <WhyEmployersChooseSection />
-      <PageSection className="bg-topo pb-2 pt-10 sm:pt-12 lg:pt-14">
+      <PageSection className="bg-topo section-pad pb-0">
         <SectionHeader
           eyebrow="Success Stories"
           title="Real Impact. Real People. Real Change."
@@ -52,7 +52,7 @@ export default function HomePage() {
         />
       </PageSection>
       <CareerResourcesSection
-        className="bg-topo pb-10 pt-8 sm:pb-12 lg:pb-14"
+        className="bg-topo pt-4 pb-6 lg:pt-5 lg:pb-7"
         eyebrow="Resources & Insights"
         title="Career Resources & Community Stories"
         description="Practical advice, inclusive hiring strategies, and inspiring stories from across Canada."

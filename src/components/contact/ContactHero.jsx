@@ -34,12 +34,12 @@ function HeroBadge() {
 
 export default function ContactHero() {
   return (
-    <PageSection className="bg-topo pt-5 lg:pt-6" contained={false}>
+    <PageSection className="bg-topo pt-4 lg:pt-5" contained={false}>
       <DottedArcs />
       <div className="container-page relative">
         <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
           <div>
-            <AccentHeading as="h1" className="max-w-xl text-4xl sm:text-5xl lg:text-[3.25rem]">
+            <AccentHeading as="h1" className="max-w-xl text-4xl sm:text-5xl lg:text-[3.15rem]">
               Connect With Aboriginal Jobline
             </AccentHeading>
             <p className="mt-4 max-w-lg text-base leading-relaxed text-muted">
@@ -70,7 +70,7 @@ export default function ContactHero() {
           </div>
         </div>
 
-        <div className="relative z-10 mt-8 grid gap-5 pb-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="relative z-10 mt-6 grid gap-5 pb-4 sm:grid-cols-2 lg:grid-cols-3">
           {contactQuickLinks.map((item) => (
             <QuickLinkCard key={item.id} item={item} />
           ))}

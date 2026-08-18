@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { scrollToId } from "../../utils/scroll";
 
 const variants = {
   primary:
@@ -29,6 +30,7 @@ export default function Button({
   className = "",
   icon: Icon,
   iconPosition = "left",
+  onClick,
   ...props
 }) {
   const classes = `inline-flex items-center justify-center gap-2 rounded-xl font-sans font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-60 ${variants[variant]} ${sizes[size]} ${className}`;
@@ -43,9 +45,19 @@ export default function Button({
     </>
   );
 
+  const handleHashClick = (event) => {
+    onClick?.(event);
+    if (event.defaultPrevented || !href?.startsWith("#")) return;
+    const id = href.slice(1);
+    if (!document.getElementById(id)) return;
+    event.preventDefault();
+    scrollToId(id);
+    window.history.replaceState(null, "", href);
+  };
+
   if (to) {
     return (
-      <Link to={to} className={classes} {...props}>
+      <Link to={to} className={classes} onClick={onClick} {...props}>
         {content}
       </Link>
     );
@@ -53,14 +65,14 @@ export default function Button({
 
   if (href) {
     return (
-      <a href={href} className={classes} {...props}>
+      <a href={href} className={classes} onClick={handleHashClick} {...props}>
         {content}
       </a>
     );
   }
 
   return (
-    <button type={type} className={classes} {...props}>
+    <button type={type} className={classes} onClick={onClick} {...props}>
       {content}
     </button>
   );

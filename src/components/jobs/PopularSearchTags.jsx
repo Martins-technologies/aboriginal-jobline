@@ -16,13 +16,14 @@ export default function PopularSearchTags({ activeFilters, onSelect }) {
             key={tag.id}
             type="button"
             onClick={() => onSelect(tag.query)}
-            className={`inline-flex items-center gap-1.5 rounded-full border bg-white px-3 py-1.5 text-sm transition-colors ${
+            aria-pressed={isActive}
+            className={`inline-flex items-center gap-1.5 rounded-full border bg-white px-3 py-1.5 text-sm transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
               isActive
                 ? "border-accent bg-accent-50 text-accent"
                 : `${tag.tone} hover:bg-white`
             }`}
           >
-            <Icon className="h-3.5 w-3.5" />
+            <Icon className="h-3.5 w-3.5" aria-hidden="true" />
             {tag.label}
           </button>
         );

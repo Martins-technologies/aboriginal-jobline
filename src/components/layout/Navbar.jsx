@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { NavLink } from "react-router-dom";
-import { Briefcase, Menu, X } from "lucide-react";
+import { Briefcase, LogIn, LogOut, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import Button from "../common/Button";
+import { signOut, useSession } from "../../utils/auth";
 
 const links = [
   { to: "/", label: "Home" },
@@ -39,6 +40,14 @@ function NavItems({ onNavigate, className = "" }) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const session = useSession();
+
+  const closeMenu = () => setOpen(false);
+
+  const handleSignOut = () => {
+    signOut();
+    closeMenu();
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur">
@@ -48,6 +57,26 @@ export default function Navbar() {
         <NavItems className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" />
 
         <div className="flex items-center gap-3">
+          {session ? (
+            <Button
+              type="button"
+              variant="secondary"
+              icon={LogOut}
+              className="hidden sm:inline-flex"
+              onClick={handleSignOut}
+            >
+              Sign Out
+            </Button>
+          ) : (
+            <Button
+              to="/sign-in"
+              variant="secondary"
+              icon={LogIn}
+              className="hidden sm:inline-flex"
+            >
+              Sign In
+            </Button>
+          )}
           <Button
             to="/post-a-job"
             variant="secondary"
@@ -72,11 +101,38 @@ export default function Navbar() {
       {open ? (
         <div id="mobile-nav" className="border-t border-black/5 bg-white md:hidden">
           <NavItems
-            onNavigate={() => setOpen(false)}
+            onNavigate={closeMenu}
             className="flex flex-col gap-4 px-6 py-5"
           />
-          <div className="px-6 pb-5">
-            <Button to="/post-a-job" variant="secondary" icon={Briefcase} className="w-full">
+          <div className="flex flex-col gap-3 px-6 pb-5">
+            {session ? (
+              <Button
+                type="button"
+                variant="secondary"
+                icon={LogOut}
+                className="w-full"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </Button>
+            ) : (
+              <Button
+                to="/sign-in"
+                variant="secondary"
+                icon={LogIn}
+                className="w-full"
+                onClick={closeMenu}
+              >
+                Sign In
+              </Button>
+            )}
+            <Button
+              to="/post-a-job"
+              variant="secondary"
+              icon={Briefcase}
+              className="w-full"
+              onClick={closeMenu}
+            >
               Post a Job
             </Button>
           </div>

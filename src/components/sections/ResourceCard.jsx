@@ -3,31 +3,36 @@ import { ArrowRight } from "lucide-react";
 
 export default function ResourceCard({ resource }) {
   return (
-    <article className="surface-card overflow-hidden">
-      <div className="relative">
+    <Link
+      to={resource.href}
+      aria-label={`Read more: ${resource.title}`}
+      className="surface-card flex h-full min-h-[10.5rem] flex-col overflow-hidden sm:flex-row focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
+      <div className="relative h-40 w-full shrink-0 sm:h-auto sm:w-[42%]">
         <img
           src={resource.image}
-          alt={resource.imageAlt}
+          alt={resource.imageAlt || ""}
           loading="lazy"
-          className={`h-56 w-full object-cover sm:h-64 ${resource.imageClass || "object-center"}`}
+          className={`h-full w-full object-cover sm:absolute sm:inset-0 ${resource.imageClass || "object-center"}`}
         />
         <span
-          className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white ${resource.tagColor}`}
+          className={`absolute left-3 top-3 rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white ${resource.tagColor}`}
         >
           {resource.tag}
         </span>
       </div>
-      <div className="p-6">
-        <h3 className="font-serif text-xl text-primary">{resource.title}</h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted">{resource.description}</p>
-        <Link
-          to={resource.href}
-          className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline"
-        >
+      <div className="flex min-w-0 flex-1 flex-col p-3.5 sm:p-4">
+        <h3 className="font-sans text-sm font-bold leading-snug text-primary sm:text-[15px]">
+          {resource.title}
+        </h3>
+        <p className="mt-1.5 flex-1 text-[13px] leading-relaxed text-muted">
+          {resource.description}
+        </p>
+        <span className="mt-3 inline-flex items-center gap-1 self-start text-sm font-semibold text-accent sm:mt-auto sm:self-end">
           Read More
-          <ArrowRight className="h-4 w-4" />
-        </Link>
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        </span>
       </div>
-    </article>
+    </Link>
   );
 }

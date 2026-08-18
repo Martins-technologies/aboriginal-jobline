@@ -57,6 +57,7 @@ export default function WaveDecoration({
         className={svgClass}
         aria-hidden="true"
         fill="none"
+        preserveAspectRatio="none"
       >
         <path
           d="M280 0C180 40 120 90 90 170c-28 74 10 130 70 170 40 26 80 40 120 50V0Z"

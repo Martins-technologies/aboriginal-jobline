@@ -47,8 +47,12 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
+  .hero-pad {
+    @apply pt-3 pb-5 lg:pt-4 lg:pb-6;
+  }
+
   .section-pad {
-    @apply py-10 sm:py-12 lg:py-14;
+    @apply py-6 sm:py-7 lg:py-8;
   }
 
   .section-title {
@@ -66,5 +70,10 @@
   .hero-photo-blend {
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 32%, black 100%);
     mask-image: linear-gradient(to right, transparent 0%, black 32%, black 100%);
+  }
+
+  .mission-photo-blend {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 16%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 16%, black 100%);
   }
 }

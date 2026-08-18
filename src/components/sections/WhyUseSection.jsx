@@ -10,7 +10,7 @@ export default function WhyUseSection() {
         Why Job Seekers Use Aboriginal Jobline
         <span className="hidden h-px w-16 bg-black/15 sm:block" aria-hidden="true" />
       </h2>
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
+      <div className="mt-5 grid gap-5 md:grid-cols-3">
         {features.map((feature) => (
           <FeatureCard key={feature.id} feature={feature} />
         ))}

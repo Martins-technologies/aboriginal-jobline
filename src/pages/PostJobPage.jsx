@@ -63,15 +63,15 @@ function HowPostingWorksSection() {
           connect with Indigenous talent across Canada.
         </p>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {howPostingWorksSteps.map((step) => (
             <HowItWorksStep key={step.number} step={step} layout="card" />
           ))}
         </div>
 
-        <div className="mt-12 rounded-2xl border border-black/10 bg-white px-6 py-8 sm:px-8">
+        <div className="mt-8 rounded-2xl border border-black/10 bg-white px-6 py-6 sm:px-8">
           <FlankedHeading>Trusted by Employers. Backed by Results.</FlankedHeading>
-          <div className="mt-8 grid gap-8 md:grid-cols-2 md:gap-0">
+          <div className="mt-5 grid gap-8 md:grid-cols-2 md:gap-0">
             {postJobTestimonials.map((testimonial, index) => (
               <div
                 key={testimonial.id}
@@ -91,7 +91,7 @@ function HowPostingWorksSection() {
 function PostJobFAQSection() {
   return (
     <PageSection className="bg-topo" contained={false}>
-      <div className="container-page section-pad pb-8">
+      <div className="container-page section-pad">
         <h2 className="section-title mb-8">Frequently Asked Questions</h2>
         <FAQAccordion faqs={postJobFaqs} variant="flat" />
       </div>

@@ -56,7 +56,7 @@ export default function EmployerSolutionsSection() {
           />
         </div>
 
-        <div className="mt-14">
+        <div className="mt-10">
           <DashHeading className="text-2xl sm:text-3xl">
             Industries Hiring Now
           </DashHeading>
@@ -79,7 +79,7 @@ export default function EmployerSolutionsSection() {
           </div>
         </div>
 
-        <div className="mt-16 grid items-start gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-12">
+        <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-10">
           <div>
             <DashHeading className="text-3xl sm:text-4xl">
               Trusted by Employers Across Canada

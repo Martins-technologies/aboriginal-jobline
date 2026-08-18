@@ -11,9 +11,9 @@ export default function CommunityVoicesSection() {
         title="Voices from the Community"
         description="Real stories from job seekers and employers making a difference together."
       />
-      <div className="mt-8 grid gap-5 md:grid-cols-3">
+      <div className="mt-4 grid gap-x-4 gap-y-8 pt-4 md:grid-cols-3">
         {homeTestimonials.map((testimonial) => (
-          <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+          <TestimonialCard key={testimonial.id} testimonial={testimonial} layout="featured" />
         ))}
       </div>
     </PageSection>

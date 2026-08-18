@@ -111,13 +111,9 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
           <Button to={`/jobs/${job.id}`} variant="outline" size="sm">
             View Details
           </Button>
-          <Link
-            to={`/jobs/${job.id}`}
-            className="inline-flex items-center gap-1 rounded-xl bg-accent px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent/90"
-          >
+          <Button to={`/jobs/${job.id}`} variant="secondary" size="sm" icon={ArrowRight} iconPosition="right">
             Apply Now
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </Link>
+          </Button>
         </div>
       </div>
     </article>

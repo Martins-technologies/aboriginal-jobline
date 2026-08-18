@@ -11,7 +11,7 @@ export default function ContactClosingCTA() {
     <PageSection className="bg-topo" contained={false}>
       <DottedArcs />
       <div className="container-page relative section-pad">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-12">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-10">
           <div>
             <AccentHeading className="max-w-xl text-3xl sm:text-4xl lg:text-[2.5rem]">
               We’re Ready to Hear From You

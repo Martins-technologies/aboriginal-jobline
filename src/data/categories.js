@@ -2,35 +2,31 @@ export const categories = [
   {
     slug: "office-administration",
     title: "Office & Administration",
-    description:
-      "Coordinators, assistants, and operations roles that keep community organizations running smoothly.",
-    icon: "briefcase",
-    iconColor: "text-primary",
-    iconBg: "bg-primary/10",
-  },
-  {
-    slug: "skilled-trades",
-    title: "Skilled Trades",
-    description:
-      "Apprenticeships and journeyperson roles in construction, carpentry, electrical, and mechanical trades.",
-    icon: "wrench",
+    description: "Find roles in data entry, customer service, HR, and more.",
+    icon: "folder",
     iconColor: "text-accent",
     iconBg: "bg-accent/10",
   },
   {
+    slug: "skilled-trades",
+    title: "Skilled Trades",
+    description: "Explore opportunities in construction, welding, electrician, and more.",
+    icon: "wrench",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
+  },
+  {
     slug: "education",
     title: "Education",
-    description:
-      "Teaching, student support, and land-based learning opportunities in schools and community programs.",
+    description: "Find jobs in teaching, support services, and educational leadership.",
     icon: "book-open",
-    iconColor: "text-accent-light",
-    iconBg: "bg-accent-light/20",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
   },
   {
     slug: "healthcare",
     title: "Healthcare",
-    description:
-      "Clinical, community health, and wellness roles with First Nations and Indigenous-led providers.",
+    description: "Discover roles in nursing, caregiving, wellness, and allied health.",
     icon: "heart-pulse",
     iconColor: "text-accent",
     iconBg: "bg-accent/10",
@@ -38,20 +34,18 @@ export const categories = [
   {
     slug: "hospitality",
     title: "Hospitality",
-    description:
-      "Guest services, culinary, and tourism roles with lodges, restaurants, and Indigenous tourism partners.",
-    icon: "utensils",
-    iconColor: "text-primary",
-    iconBg: "bg-primary/10",
+    description: "Find opportunities in hotels, restaurants, tourism, and events.",
+    icon: "concierge-bell",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
   },
   {
     slug: "transportation",
     title: "Transportation",
-    description:
-      "Driving, logistics, and supply-chain roles connecting communities, cities, and remote regions.",
+    description: "Explore driving, logistics, warehouse, and fleet support roles.",
     icon: "truck",
-    iconColor: "text-accent",
-    iconBg: "bg-accent/10",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
   },
   {
     slug: "community-services",

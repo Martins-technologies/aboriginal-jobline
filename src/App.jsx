@@ -8,8 +8,10 @@ import EmployersPage from "./pages/EmployersPage";
 import AboutUs from "./pages/AboutUs";
 import ContactPage from "./pages/ContactPage";
 import PostJobPage from "./pages/PostJobPage";
+import SignInPage from "./pages/SignInPage";
 
 const comingSoonRoutes = [
+  { path: "/forgot-password", title: "Forgot Password" },
   { path: "/create-profile", title: "Create Profile" },
   { path: "/resume-tips", title: "Resume Tips" },
   { path: "/career-resources", title: "Career Resources" },
@@ -32,8 +34,14 @@ const comingSoonRoutes = [
 function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-xl focus:bg-white focus:px-4 focus:py-3 focus:text-sm focus:font-semibold focus:text-primary focus:shadow-card"
+      >
+        Skip to main content
+      </a>
       <Navbar />
-      <main className="flex flex-1 flex-col">
+      <main id="main-content" tabIndex={-1} className="flex flex-1 flex-col outline-none">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/browse-jobs" element={<BrowseJobsPage />} />
@@ -41,6 +49,7 @@ function AppLayout() {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/post-a-job" element={<PostJobPage />} />
+          <Route path="/sign-in" element={<SignInPage />} />
           <Route
             path="/jobs/:id"
             element={

@@ -21,13 +21,13 @@ export default function MoreWaysSection() {
           partnership, our team is ready to connect you with the right next step.
         </p>
 
-        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {moreWaysLinks.map((item) => (
             <QuickLinkCard key={item.id} item={item} />
           ))}
         </div>
 
-        <div className="mt-8 grid items-stretch gap-6 lg:grid-cols-2">
+        <div className="mt-5 grid items-stretch gap-6 lg:grid-cols-2">
           <div className="surface-card h-full p-6 sm:p-8">
             <AccentHeading className="text-2xl sm:text-3xl">
               Frequently Asked Questions

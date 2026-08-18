@@ -44,13 +44,13 @@ export default function CTABanner({
   }
 
   return (
-    <PageSection className="bg-topo pb-6 pt-2">
-      <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-10 text-white sm:px-10 lg:px-14">
+    <PageSection className="bg-topo section-pad">
+      <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-7 text-white sm:px-10 lg:px-12">
         <WaveDecoration
           variant="cta"
           className="pointer-events-none absolute right-0 top-0 hidden h-full w-1/2 md:block"
         />
-        <div className="relative z-10 flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
             <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-white/70">
               <BadgeIcon className="h-6 w-6" aria-hidden="true" />

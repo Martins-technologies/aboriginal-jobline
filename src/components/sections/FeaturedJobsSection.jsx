@@ -1,6 +1,8 @@
+import { ArrowRight } from "lucide-react";
 import FilterSidebar from "../jobs/FilterSidebar";
 import JobResultsToolbar from "../jobs/JobResultsToolbar";
 import JobsGrid from "../jobs/JobsGrid";
+import Button from "../common/Button";
 import PageSection from "../common/PageSection";
 import SectionHeader from "../common/SectionHeader";
 
@@ -23,7 +25,7 @@ export default function FeaturedJobsSection({
         description="Discover current job openings from inclusive employers across Canada committed to community."
       />
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="mt-5 grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
         <FilterSidebar filters={filters} onApply={onApplyFilters} onReset={onResetFilters} />
         <div>
           <JobResultsToolbar
@@ -35,13 +37,9 @@ export default function FeaturedJobsSection({
           />
           <JobsGrid jobs={jobs} view={view} />
           <div className="mt-6 text-center">
-            <a
-              href="#browse-categories"
-              className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline"
-            >
+            <Button href="#browse-categories" variant="ghost" icon={ArrowRight} iconPosition="right">
               View More Jobs
-              <span aria-hidden="true">→</span>
-            </a>
+            </Button>
           </div>
         </div>
       </div>

@@ -11,7 +11,7 @@ export default function Logo({ variant = "dark", compact = false }) {
   );
 
   return (
-    <Link to="/browse-jobs" className="inline-flex shrink-0 items-center" aria-label="Aboriginal Jobline home">
+    <Link to="/" className="inline-flex shrink-0 items-center" aria-label="Aboriginal Jobline home">
       {variant === "light" ? (
         <span className="inline-flex rounded-lg bg-white px-2 py-1">{image}</span>
       ) : (

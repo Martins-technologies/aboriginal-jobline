@@ -5,6 +5,7 @@ export const howPostingWorksSteps = [
     description: "Add your job details, requirements and location in minutes.",
     icon: "file-pen",
     color: "bg-primary-50 text-primary",
+    to: "/post-a-job#job-posting-form",
   },
   {
     number: 2,

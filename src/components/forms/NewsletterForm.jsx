@@ -60,7 +60,7 @@ export default function NewsletterForm({
             placeholder={placeholder}
             aria-invalid={Boolean(error)}
             aria-describedby={error ? `${id}-error` : undefined}
-            className={`w-full rounded-xl border border-black/10 bg-white py-2.5 pl-10 pr-3 text-sm text-body placeholder:text-muted/80 focus:border-primary focus:outline-none ${inputClassName}`}
+            className={`w-full rounded-xl border border-black/10 bg-white py-2.5 pl-10 pr-3 text-sm text-body placeholder:text-muted/80 focus:border-primary focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${inputClassName}`}
           />
         </div>
         <Button type="submit" variant={buttonVariant} className={stacked ? "w-full" : "shrink-0"}>

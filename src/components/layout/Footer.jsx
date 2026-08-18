@@ -43,7 +43,7 @@ function SocialLinks({ links, style, isLight }) {
             key={item.platform}
             href={item.url}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             aria-label={item.label || item.platform}
             className={
               outlined
@@ -53,7 +53,7 @@ function SocialLinks({ links, style, isLight }) {
                 : "flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-primary/90"
             }
           >
-            <Icon className="h-4 w-4" />
+            <Icon className="h-4 w-4" aria-hidden="true" />
           </a>
         );
       })}
@@ -91,7 +91,7 @@ export default function Footer({ config = homeFooterConfig }) {
       ) : null}
 
       <div
-        className={`container-page relative grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-3 ${
+        className={`container-page relative grid gap-8 py-8 sm:grid-cols-2 lg:grid-cols-3 ${
           gridCols[columnCount] || "xl:grid-cols-4"
         }`}
       >
@@ -150,7 +150,7 @@ export default function Footer({ config = homeFooterConfig }) {
                   <a
                     href={contact.websiteHref || `https://${contact.website}`}
                     target="_blank"
-                    rel="noreferrer"
+                    rel="noopener noreferrer"
                     className={isLight ? "hover:text-primary" : "hover:text-white"}
                   >
                     {contact.website}

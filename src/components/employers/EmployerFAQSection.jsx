@@ -7,7 +7,7 @@ export default function EmployerFAQSection() {
   return (
     <PageSection className="bg-topo section-pad">
       <SectionHeader
-        className="mb-8"
+        className="mb-5"
         eyebrow="Employer FAQ"
         title="Frequently Asked Questions"
         description="Everything you need to know about hiring with Aboriginal Jobline."

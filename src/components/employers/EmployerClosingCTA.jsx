@@ -7,8 +7,8 @@ import { images } from "../../data/images";
 export default function EmployerClosingCTA() {
   return (
     <PageSection className="bg-topo section-pad">
-      <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-10 text-white sm:px-10 lg:px-12">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+      <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-7 text-white sm:px-10 lg:px-12">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
           <div>
             <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-accent-light/80 text-accent-light">
               <Users className="h-6 w-6" aria-hidden="true" />
@@ -21,7 +21,7 @@ export default function EmployerClosingCTA() {
               Post jobs, connect with qualified Aboriginal and Indigenous talent, and build a
               workplace that reflects the communities you serve.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-5 flex flex-wrap gap-3">
               <Button to="/post-a-job" variant="secondary" icon={Briefcase}>
                 Post a Job
               </Button>

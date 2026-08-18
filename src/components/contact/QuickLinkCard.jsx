@@ -8,27 +8,27 @@ const accents = {
     iconFilled: "bg-primary text-white",
     title: "text-primary",
     ring: "border-primary/40",
-    arrow: "text-primary hover:text-primary/80",
+    arrow: "text-primary",
   },
   orange: {
     iconWrap: "bg-accent-50 text-accent",
     iconFilled: "bg-accent text-white",
     title: "text-accent",
     ring: "border-accent/45",
-    arrow: "text-accent hover:text-accent/80",
+    arrow: "text-accent",
   },
   gold: {
     iconWrap: "bg-accent-light/20 text-accent-light",
     iconFilled: "bg-accent-light text-white",
     title: "text-accent-light",
     ring: "border-accent-light/55",
-    arrow: "text-accent hover:text-accent/80",
+    arrow: "text-accent",
   },
 };
 
 export default function QuickLinkCard({
   item,
-  linkLabel,
+  linkLabel = "Learn more",
   filled = false,
   dashed = false,
 }) {
@@ -45,7 +45,11 @@ export default function QuickLinkCard({
   );
 
   return (
-    <article className="surface-card flex h-full flex-col p-6">
+    <Link
+      to={item.href}
+      aria-label={`${linkLabel}: ${item.title}`}
+      className="surface-card flex h-full flex-col p-6 transition-shadow hover:shadow-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+    >
       {dashed ? (
         <span
           className={`mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-dashed p-[3px] ${tone.ring}`}
@@ -63,22 +67,10 @@ export default function QuickLinkCard({
       )}
       <h3 className={`font-sans text-lg font-semibold ${tone.title}`}>{item.title}</h3>
       <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{item.description}</p>
-      <Link
-        to={item.href}
-        aria-label={linkLabel ? `${linkLabel} about ${item.title}` : `Learn more about ${item.title}`}
-        className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${tone.arrow} ${
-          linkLabel ? "hover:underline" : "ml-auto rounded-full p-1"
-        }`}
-      >
-        {linkLabel ? (
-          <>
-            {linkLabel}
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </>
-        ) : (
-          <ArrowRight className="h-5 w-5" aria-hidden="true" />
-        )}
-      </Link>
-    </article>
+      <span className={`mt-4 inline-flex items-center gap-1 text-sm font-semibold ${tone.arrow}`}>
+        {linkLabel}
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+      </span>
+    </Link>
   );
 }

@@ -13,7 +13,7 @@ export default function JobResultsToolbar({ count, sort, view, onSortChange, onV
             <select
               value={sort}
               onChange={(event) => onSortChange(event.target.value)}
-              className="appearance-none rounded-lg border border-black/10 bg-white py-1.5 pl-3 pr-8 text-sm text-body focus:outline-none"
+              className="appearance-none rounded-lg border border-black/10 bg-white py-1.5 pl-3 pr-8 text-sm text-body focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             >
               <option value="relevant">Most Relevant</option>
               <option value="newest">Newest</option>

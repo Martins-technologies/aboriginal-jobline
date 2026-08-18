@@ -6,6 +6,7 @@ export const homeHowItWorksSteps = [
       "Browse thousands of job listings across Canada that match your skills and interests.",
     icon: "search",
     color: "bg-primary",
+    to: "/browse-jobs",
   },
   {
     number: 2,
@@ -13,6 +14,7 @@ export const homeHowItWorksSteps = [
     description: "Build your profile, showcase your experience, and let employers find you.",
     icon: "user",
     color: "bg-accent",
+    to: "/create-profile",
   },
   {
     number: 3,
@@ -21,5 +23,6 @@ export const homeHowItWorksSteps = [
       "Apply to jobs that fit you best and connect with inclusive employers who value your talent.",
     icon: "send",
     color: "bg-accent-light",
+    to: "/browse-jobs",
   },
 ];

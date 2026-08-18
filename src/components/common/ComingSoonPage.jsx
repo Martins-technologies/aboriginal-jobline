@@ -28,7 +28,7 @@ export default function ComingSoonPage({
             </Link>{" "}
             or{" "}
             <Link to="/contact" className="font-semibold text-accent hover:underline">
-              Contact
+              Contact Us
             </Link>
             .
           </p>

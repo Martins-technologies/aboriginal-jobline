@@ -24,7 +24,7 @@ export default function WhyChooseEmployerSection() {
           recruitment.
         </p>
 
-        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {whyChooseEmployer.map((feature) => (
             <FeatureCard
               key={feature.id}
@@ -37,9 +37,9 @@ export default function WhyChooseEmployerSection() {
       </div>
 
       <div className="bg-[#F3E6D0]/70">
-        <div className="container-page py-10 sm:py-12">
+        <div className="container-page py-6 sm:py-8">
           <SectionEyebrow>How It Works</SectionEyebrow>
-          <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-6">
+          <div className="mt-5 grid gap-8 lg:grid-cols-[1fr_auto_1fr_auto_1fr] lg:items-start lg:gap-6">
             {howItWorksSteps.map((step, index) => (
               <div key={step.number} className="contents">
                 <HowItWorksStep step={step} />
@@ -62,7 +62,7 @@ export default function WhyChooseEmployerSection() {
           className="pointer-events-none absolute -bottom-6 -left-8 z-0 scale-x-[-1]"
         />
         <LeafBranch className="pointer-events-none absolute -bottom-4 -right-2 z-0 h-40 w-36 text-accent-light sm:h-48 sm:w-44" />
-        <div className="container-page relative z-10 flex flex-col gap-6 py-12 sm:py-14 lg:flex-row lg:items-center lg:justify-between">
+        <div className="container-page relative z-10 flex flex-col gap-6 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">
             <h2 className="section-title">Start Hiring Today</h2>
             <p className="mt-3 text-base leading-relaxed text-muted">

@@ -4,8 +4,8 @@ export const images = {
     alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   mission: {
-    src: "/img10.webp",
-    alt: "Indigenous professionals collaborating around a laptop in an office with mountains beyond the window",
+    src: "/img1.webp",
+    alt: "Indigenous professionals collaborating in a modern office",
   },
   employerPromo: {
     src: "/img11.webp",
@@ -43,21 +43,25 @@ export const images = {
     src: "/img2.webp",
     alt: "",
   },
+  waveGraphic: {
+    src: "/img2.webp",
+    alt: "",
+  },
   resources: {
     jobSearch: {
-      src: "/img5.webp",
-      alt: "Smiling job seeker standing outdoors near mountains in Canada",
-      objectClass: "object-[center_40%]",
+      src: "/resource-job-seekers.jpg",
+      alt: "Close-up of a woven natural basket",
+      objectClass: "object-center",
     },
     careerAdvice: {
-      src: "/img4.webp",
-      alt: "Career advisor meeting with a client in a professional office",
-      objectClass: "object-[center_38%]",
+      src: "/resource-employers.jpg",
+      alt: "Two professionals talking across a table in a bright office",
+      objectClass: "object-center",
     },
     employerResources: {
-      src: "/img3.webp",
-      alt: "Orange canoe on a mountain lake shoreline at sunrise",
-      objectClass: "object-[center_62%]",
+      src: "/resource-community.jpg",
+      alt: "Red canoes on a mountain lake surrounded by pine forest",
+      objectClass: "object-center",
     },
   },
 };

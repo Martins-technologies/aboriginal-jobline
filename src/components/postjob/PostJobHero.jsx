@@ -9,10 +9,10 @@ import { postJobHeroFeatures } from "../../data/postJobHeroFeatures";
 
 export default function PostJobHero() {
   return (
-    <PageSection className="bg-topo overflow-hidden pt-5 lg:pt-8" contained={false}>
+    <PageSection className="bg-topo overflow-hidden pt-4 lg:pt-5" contained={false}>
       <DottedArcs />
-      <div className="container-page relative z-10 pb-8 lg:pb-10">
-        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
+      <div className="container-page relative z-10 pb-6 lg:pb-7">
+        <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8">
           <div>
             <h1 className="max-w-xl font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
               Post a Job and Reach Indigenous Talent Across Canada
@@ -44,7 +44,7 @@ export default function PostJobHero() {
           </div>
         </div>
 
-        <div className="relative z-10 mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative z-10 mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {postJobHeroFeatures.map((feature) => (
             <FeatureCard key={feature.id} feature={feature} bordered />
           ))}

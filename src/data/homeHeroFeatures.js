@@ -5,7 +5,9 @@ export const homeHeroFeatures = [
     description: "Find opportunities that match your skills, goals, and values.",
     icon: "search",
     color: "bg-primary",
-    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    ringClass: "border-primary",
+    titleClassName: "font-sans text-base font-bold leading-snug text-primary",
+    descriptionClassName: "text-body",
   },
   {
     id: "inclusive-employers",
@@ -13,7 +15,9 @@ export const homeHeroFeatures = [
     description: "Connect with employers who value inclusion and Indigenous talent.",
     icon: "users",
     color: "bg-accent",
-    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    ringClass: "border-accent",
+    titleClassName: "font-sans text-base font-bold leading-snug text-accent",
+    descriptionClassName: "text-body",
   },
   {
     id: "community-focus",
@@ -21,6 +25,8 @@ export const homeHeroFeatures = [
     description: "Building stronger communities through meaningful employment.",
     icon: "heart-handshake",
     color: "bg-accent-light",
-    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    ringClass: "border-accent-light",
+    titleClassName: "font-sans text-base font-bold leading-snug text-accent-light",
+    descriptionClassName: "text-body",
   },
 ];

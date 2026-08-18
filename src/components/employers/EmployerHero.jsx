@@ -9,7 +9,7 @@ import { images } from "../../data/images";
 
 export default function EmployerHero() {
   return (
-    <PageSection className="bg-topo pt-5 pb-8 lg:pt-8 lg:pb-10">
+    <PageSection className="bg-topo hero-pad">
       <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
         <div>
           <DashedDivider className="mb-5 justify-start" />
@@ -48,7 +48,7 @@ export default function EmployerHero() {
         </div>
       </div>
 
-      <div className="relative z-10 mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <div className="relative z-10 mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {employerHeroFeatures.map((feature) => (
           <FeatureCard
             key={feature.id}
