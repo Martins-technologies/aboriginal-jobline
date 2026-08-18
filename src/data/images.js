@@ -3,6 +3,14 @@ export const images = {
     src: "/img1.webp",
     alt: "Indigenous professionals collaborating in a modern office",
   },
+  heroContact: {
+    src: "/img6.webp",
+    alt: "Aboriginal Jobline team collaborating in a modern office",
+  },
+  contactIllustration: {
+    src: "/img7.webp",
+    alt: "Decorative illustration of community figures above stylized waves",
+  },
   categoryGraphic: {
     src: "/img2.webp",
     alt: "",

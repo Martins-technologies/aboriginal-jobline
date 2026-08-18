@@ -1,9 +1,11 @@
+import { contactInfo } from "./contactInfo";
+
 export const site = {
   name: "Aboriginal Jobline",
-  phone: "1-866-522-9898",
-  phoneHref: "tel:18665229898",
-  email: "info@aboriginaljobline.com",
-  addressLines: ["100 Cooper Street", "Ottawa, ON K2P 0G1", "Canada"],
+  phone: contactInfo.phone,
+  phoneHref: contactInfo.phoneHref,
+  email: contactInfo.email,
+  addressLines: contactInfo.addressLines,
   tagline:
     "Connecting Indigenous talent with inclusive employers across Canada through meaningful work, community, and opportunity.",
   hero: {
@@ -12,8 +14,8 @@ export const site = {
   },
   social: [
     { id: "facebook", label: "Facebook", href: "https://facebook.com" },
-    { id: "instagram", label: "Instagram", href: "https://instagram.com" },
     { id: "linkedin", label: "LinkedIn", href: "https://linkedin.com" },
+    { id: "instagram", label: "Instagram", href: "https://instagram.com" },
     { id: "youtube", label: "YouTube", href: "https://youtube.com" },
   ],
 };

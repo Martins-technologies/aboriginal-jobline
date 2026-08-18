@@ -9,7 +9,7 @@ const links = [
   { to: "/browse-jobs", label: "Browse Jobs" },
   { to: "/employers", label: "Employers" },
   { to: "/about-us", label: "About Us" },
-  { to: "/contact", label: "Contact" },
+  { to: "/contact", label: "Contact Us" },
 ];
 
 function NavItems({ onNavigate, className = "" }) {

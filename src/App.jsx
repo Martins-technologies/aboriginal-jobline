@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import BrowseJobsPage from "./pages/BrowseJobsPage";
 import Employers from "./pages/Employers";
 import AboutUs from "./pages/AboutUs";
-import Contact from "./pages/Contact";
+import ContactPage from "./pages/ContactPage";
 
 const comingSoonRoutes = [
   { path: "/create-profile", title: "Create Profile" },
@@ -36,7 +36,7 @@ export default function App() {
             <Route path="/browse-jobs" element={<BrowseJobsPage />} />
             <Route path="/employers" element={<Employers />} />
             <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/contact" element={<Contact />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route
               path="/jobs/:id"
               element={
