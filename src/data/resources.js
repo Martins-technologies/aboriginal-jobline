@@ -37,4 +37,28 @@ export const resources = [
     description:
       "Tools for employers building respectful recruitment practices and long-term Indigenous talent partnerships.",
   },
+  {
+    id: "inclusive-hiring-practices",
+    title: "How Employers Can Build Inclusive Hiring Practices",
+    tag: "EMPLOYERS",
+    tagColor: "bg-accent",
+    href: "/inclusive-hiring",
+    image: images.resources.careerAdvice.src,
+    imageAlt: images.resources.careerAdvice.alt,
+    imageClass: images.resources.careerAdvice.objectClass,
+    description:
+      "Create workplaces where Indigenous talent thrives and communities prosper.",
+  },
+  {
+    id: "career-growth-communities",
+    title: "Career Growth in Indigenous Communities",
+    tag: "COMMUNITY",
+    tagColor: "bg-accent-light",
+    href: "/community-stories",
+    image: images.resources.employerResources.src,
+    imageAlt: images.resources.employerResources.alt,
+    imageClass: images.resources.employerResources.objectClass,
+    description:
+      "Explore opportunities, training, and pathways to long-term success.",
+  },
 ];

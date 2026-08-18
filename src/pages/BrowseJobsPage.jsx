@@ -7,6 +7,8 @@ import WhyUseSection from "../components/sections/WhyUseSection";
 import CareerResourcesSection from "../components/sections/CareerResourcesSection";
 import CTABanner from "../components/sections/CTABanner";
 import FAQSection from "../components/sections/FAQSection";
+import PageWithFooter from "../components/layout/PageWithFooter";
+import { browseJobsFooterConfig } from "../data/footerConfigs";
 import { jobs } from "../data/jobs";
 import {
   emptyFilters,
@@ -61,7 +63,7 @@ export default function BrowseJobsPage() {
   };
 
   return (
-    <>
+    <PageWithFooter config={browseJobsFooterConfig}>
       <HeroSection
         filters={filters}
         onSearch={handleSearch}
@@ -83,6 +85,6 @@ export default function BrowseJobsPage() {
       <CareerResourcesSection />
       <CTABanner />
       <FAQSection />
-    </>
+    </PageWithFooter>
   );
 }

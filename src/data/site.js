@@ -7,7 +7,7 @@ export const site = {
   email: contactInfo.email,
   addressLines: contactInfo.addressLines,
   tagline:
-    "Connecting Indigenous talent with inclusive employers across Canada through meaningful work, community, and opportunity.",
+    "Aboriginal Jobline connects Indigenous talent with inclusive employers across Canada. Together, we build stronger futures and stronger communities.",
   hero: {
     image: "/img1.webp",
     imageAlt: "Indigenous professionals collaborating in a modern office",

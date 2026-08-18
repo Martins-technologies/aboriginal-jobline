@@ -28,14 +28,18 @@ export default function Button({
   type = "button",
   className = "",
   icon: Icon,
+  iconPosition = "left",
   ...props
 }) {
   const classes = `inline-flex items-center justify-center gap-2 rounded-xl font-sans font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:opacity-60 ${variants[variant]} ${sizes[size]} ${className}`;
 
+  const iconEl = Icon ? <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /> : null;
+
   const content = (
     <>
-      {Icon ? <Icon className="h-4 w-4 shrink-0" aria-hidden="true" /> : null}
+      {iconPosition === "left" ? iconEl : null}
       {children}
+      {iconPosition === "right" ? iconEl : null}
     </>
   );
 

@@ -1,13 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import Navbar from "./components/layout/Navbar";
-import Footer from "./components/layout/Footer";
 import ComingSoonPage from "./components/common/ComingSoonPage";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import BrowseJobsPage from "./pages/BrowseJobsPage";
-import Employers from "./pages/Employers";
+import EmployersPage from "./pages/EmployersPage";
 import AboutUs from "./pages/AboutUs";
 import ContactPage from "./pages/ContactPage";
+import PostJobPage from "./pages/PostJobPage";
 
 const comingSoonRoutes = [
   { path: "/create-profile", title: "Create Profile" },
@@ -22,42 +22,53 @@ const comingSoonRoutes = [
   { path: "/privacy-policy", title: "Privacy Policy" },
   { path: "/terms-of-use", title: "Terms of Use" },
   { path: "/accessibility", title: "Accessibility" },
+  { path: "/create-employer-account", title: "Create Employer Account" },
+  { path: "/employer-dashboard", title: "Employer Dashboard" },
+  { path: "/recruitment-solutions", title: "Recruitment Solutions" },
+  { path: "/pricing", title: "Pricing" },
+  { path: "/community-focus", title: "Community Focus" },
 ];
+
+function AppLayout() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      <Navbar />
+      <main className="flex flex-1 flex-col">
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/browse-jobs" element={<BrowseJobsPage />} />
+          <Route path="/employers" element={<EmployersPage />} />
+          <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/post-a-job" element={<PostJobPage />} />
+          <Route
+            path="/jobs/:id"
+            element={
+              <ComingSoonPage
+                title="Job Details"
+                description="Full job detail and application pages will ship in a later module."
+              />
+            }
+          />
+          {comingSoonRoutes.map((route) => (
+            <Route
+              key={route.path}
+              path={route.path}
+              element={<ComingSoonPage title={route.title} />}
+            />
+          ))}
+          <Route path="*" element={<Navigate to="/browse-jobs" replace />} />
+        </Routes>
+      </main>
+    </div>
+  );
+}
 
 export default function App() {
   return (
     <BrowserRouter>
       <ScrollToTop />
-      <div className="flex min-h-screen flex-col">
-        <Navbar />
-        <main className="flex-1">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/browse-jobs" element={<BrowseJobsPage />} />
-            <Route path="/employers" element={<Employers />} />
-            <Route path="/about-us" element={<AboutUs />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route
-              path="/jobs/:id"
-              element={
-                <ComingSoonPage
-                  title="Job Details"
-                  description="Full job detail and application pages will ship in a later module."
-                />
-              }
-            />
-            {comingSoonRoutes.map((route) => (
-              <Route
-                key={route.path}
-                path={route.path}
-                element={<ComingSoonPage title={route.title} />}
-              />
-            ))}
-            <Route path="*" element={<Navigate to="/browse-jobs" replace />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppLayout />
     </BrowserRouter>
   );
 }

@@ -3,8 +3,16 @@ import { Briefcase, ChevronDown, LayoutGrid, MapPin, Search } from "lucide-react
 import Button from "../common/Button";
 import { categories } from "../../data/categories";
 import { jobTypes } from "../../data/jobs";
+import { emptyFilters } from "../../utils/jobs";
 
-export default function JobSearchBar({ filters, onSearch }) {
+export default function JobSearchBar({
+  filters = emptyFilters,
+  onSearch,
+  variant = "full",
+}) {
+  const compact = variant === "compact";
+  const idPrefix = compact ? "home-search" : "search";
+
   const [form, setForm] = useState({
     keyword: filters.keyword || "",
     location: filters.location || "",
@@ -33,15 +41,19 @@ export default function JobSearchBar({ filters, onSearch }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid gap-4 rounded-[32px] bg-white p-4 shadow-search sm:p-5 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-center"
+      className={`grid gap-4 rounded-[32px] bg-white p-4 shadow-search sm:p-5 lg:items-center ${
+        compact
+          ? "lg:grid-cols-[1fr_1fr_auto]"
+          : "lg:grid-cols-[1fr_1fr_1fr_1fr_auto]"
+      }`}
     >
       <Field
         icon={Search}
         label="Job title or keyword"
-        htmlFor="search-keyword"
+        htmlFor={`${idPrefix}-keyword`}
       >
         <input
-          id="search-keyword"
+          id={`${idPrefix}-keyword`}
           type="text"
           value={form.keyword}
           onChange={update("keyword")}
@@ -50,9 +62,14 @@ export default function JobSearchBar({ filters, onSearch }) {
         />
       </Field>
 
-      <Field icon={MapPin} label="Location" htmlFor="search-location">
+      <Field
+        icon={MapPin}
+        label="Location"
+        htmlFor={`${idPrefix}-location`}
+        divider={!compact}
+      >
         <input
-          id="search-location"
+          id={`${idPrefix}-location`}
           type="text"
           value={form.location}
           onChange={update("location")}
@@ -61,43 +78,47 @@ export default function JobSearchBar({ filters, onSearch }) {
         />
       </Field>
 
-      <Field icon={LayoutGrid} label="Category" htmlFor="search-category">
-        <div className="relative">
-          <select
-            id="search-category"
-            value={form.category}
-            onChange={update("category")}
-            className="w-full appearance-none bg-transparent pr-6 text-sm text-body focus:outline-none"
-          >
-            <option value="">All Categories</option>
-            {categories.map((category) => (
-              <option key={category.slug} value={category.slug}>
-                {category.title}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-        </div>
-      </Field>
+      {compact ? null : (
+        <>
+          <Field icon={LayoutGrid} label="Category" htmlFor={`${idPrefix}-category`}>
+            <div className="relative">
+              <select
+                id={`${idPrefix}-category`}
+                value={form.category}
+                onChange={update("category")}
+                className="w-full appearance-none bg-transparent pr-6 text-sm text-body focus:outline-none"
+              >
+                <option value="">All Categories</option>
+                {categories.map((category) => (
+                  <option key={category.slug} value={category.slug}>
+                    {category.title}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            </div>
+          </Field>
 
-      <Field icon={Briefcase} label="Job type" htmlFor="search-type" divider={false}>
-        <div className="relative">
-          <select
-            id="search-type"
-            value={form.type}
-            onChange={update("type")}
-            className="w-full appearance-none bg-transparent pr-6 text-sm text-body focus:outline-none"
-          >
-            <option value="">All Job Types</option>
-            {jobTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-          <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-        </div>
-      </Field>
+          <Field icon={Briefcase} label="Job type" htmlFor={`${idPrefix}-type`} divider={false}>
+            <div className="relative">
+              <select
+                id={`${idPrefix}-type`}
+                value={form.type}
+                onChange={update("type")}
+                className="w-full appearance-none bg-transparent pr-6 text-sm text-body focus:outline-none"
+              >
+                <option value="">All Job Types</option>
+                {jobTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            </div>
+          </Field>
+        </>
+      )}
 
       <div className="flex items-end">
         <Button type="submit" variant="secondary" icon={Search} className="h-[52px] w-full rounded-2xl px-7 lg:w-auto">

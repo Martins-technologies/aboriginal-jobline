@@ -3,7 +3,7 @@ import DottedArcs from "../common/DottedArcs";
 import PageSection from "../common/PageSection";
 import SectionWaveDivider from "../common/SectionWaveDivider";
 import ContactForm from "../contact/ContactForm";
-import ContactInfoCard from "../contact/ContactInfoCard";
+import IconInfoCard from "../common/IconInfoCard";
 import OfficeHoursRow from "../contact/OfficeHoursRow";
 import { contactInfo } from "../../data/contactInfo";
 
@@ -55,7 +55,7 @@ export default function ContactFormSection() {
 
           <div className="space-y-4">
             {infoCards.map((item) => (
-              <ContactInfoCard key={item.id} item={item} />
+              <IconInfoCard key={item.id} item={item} />
             ))}
             <div className="border-t border-black/10 pt-5">
               <OfficeHoursRow />

@@ -49,7 +49,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-3">
           <Button
-            to="/employers"
+            to="/post-a-job"
             variant="secondary"
             icon={Briefcase}
             className="hidden sm:inline-flex"
@@ -76,7 +76,7 @@ export default function Navbar() {
             className="flex flex-col gap-4 px-6 py-5"
           />
           <div className="px-6 pb-5">
-            <Button to="/employers" variant="secondary" icon={Briefcase} className="w-full">
+            <Button to="/post-a-job" variant="secondary" icon={Briefcase} className="w-full">
               Post a Job
             </Button>
           </div>

@@ -1,7 +1,7 @@
 const REGION_KEYWORDS = {
   ontario: ["on", "ontario", "toronto", "ottawa"],
   "british-columbia": ["bc", "british columbia", "vancouver"],
-  alberta: ["ab", "alberta", "calgary", "edmonton", "banff"],
+  alberta: ["ab", "alberta", "calgary", "edmonton", "banff", "fort mcmurray"],
   manitoba: ["mb", "manitoba", "winnipeg", "thompson"],
   saskatchewan: ["sk", "saskatchewan", "regina"],
   "atlantic-canada": ["ns", "nb", "pe", "nl", "atlantic", "halifax"],

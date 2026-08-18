@@ -1,34 +1,19 @@
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Phone } from "lucide-react";
+import { Globe, Lock, Mail, MapPin, Phone } from "lucide-react";
 import Logo from "./Logo";
 import NewsletterForm from "../forms/NewsletterForm";
-import { site } from "../../data/site";
-import { contactInfo } from "../../data/contactInfo";
+import LeafBranch from "../common/LeafBranch";
+import { homeFooterConfig } from "../../data/footerConfigs";
 import { getIcon } from "../../utils/icons";
 
-const quickLinks = [
-  { to: "/", label: "Home" },
-  { to: "/browse-jobs", label: "Browse Jobs" },
-  { to: "/employers", label: "Employers" },
-  { to: "/about-us", label: "About Us" },
-  { to: "/contact", label: "Contact Us" },
-];
+const gridCols = {
+  3: "xl:grid-cols-3",
+  4: "xl:grid-cols-4",
+  5: "xl:grid-cols-5",
+  6: "xl:grid-cols-6",
+};
 
-const jobSeekerLinks = [
-  { to: "/browse-jobs", label: "Search Jobs" },
-  { to: "/career-resources", label: "Career Resources" },
-  { to: "/browse-jobs#browse-categories", label: "Job Alerts" },
-  { to: "/success-stories", label: "Success Stories" },
-];
-
-const employerLinks = [
-  { to: "/employers", label: "Post a Job" },
-  { to: "/employers", label: "Find Talent" },
-  { to: "/employer-resources", label: "Employer Services" },
-  { to: "/employer-resources", label: "Hiring Resources" },
-];
-
-function FooterList({ title, links }) {
+function FooterList({ title, links, linkClass }) {
   return (
     <div>
       <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-accent">
@@ -37,7 +22,7 @@ function FooterList({ title, links }) {
       <ul className="space-y-2.5">
         {links.map((link) => (
           <li key={link.label}>
-            <Link to={link.to} className="text-sm text-white/75 transition-colors hover:text-white">
+            <Link to={link.to} className={linkClass}>
               {link.label}
             </Link>
           </li>
@@ -47,77 +32,168 @@ function FooterList({ title, links }) {
   );
 }
 
-export default function Footer({ showNewsletter = false }) {
+function SocialLinks({ links, style, isLight }) {
   return (
-    <footer className="bg-primary text-white">
+    <div className="flex gap-2">
+      {links.map((item) => {
+        const Icon = getIcon(item.platform);
+        const outlined = style === "outlined";
+        return (
+          <a
+            key={item.platform}
+            href={item.url}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={item.label || item.platform}
+            className={
+              outlined
+                ? isLight
+                  ? "flex h-9 w-9 items-center justify-center rounded-full border border-primary/40 text-primary transition-colors hover:bg-primary hover:text-white"
+                  : "flex h-9 w-9 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white hover:text-primary"
+                : "flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white transition-colors hover:bg-primary/90"
+            }
+          >
+            <Icon className="h-4 w-4" />
+          </a>
+        );
+      })}
+    </div>
+  );
+}
+
+export default function Footer({ config = homeFooterConfig }) {
+  const {
+    theme = "dark",
+    brand,
+    columns = [],
+    contact,
+    social,
+    showNewsletter = false,
+    copyrightYear = 2025,
+  } = config;
+
+  const isLight = theme === "light";
+  const linkClass = isLight
+    ? "text-sm text-muted transition-colors hover:text-primary"
+    : "text-sm text-white/75 transition-colors hover:text-white";
+  const mutedClass = isLight ? "text-muted" : "text-white/75";
+  const columnCount =
+    1 +
+    columns.length +
+    (contact ? 1 : 0) +
+    (social?.placement === "column" ? 1 : 0) +
+    (showNewsletter ? 1 : 0);
+
+  return (
+    <footer className={`relative overflow-hidden ${isLight ? "bg-background text-body" : "bg-primary text-white"}`}>
+      {isLight ? (
+        <LeafBranch className="pointer-events-none absolute -bottom-6 -right-4 h-48 w-40 text-accent-light sm:h-56 sm:w-48" />
+      ) : null}
+
       <div
-        className={`container-page grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-3 ${
-          showNewsletter ? "xl:grid-cols-6" : "xl:grid-cols-5"
+        className={`container-page relative grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-3 ${
+          gridCols[columnCount] || "xl:grid-cols-4"
         }`}
       >
         <div className="lg:col-span-1">
-          <Logo variant="light" />
-          <p className="mt-4 text-sm leading-relaxed text-white/75">{site.tagline}</p>
-          <div className="mt-5 flex gap-2">
-            {site.social.map((item) => {
-              const Icon = getIcon(item.id);
-              return (
-                <a
-                  key={item.id}
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={item.label}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-white/40 text-white transition-colors hover:bg-white hover:text-primary"
-                >
-                  <Icon className="h-4 w-4" />
-                </a>
-              );
-            })}
-          </div>
+          <Logo variant={isLight ? "dark" : "light"} />
+          {brand?.blurb ? (
+            <p className={`mt-4 text-sm leading-relaxed ${mutedClass}`}>{brand.blurb}</p>
+          ) : null}
+          {social?.placement === "brand" && social.links?.length ? (
+            <div className="mt-5">
+              <SocialLinks links={social.links} style={social.style} isLight={isLight} />
+            </div>
+          ) : null}
         </div>
 
-        <FooterList title="Quick Links" links={quickLinks} />
-        <FooterList title="Job Seekers" links={jobSeekerLinks} />
-        <FooterList title="Employers" links={employerLinks} />
+        {columns.map((column) => (
+          <FooterList
+            key={column.heading}
+            title={column.heading}
+            links={column.links}
+            linkClass={linkClass}
+          />
+        ))}
 
-        <div>
-          <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-accent">
-            Contact Us
-          </h3>
-          <ul className="space-y-3 text-sm text-white/75">
-            <li className="flex items-start gap-2">
-              <Phone className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-              <a href={contactInfo.phoneHref} className="hover:text-white">
-                {contactInfo.phone}
-              </a>
-            </li>
-            <li className="flex items-start gap-2">
-              <Mail className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-              <a href={contactInfo.emailHref} className="hover:text-white">
-                {contactInfo.email}
-              </a>
-            </li>
-            <li className="flex items-start gap-2">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
-              <span>
-                {contactInfo.addressLines.map((line) => (
-                  <span key={line} className="block">
-                    {line}
+        {contact ? (
+          <div>
+            <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-accent">
+              {contact.heading || "Contact Us"}
+            </h3>
+            <ul className={`space-y-3 text-sm ${mutedClass}`}>
+              {contact.phone ? (
+                <li className="flex items-start gap-2">
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <a
+                    href={contact.phoneHref || `tel:${contact.phone}`}
+                    className={isLight ? "hover:text-primary" : "hover:text-white"}
+                  >
+                    {contact.phone}
+                  </a>
+                </li>
+              ) : null}
+              {contact.email ? (
+                <li className="flex items-start gap-2">
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <a
+                    href={contact.emailHref || `mailto:${contact.email}`}
+                    className={isLight ? "hover:text-primary" : "hover:text-white"}
+                  >
+                    {contact.email}
+                  </a>
+                </li>
+              ) : null}
+              {contact.website ? (
+                <li className="flex items-start gap-2">
+                  <Globe className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <a
+                    href={contact.websiteHref || `https://${contact.website}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className={isLight ? "hover:text-primary" : "hover:text-white"}
+                  >
+                    {contact.website}
+                  </a>
+                </li>
+              ) : null}
+              {contact.addressLines?.length ? (
+                <li className="flex items-start gap-2">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>
+                    {contact.addressLines.map((line) => (
+                      <span key={line} className="block">
+                        {line}
+                      </span>
+                    ))}
                   </span>
-                ))}
-              </span>
-            </li>
-          </ul>
-        </div>
+                </li>
+              ) : contact.address ? (
+                <li className="flex items-start gap-2">
+                  <MapPin className="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                  <span>{contact.address}</span>
+                </li>
+              ) : null}
+            </ul>
+          </div>
+        ) : null}
 
-        {showNewsletter ? (
+        {social?.placement === "column" && social.links?.length ? (
+          <div>
+            <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-accent">
+              Follow Us
+            </h3>
+            <SocialLinks links={social.links} style={social.style} isLight={isLight} />
+          </div>
+        ) : null}
+
+        {showNewsletter && !isLight ? (
           <div>
             <h3 className="mb-4 font-sans text-sm font-semibold uppercase tracking-wider text-accent">
               Stay Connected
             </h3>
             <p className="mb-4 text-sm text-white/75">
-              Subscribe for new roles, career resources, and community stories.
+              Subscribe to our newsletter for job alerts, career tips, and community updates.
             </p>
             <NewsletterForm
               id="footer-newsletter-email"
@@ -127,14 +203,24 @@ export default function Footer({ showNewsletter = false }) {
               inputClassName="bg-white text-body"
               successClassName="text-white"
             />
+            <p className="mt-3 flex items-center gap-1.5 text-xs text-white/70">
+              <Lock className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              We respect your privacy.
+            </p>
           </div>
         ) : null}
       </div>
 
-      <div className="border-t border-white/15">
-        <div className="container-page flex flex-col gap-3 py-5 text-xs text-white/70 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2025 Aboriginal Jobline</p>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+      <div
+        className={
+          isLight
+            ? "relative border-t border-dashed border-primary/30 bg-primary text-white/70"
+            : "border-t border-white/15"
+        }
+      >
+        <div className="container-page flex flex-col gap-3 py-5 text-xs sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-white/70">© {copyrightYear} Aboriginal Jobline. All rights reserved.</p>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-white/70">
             <Link to="/privacy-policy" className="hover:text-white">
               Privacy Policy
             </Link>

@@ -17,9 +17,55 @@ const iconStyles = {
   truck: "bg-accent/10 text-accent",
 };
 
-export default function JobCard({ job, layout = "grid" }) {
+const compactIconStyles = {
+  users: "bg-primary text-white",
+  "file-text": "bg-accent text-white",
+  heart: "bg-accent-light text-white",
+  "heart-pulse": "bg-accent-light text-white",
+  wrench: "bg-accent text-white",
+  utensils: "bg-primary text-white",
+  "book-open": "bg-accent-light text-white",
+  globe: "bg-primary text-white",
+  truck: "bg-accent text-white",
+};
+
+export default function JobCard({ job, layout = "grid", variant = "default" }) {
   const Icon = getIcon(job.icon);
   const isList = layout === "list";
+
+  if (variant === "compact") {
+    return (
+      <article className="surface-card flex h-full flex-col gap-3 p-4 sm:flex-row sm:items-center">
+        <span
+          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
+            compactIconStyles[job.icon] || "bg-primary text-white"
+          }`}
+        >
+          <Icon className="h-5 w-5" aria-hidden="true" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <h3 className="font-sans text-sm font-semibold leading-snug text-primary sm:text-[15px]">
+            <Link to={`/jobs/${job.id}`} className="hover:text-accent">
+              {job.title}
+            </Link>
+          </h3>
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
+            <span className="inline-flex items-center gap-1">
+              <MapPin className="h-3 w-3 text-primary" aria-hidden="true" />
+              {job.location}
+            </span>
+            <span className="inline-flex items-center gap-1">
+              <Briefcase className="h-3 w-3 text-primary" aria-hidden="true" />
+              {job.type}
+            </span>
+          </div>
+        </div>
+        <Button to={`/jobs/${job.id}`} variant="secondary" size="sm" className="shrink-0 self-start sm:self-center">
+          Apply Now
+        </Button>
+      </article>
+    );
+  }
 
   return (
     <article

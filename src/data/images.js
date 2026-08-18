@@ -1,4 +1,16 @@
 export const images = {
+  heroHome: {
+    src: "/img9.webp",
+    alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
+  },
+  mission: {
+    src: "/img10.webp",
+    alt: "Indigenous professionals collaborating around a laptop in an office with mountains beyond the window",
+  },
+  employerPromo: {
+    src: "/img11.webp",
+    alt: "Three Indigenous professionals smiling together in a workplace setting",
+  },
   heroBrowse: {
     src: "/img1.webp",
     alt: "Indigenous professionals collaborating in a modern office",
@@ -6,6 +18,18 @@ export const images = {
   logo: {
     src: "/logo.webp",
     alt: "Aboriginal Jobline",
+  },
+  heroEmployers: {
+    src: "/img1.webp",
+    alt: "Indigenous professionals collaborating in a modern office",
+  },
+  heroPostJob: {
+    src: "/img12.webp",
+    alt: "Indigenous professionals collaborating around a conference table",
+  },
+  employerClosing: {
+    src: "/img8.webp",
+    alt: "Indigenous professional smiling outdoors with mountains in the background",
   },
   heroContact: {
     src: "/img6.webp",

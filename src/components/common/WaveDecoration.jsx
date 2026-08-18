@@ -13,15 +13,25 @@ function LeafPattern({ color = "white", opacity = 0.25 }) {
   );
 }
 
+const sizeClasses = {
+  sm: "w-40 sm:w-52",
+  md: "w-56 sm:w-72",
+  lg: "w-[88%] max-w-md",
+};
+
 export default function WaveDecoration({
   variant = "hero",
   className = "",
+  size,
 }) {
+  const sizeClass = sizeClasses[size] || "";
+  const svgClass = `${sizeClass} ${className}`.trim();
+
   if (variant === "cta") {
     return (
       <svg
         viewBox="0 0 520 220"
-        className={className}
+        className={svgClass}
         aria-hidden="true"
         preserveAspectRatio="none"
       >
@@ -44,7 +54,7 @@ export default function WaveDecoration({
     return (
       <svg
         viewBox="0 0 280 420"
-        className={className}
+        className={svgClass}
         aria-hidden="true"
         fill="none"
       >
@@ -70,7 +80,7 @@ export default function WaveDecoration({
   return (
     <svg
       viewBox="0 0 420 260"
-      className={className}
+      className={svgClass}
       aria-hidden="true"
       fill="none"
     >
