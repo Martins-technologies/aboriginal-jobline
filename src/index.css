@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-primary: #0f3d3e;
+  --color-accent: #c1440e;
+  --color-accent-light: #d9a441;
+  --color-background: #fbf3e7;
+  --color-surface: #ffffff;
+  --color-body: #3f4b4a;
+  --color-muted: #6b7280;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans text-body bg-background antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-primary;
+  }
+
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-accent;
+  }
+}
+
+@layer components {
+  .bg-topo {
+    background-color: #fbf3e7;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='900' height='640' viewBox='0 0 900 640' fill='none'%3E%3Cpath d='M-20 80c80-40 160 40 240 8s160-48 240-8 160 48 240 8 160-40 240 8' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.7'/%3E%3Cpath d='M-20 140c80-36 160 36 240 6s160-44 240-6 160 44 240 6 160-36 240 6' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.55'/%3E%3Cpath d='M-20 200c80-32 160 32 240 4s160-40 240-4 160 40 240 4 160-32 240 4' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.5'/%3E%3Cpath d='M-20 270c90-40 170 30 260 4s170-42 250-4 180 40 250 6' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.45'/%3E%3Cpath d='M-20 340c90-36 170 28 260 2s170-38 250-2 180 36 250 4' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.4'/%3E%3Cpath d='M-20 410c90-32 170 24 260 2s170-34 250-2 180 32 250 4' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.35'/%3E%3Cpath d='M-20 490c80-28 160 24 240 2s160-30 240-2 160 28 240 2 160-24 240 2' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.3'/%3E%3Cpath d='M-20 560c80-24 160 20 240 2s160-26 240-2 160 24 240 2 160-20 240 2' stroke='%23E6D3B8' stroke-width='1.2' opacity='0.25'/%3E%3C/svg%3E");
+    background-size: 900px 640px;
+    background-repeat: repeat;
+  }
+
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+}
