@@ -48,7 +48,7 @@
   }
 
   .section-pad {
-    @apply py-16 sm:py-20 lg:py-24;
+    @apply py-10 sm:py-12 lg:py-14;
   }
 
   .section-title {
@@ -61,5 +61,10 @@
 
   .surface-card {
     @apply rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-card;
+  }
+
+  .hero-photo-blend {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 32%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 32%, black 100%);
   }
 }

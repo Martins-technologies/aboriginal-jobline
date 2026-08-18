@@ -35,10 +35,10 @@ const infoCards = [
 
 export default function ContactFormSection() {
   return (
-    <PageSection id="contact-form" className="bg-topo scroll-mt-24" contained={false}>
+    <PageSection id="contact-form" className="bg-topo scroll-mt-20" contained={false}>
       <DottedArcs />
       <div className="container-page relative section-pad">
-        <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-16">
+        <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:gap-10">
           <div>
             <AccentHeading className="text-3xl sm:text-4xl lg:text-[2.5rem]">
               Send Us a Message

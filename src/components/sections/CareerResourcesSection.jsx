@@ -11,7 +11,7 @@ export default function CareerResourcesSection() {
         title="Career Resources & Community Support"
         description="Explore tools, programs, and support to help you succeed in your career journey."
       />
-      <div className="mt-12 grid gap-6 md:grid-cols-3">
+      <div className="mt-8 grid gap-6 md:grid-cols-3">
         {resources.map((resource) => (
           <ResourceCard key={resource.id} resource={resource} />
         ))}

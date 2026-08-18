@@ -11,7 +11,7 @@ import { images } from "../../data/images";
 
 export default function CategoryRegionSection() {
   return (
-    <PageSection id="browse-categories" className="bg-topo section-pad" contained={false}>
+    <PageSection id="browse-categories" className="bg-topo section-pad overflow-hidden" contained={false}>
       <img
         src={images.categoryGraphic.src}
         alt=""
@@ -26,13 +26,13 @@ export default function CategoryRegionSection() {
           description="Find meaningful work in your field and community across Canada."
         />
 
-        <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
             <CategoryCard key={category.slug} category={category} />
           ))}
         </div>
 
-        <div className="mt-16">
+        <div className="mt-10">
           <h3 className="mb-6 flex items-center gap-2 font-serif text-2xl text-primary">
             <MapPin className="h-5 w-5" aria-hidden="true" />
             Browse by Region
@@ -44,7 +44,7 @@ export default function CategoryRegionSection() {
           </div>
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid gap-6 lg:grid-cols-2">
           <PopularSearchesList />
           <JobAlertsSignup />
         </div>

@@ -51,7 +51,7 @@ export default function Footer({ showNewsletter = false }) {
   return (
     <footer className="bg-primary text-white">
       <div
-        className={`container-page grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-3 ${
+        className={`container-page grid gap-10 py-10 sm:grid-cols-2 lg:grid-cols-3 ${
           showNewsletter ? "xl:grid-cols-6" : "xl:grid-cols-5"
         }`}
       >

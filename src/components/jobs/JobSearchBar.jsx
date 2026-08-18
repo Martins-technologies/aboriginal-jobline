@@ -33,7 +33,7 @@ export default function JobSearchBar({ filters, onSearch }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid gap-4 rounded-[28px] bg-white p-4 shadow-search sm:p-5 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-center"
+      className="grid gap-4 rounded-[32px] bg-white p-4 shadow-search sm:p-5 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-center"
     >
       <Field
         icon={Search}
@@ -80,7 +80,7 @@ export default function JobSearchBar({ filters, onSearch }) {
         </div>
       </Field>
 
-      <Field icon={Briefcase} label="Job type" htmlFor="search-type">
+      <Field icon={Briefcase} label="Job type" htmlFor="search-type" divider={false}>
         <div className="relative">
           <select
             id="search-type"
@@ -100,7 +100,7 @@ export default function JobSearchBar({ filters, onSearch }) {
       </Field>
 
       <div className="flex items-end">
-        <Button type="submit" variant="secondary" icon={Search} className="h-[52px] w-full px-6 lg:w-auto">
+        <Button type="submit" variant="secondary" icon={Search} className="h-[52px] w-full rounded-2xl px-7 lg:w-auto">
           Search Jobs
         </Button>
       </div>
@@ -108,10 +108,14 @@ export default function JobSearchBar({ filters, onSearch }) {
   );
 }
 
-function Field({ icon: Icon, label, htmlFor, children }) {
+function Field({ icon: Icon, label, htmlFor, divider = true, children }) {
   return (
-    <div className="flex items-center gap-3 border-b border-black/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4 lg:pb-0 last:border-0">
-      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-light/20 text-[#c4922a]">
+    <div
+      className={`flex items-center gap-3 pb-3 lg:pb-0 ${
+        divider ? "border-b border-black/10 lg:border-b-0 lg:border-r lg:pr-4" : ""
+      }`}
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F3E2C4] text-[#C4922A]">
         <Icon className="h-5 w-5" aria-hidden="true" />
       </span>
       <div className="min-w-0 flex-1">

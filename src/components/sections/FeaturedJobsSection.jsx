@@ -16,14 +16,14 @@ export default function FeaturedJobsSection({
   onViewChange,
 }) {
   return (
-    <PageSection id="featured-jobs" className="bg-topo section-pad scroll-mt-24">
+    <PageSection id="featured-jobs" className="bg-topo section-pad scroll-mt-20">
       <SectionHeader
         eyebrow="Featured Opportunities"
         title="Latest Jobs in Demand"
-        description="Discover current job openings from inclusive employers across Canada who are committed to diversity, inclusion, and community."
+        description="Discover current job openings from inclusive employers across Canada committed to community."
       />
 
-      <div className="mt-12 grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
+      <div className="mt-8 grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
         <FilterSidebar filters={filters} onApply={onApplyFilters} onReset={onResetFilters} />
         <div>
           <JobResultsToolbar
@@ -34,7 +34,7 @@ export default function FeaturedJobsSection({
             onViewChange={onViewChange}
           />
           <JobsGrid jobs={jobs} view={view} />
-          <div className="mt-8 text-center">
+          <div className="mt-6 text-center">
             <a
               href="#browse-categories"
               className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline"

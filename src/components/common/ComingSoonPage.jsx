@@ -8,7 +8,7 @@ export default function ComingSoonPage({
   description = "This page is being built and will be available in a future module of Aboriginal Jobline.",
 }) {
   return (
-    <PageSection className="bg-topo flex min-h-[70vh] items-center py-20">
+    <PageSection className="bg-topo flex min-h-[60vh] items-center py-12">
       <div className="mx-auto max-w-xl rounded-2xl bg-white p-10 text-center shadow-card">
         <SectionEyebrow>Coming Soon</SectionEyebrow>
         <h1 className="mt-4 text-4xl font-bold text-primary">{title}</h1>

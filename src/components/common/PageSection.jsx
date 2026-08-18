@@ -7,7 +7,7 @@ export default function PageSection({
   children,
 }) {
   return (
-    <Component id={id} className={`relative overflow-hidden ${className}`}>
+    <Component id={id} className={`relative ${className}`}>
       {contained ? (
         <div className={`container-page ${innerClassName}`}>{children}</div>
       ) : (

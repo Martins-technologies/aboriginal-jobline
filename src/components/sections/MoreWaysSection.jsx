@@ -27,7 +27,7 @@ export default function MoreWaysSection() {
           ))}
         </div>
 
-        <div className="mt-12 grid items-stretch gap-6 lg:grid-cols-2">
+        <div className="mt-8 grid items-stretch gap-6 lg:grid-cols-2">
           <div className="surface-card h-full p-6 sm:p-8">
             <AccentHeading className="text-2xl sm:text-3xl">
               Frequently Asked Questions

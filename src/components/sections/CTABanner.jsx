@@ -5,7 +5,7 @@ import WaveDecoration from "../common/WaveDecoration";
 
 export default function CTABanner() {
   return (
-    <PageSection className="bg-topo pb-8 pt-4">
+    <PageSection className="bg-topo pb-6 pt-2">
       <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-10 text-white sm:px-10 lg:px-14">
         <WaveDecoration
           variant="cta"

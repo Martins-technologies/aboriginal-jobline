@@ -42,7 +42,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur">
-      <nav className="container-page relative flex h-20 items-center justify-between" aria-label="Primary">
+      <nav className="container-page relative flex h-16 items-center justify-between" aria-label="Primary">
         <Logo />
 
         <NavItems className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" />

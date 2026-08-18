@@ -34,19 +34,19 @@ function HeroBadge() {
 
 export default function ContactHero() {
   return (
-    <PageSection className="bg-topo pt-10 lg:pt-16" contained={false}>
+    <PageSection className="bg-topo pt-5 lg:pt-6" contained={false}>
       <DottedArcs />
       <div className="container-page relative">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-12">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
           <div>
             <AccentHeading as="h1" className="max-w-xl text-4xl sm:text-5xl lg:text-[3.25rem]">
               Connect With Aboriginal Jobline
             </AccentHeading>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-muted">
+            <p className="mt-4 max-w-lg text-base leading-relaxed text-muted">
               We’re here to help job seekers, employers, and community partners across Canada.
               Reach out for support, hiring inquiries, partnerships, or general questions.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Button href="#contact-form" variant="secondary" icon={Mail}>
                 Send a Message
               </Button>
@@ -70,13 +70,13 @@ export default function ContactHero() {
           </div>
         </div>
 
-        <div className="relative z-10 mt-12 grid gap-5 pb-4 sm:grid-cols-2 lg:mt-14 lg:grid-cols-3">
+        <div className="relative z-10 mt-8 grid gap-5 pb-4 sm:grid-cols-2 lg:grid-cols-3">
           {contactQuickLinks.map((item) => (
             <QuickLinkCard key={item.id} item={item} />
           ))}
         </div>
       </div>
-      <SectionWaveDivider className="mt-10" />
+      <SectionWaveDivider className="mt-6" />
     </PageSection>
   );
 }
