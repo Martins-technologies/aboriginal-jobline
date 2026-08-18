@@ -52,16 +52,16 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
 
   if (layout === "featured") {
     return (
-      <article className="surface-card relative flex items-center gap-4 px-5 py-4">
-        <span
-          className={`absolute -top-3.5 left-5 flex h-8 w-8 items-center justify-center rounded-full shadow-sm ${tone.badge}`}
-          aria-hidden="true"
-        >
-          <Quote className="h-3.5 w-3.5 fill-white text-white" />
-        </span>
-        <div className="min-w-0 flex-1 pt-2">
-          <p className="text-sm leading-snug text-body">{testimonial.quote}</p>
-          <p className={`mt-2.5 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
+      <article className="surface-card flex h-full items-center gap-4 p-5">
+        <div className="min-w-0 flex-[1.15]">
+          <span
+            className={`mb-3 flex h-8 w-8 items-center justify-center rounded-full ${tone.badge}`}
+            aria-hidden="true"
+          >
+            <Quote className="h-3.5 w-3.5 fill-white text-white" />
+          </span>
+          <p className="text-sm leading-relaxed text-body">“{testimonial.quote}”</p>
+          <p className={`mt-3 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
           <p className="text-xs text-muted">{testimonial.role}</p>
         </div>
         <img
