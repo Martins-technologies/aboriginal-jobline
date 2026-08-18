@@ -9,7 +9,7 @@ export default function FAQAccordion({ faqs }) {
       {faqs.map((faq) => {
         const isOpen = openId === faq.id;
         return (
-          <div key={faq.id} className="rounded-2xl bg-white shadow-sm">
+          <div key={faq.id} className="surface-card">
             <button
               type="button"
               aria-expanded={isOpen}

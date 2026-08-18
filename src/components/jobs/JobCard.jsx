@@ -23,7 +23,7 @@ export default function JobCard({ job, layout = "grid" }) {
 
   return (
     <article
-      className={`flex h-full flex-col rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-card ${
+      className={`surface-card flex h-full flex-col p-5 ${
         isList ? "sm:flex-row sm:items-start sm:gap-6" : ""
       }`}
     >
@@ -67,7 +67,7 @@ export default function JobCard({ job, layout = "grid" }) {
           </Button>
           <Link
             to={`/jobs/${job.id}`}
-            className="inline-flex items-center gap-1 text-sm font-semibold text-accent hover:underline"
+            className="inline-flex items-center gap-1 rounded-xl bg-accent px-3 py-2 text-sm font-semibold text-white transition-colors hover:bg-accent/90"
           >
             Apply Now
             <ArrowRight className="h-4 w-4" aria-hidden="true" />

@@ -7,7 +7,7 @@ export default function RegionCard({ region }) {
   const Icon = getIcon(region.icon);
 
   return (
-    <article className="flex h-full flex-col items-start rounded-2xl bg-white p-5 shadow-sm transition-shadow hover:shadow-card">
+    <article className="surface-card flex h-full flex-col items-start p-5">
       <span className="mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
         <Icon className="h-6 w-6" aria-hidden="true" />
       </span>

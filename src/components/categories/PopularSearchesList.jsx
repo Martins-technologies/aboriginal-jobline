@@ -5,7 +5,7 @@ import { buildJobsPath } from "../../utils/jobs";
 
 export default function PopularSearchesList() {
   return (
-    <aside className="rounded-2xl bg-white p-6 shadow-sm">
+    <aside className="surface-card p-6">
       <h3 className="flex items-center gap-2 font-serif text-2xl text-primary">
         <Search className="h-5 w-5 text-accent" aria-hidden="true" />
         Popular Job Searches

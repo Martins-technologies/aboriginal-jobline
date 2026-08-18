@@ -17,7 +17,7 @@ export default function FilterSidebar({ filters, onApply, onReset }) {
   };
 
   return (
-    <aside className="h-fit rounded-2xl bg-white p-6 shadow-card">
+    <aside className="surface-card h-fit p-6 shadow-card">
       <h3 className="font-serif text-2xl text-primary">Filter Jobs</h3>
       <form
         className="mt-5 space-y-4"

@@ -33,7 +33,7 @@ export default function JobSearchBar({ filters, onSearch }) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="grid gap-4 rounded-3xl bg-white p-4 shadow-search sm:p-5 lg:grid-cols-[1fr_1fr_1fr_1fr_auto]"
+      className="grid gap-4 rounded-[28px] bg-white p-4 shadow-search sm:p-5 lg:grid-cols-[1fr_1fr_1fr_1fr_auto] lg:items-center"
     >
       <Field
         icon={Search}
@@ -110,10 +110,12 @@ export default function JobSearchBar({ filters, onSearch }) {
 
 function Field({ icon: Icon, label, htmlFor, children }) {
   return (
-    <div className="flex items-start gap-3 border-b border-black/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4 lg:pb-0 last:border-0">
-      <Icon className="mt-1 h-5 w-5 shrink-0 text-accent-light" aria-hidden="true" />
+    <div className="flex items-center gap-3 border-b border-black/10 pb-3 lg:border-b-0 lg:border-r lg:pr-4 lg:pb-0 last:border-0">
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-accent-light/20 text-[#c4922a]">
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      </span>
       <div className="min-w-0 flex-1">
-        <label htmlFor={htmlFor} className="mb-1 block text-xs font-semibold text-primary">
+        <label htmlFor={htmlFor} className="mb-0.5 block text-xs font-semibold text-primary">
           {label}
         </label>
         {children}

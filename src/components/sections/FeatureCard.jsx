@@ -4,7 +4,7 @@ export default function FeatureCard({ feature }) {
   const Icon = getIcon(feature.icon);
 
   return (
-    <article className="flex gap-4 rounded-2xl bg-white p-6 shadow-sm">
+    <article className="surface-card flex gap-4 p-6">
       <span className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-white ${feature.color}`}>
         <Icon className="h-6 w-6" aria-hidden="true" />
       </span>

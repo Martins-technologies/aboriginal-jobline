@@ -3,26 +3,28 @@ import CategoryCard from "../categories/CategoryCard";
 import RegionCard from "../categories/RegionCard";
 import PopularSearchesList from "../categories/PopularSearchesList";
 import JobAlertsSignup from "../categories/JobAlertsSignup";
-import SectionEyebrow from "../common/SectionEyebrow";
-import WaveDecoration from "../common/WaveDecoration";
+import PageSection from "../common/PageSection";
+import SectionHeader from "../common/SectionHeader";
 import { categories } from "../../data/categories";
 import { regions } from "../../data/regions";
+import { images } from "../../data/images";
 
 export default function CategoryRegionSection() {
   return (
-    <section id="browse-categories" className="bg-topo relative overflow-hidden py-20">
-      <WaveDecoration
-        variant="section"
-        className="pointer-events-none absolute -right-8 top-24 hidden h-[420px] w-48 lg:block"
+    <PageSection id="browse-categories" className="bg-topo section-pad" contained={false}>
+      <img
+        src={images.categoryGraphic.src}
+        alt=""
+        aria-hidden="true"
+        className="pointer-events-none absolute -right-6 top-0 hidden h-[520px] w-auto max-w-[38%] object-contain object-right select-none lg:block"
       />
+
       <div className="container-page relative">
-        <div className="mx-auto max-w-3xl text-center">
-          <SectionEyebrow>Explore Opportunities</SectionEyebrow>
-          <h2 className="mt-4 text-3xl font-bold sm:text-4xl">Browse by Category and Region</h2>
-          <p className="mt-3 text-muted">
-            Find meaningful work in your field and community across Canada.
-          </p>
-        </div>
+        <SectionHeader
+          eyebrow="Explore Opportunities"
+          title="Browse by Category and Region"
+          description="Find meaningful work in your field and community across Canada."
+        />
 
         <div className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
@@ -47,6 +49,6 @@ export default function CategoryRegionSection() {
           <JobAlertsSignup />
         </div>
       </div>
-    </section>
+    </PageSection>
   );
 }

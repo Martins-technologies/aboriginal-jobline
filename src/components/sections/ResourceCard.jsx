@@ -3,13 +3,13 @@ import { ArrowRight } from "lucide-react";
 
 export default function ResourceCard({ resource }) {
   return (
-    <article className="overflow-hidden rounded-2xl bg-white shadow-sm transition-shadow hover:shadow-card">
+    <article className="surface-card overflow-hidden">
       <div className="relative">
         <img
           src={resource.image}
           alt={resource.imageAlt}
           loading="lazy"
-          className="h-52 w-full object-cover"
+          className={`h-56 w-full object-cover sm:h-64 ${resource.imageClass || "object-center"}`}
         />
         <span
           className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-white ${resource.tagColor}`}

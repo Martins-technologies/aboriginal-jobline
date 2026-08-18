@@ -3,7 +3,7 @@ import JobCard from "./JobCard";
 export default function JobsGrid({ jobs, view }) {
   if (!jobs.length) {
     return (
-      <div className="rounded-2xl bg-white p-10 text-center shadow-sm">
+      <div className="surface-card p-10 text-center">
         <h3 className="font-serif text-2xl text-primary">No jobs match these filters</h3>
         <p className="mt-2 text-sm text-muted">
           Try clearing a filter or choosing a different category, region, or job type.

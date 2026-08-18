@@ -7,10 +7,8 @@ export const site = {
   tagline:
     "Connecting Indigenous talent with inclusive employers across Canada through meaningful work, community, and opportunity.",
   hero: {
-    image:
-      "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1200&q=80",
-    imageAlt:
-      "Three Indigenous professionals smiling and collaborating in a modern office",
+    image: "/img1.webp",
+    imageAlt: "Indigenous professionals collaborating in a modern office",
   },
   social: [
     { id: "facebook", label: "Facebook", href: "https://facebook.com" },

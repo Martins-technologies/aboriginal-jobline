@@ -1,3 +1,5 @@
+import { images } from "./images";
+
 export const resources = [
   {
     id: "resume-tips",
@@ -5,9 +7,9 @@ export const resources = [
     tag: "JOB SEARCH",
     tagColor: "bg-primary",
     href: "/resume-tips",
-    image:
-      "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=80",
-    imageAlt: "Smiling woman standing outdoors in a denim jacket",
+    image: images.resources.jobSearch.src,
+    imageAlt: images.resources.jobSearch.alt,
+    imageClass: images.resources.jobSearch.objectClass,
     description:
       "Practical guidance for highlighting community experience, land-based skills, and professional achievements.",
   },
@@ -17,9 +19,9 @@ export const resources = [
     tag: "CAREER ADVICE",
     tagColor: "bg-accent",
     href: "/career-resources",
-    image:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=900&q=80",
-    imageAlt: "Two professionals talking together in a meeting",
+    image: images.resources.careerAdvice.src,
+    imageAlt: images.resources.careerAdvice.alt,
+    imageClass: images.resources.careerAdvice.objectClass,
     description:
       "Storytelling, cultural safety, and question-prep strategies that help you show up as your full self.",
   },
@@ -29,9 +31,9 @@ export const resources = [
     tag: "EMPLOYER RESOURCES",
     tagColor: "bg-accent-light",
     href: "/employer-resources",
-    image:
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=80",
-    imageAlt: "Canoe on a mountain lake at sunrise",
+    image: images.resources.employerResources.src,
+    imageAlt: images.resources.employerResources.alt,
+    imageClass: images.resources.employerResources.objectClass,
     description:
       "Tools for employers building respectful recruitment practices and long-term Indigenous talent partnerships.",
   },

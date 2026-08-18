@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import PageSection from "./PageSection";
 import SectionEyebrow from "./SectionEyebrow";
 
 export default function ComingSoonPage({
@@ -7,8 +8,8 @@ export default function ComingSoonPage({
   description = "This page is being built and will be available in a future module of Aboriginal Jobline.",
 }) {
   return (
-    <section className="bg-topo flex min-h-[70vh] items-center justify-center px-4 py-20">
-      <div className="max-w-xl rounded-2xl bg-white p-10 text-center shadow-card">
+    <PageSection className="bg-topo flex min-h-[70vh] items-center py-20">
+      <div className="mx-auto max-w-xl rounded-2xl bg-white p-10 text-center shadow-card">
         <SectionEyebrow>Coming Soon</SectionEyebrow>
         <h1 className="mt-4 text-4xl font-bold text-primary">{title}</h1>
         <p className="mt-4 text-muted">{description}</p>
@@ -29,6 +30,6 @@ export default function ComingSoonPage({
           .
         </p>
       </div>
-    </section>
+    </PageSection>
   );
 }

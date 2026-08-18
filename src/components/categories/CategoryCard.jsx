@@ -7,7 +7,7 @@ export default function CategoryCard({ category }) {
   const Icon = getIcon(category.icon);
 
   return (
-    <article className="flex h-full flex-col rounded-2xl bg-white p-6 shadow-sm transition-shadow hover:shadow-card">
+    <article className="surface-card flex h-full flex-col p-6">
       <span className={`mb-4 flex h-12 w-12 items-center justify-center rounded-xl ${category.iconBg} ${category.iconColor}`}>
         <Icon className="h-6 w-6" aria-hidden="true" />
       </span>
