@@ -3,7 +3,7 @@ export const categories = [
     slug: "office-administration",
     title: "Office & Administration",
     description: "Find roles in data entry, customer service, HR, and more.",
-    icon: "folder",
+    icon: "briefcase",
     iconColor: "text-accent",
     iconBg: "bg-accent/10",
   },
@@ -61,8 +61,8 @@ export const categories = [
     title: "Remote Opportunities",
     description:
       "Work-from-anywhere roles in administration, digital services, and Canada-wide program delivery.",
-    icon: "globe",
-    iconColor: "text-accent-light",
-    iconBg: "bg-accent-light/20",
+    icon: "map-pin",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
   },
 ];

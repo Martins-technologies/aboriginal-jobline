@@ -19,9 +19,10 @@ export default function MissionSection() {
         aria-hidden="true"
       >
         <img
+          key={images.mission.src}
           src={images.mission.src}
           alt=""
-          className="mission-photo-blend h-full w-full object-cover object-[center_30%]"
+          className="mission-photo-blend h-full w-full object-cover object-[center_center]"
         />
         <div className="absolute inset-y-0 left-0 w-[22%] bg-gradient-to-r from-background to-transparent" />
       </div>
@@ -61,9 +62,10 @@ export default function MissionSection() {
         <div className="relative mx-auto mb-5 w-full max-w-xl lg:hidden">
           <div className="overflow-hidden rounded-[28px] shadow-card">
             <img
+              key={images.mission.src}
               src={images.mission.src}
               alt={images.mission.alt}
-              className="aspect-[5/4] h-full w-full object-cover object-[center_30%]"
+              className="aspect-[5/4] h-full w-full object-cover object-center"
             />
           </div>
         </div>

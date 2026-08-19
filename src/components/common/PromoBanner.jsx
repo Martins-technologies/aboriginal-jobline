@@ -54,21 +54,21 @@ export default function PromoBanner({
         </div>
       ) : null}
 
-      <div className="container-page relative z-10 py-6 lg:py-7">
-        <div className="flex items-center lg:min-h-[17rem]">
+      <div className="container-page relative z-10 py-4 lg:py-5">
+        <div className="flex items-center">
           <div className="max-w-xl lg:max-w-[54%]">
             {eyebrow ? (
               <SectionEyebrow className="justify-start" tone="gold">
                 {eyebrow}
               </SectionEyebrow>
             ) : null}
-            <h2 className="mt-2 max-w-xl font-serif text-3xl font-bold leading-[1.15] text-white sm:text-4xl">
+            <h2 className="mt-1.5 max-w-xl font-serif text-3xl font-bold leading-[1.15] text-white sm:text-4xl">
               {heading}
             </h2>
             {description ? (
-              <p className="mt-3 max-w-lg text-[15px] leading-relaxed text-white/90">{description}</p>
+              <p className="mt-2 max-w-lg text-[15px] leading-relaxed text-white/90">{description}</p>
             ) : null}
-            {buttons ? <div className="mt-5 flex flex-wrap gap-3">{buttons}</div> : null}
+            {buttons ? <div className="mt-4 flex flex-wrap gap-3">{buttons}</div> : null}
           </div>
         </div>
 

@@ -1,19 +1,19 @@
 export const images = {
   heroHome: {
-    src: "/img9.webp",
+    src: "/img9.webp?v=2",
     alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   mission: {
-    src: "/img1.webp",
-    alt: "Indigenous professionals collaborating in a modern office",
+    src: "/img10.webp?v=2",
+    alt: "Indigenous professionals collaborating around a table with mountains outside the window",
   },
   employerPromo: {
     src: "/img11.webp",
     alt: "Three Indigenous professionals smiling together in a workplace setting",
   },
   heroBrowse: {
-    src: "/img1.webp",
-    alt: "Indigenous professionals collaborating in a modern office",
+    src: "/img9.webp?v=2",
+    alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   logo: {
     src: "/logo.webp",
@@ -49,9 +49,9 @@ export const images = {
   },
   resources: {
     jobSearch: {
-      src: "/resource-job-seekers.jpg",
-      alt: "Close-up of a woven natural basket",
-      objectClass: "object-center",
+      src: "/img5.webp",
+      alt: "Indigenous professional smiling outdoors with a lake and mountains in the background",
+      objectClass: "object-[center_20%]",
     },
     careerAdvice: {
       src: "/resource-employers.jpg",

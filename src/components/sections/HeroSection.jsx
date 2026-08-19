@@ -15,9 +15,10 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
         aria-hidden="true"
       >
         <img
+          key={images.heroBrowse.src}
           src={images.heroBrowse.src}
           alt=""
-          className="hero-photo-blend h-full w-full object-cover object-[68%_center] blur-[1.5px]"
+          className="hero-photo-blend h-full w-full object-cover object-[58%_center]"
         />
         <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background to-transparent" />
         <WaveDecoration
