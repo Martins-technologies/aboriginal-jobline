@@ -4,8 +4,6 @@ import PopularSearchTags from "../jobs/PopularSearchTags";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
 import Button from "../common/Button";
-import WaveDecoration from "../common/WaveDecoration";
-import { images } from "../../data/images";
 
 export default function HeroSection({ filters, onSearch, onTagSelect }) {
   return (
@@ -15,16 +13,11 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
         aria-hidden="true"
       >
         <img
-          key={images.heroBrowse.src}
-          src={images.heroBrowse.src}
+          src="/img9.webp"
           alt=""
-          className="hero-photo-blend h-full w-full object-cover object-[58%_center]"
+          className="h-full w-full object-cover object-right"
         />
         <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background to-transparent" />
-        <WaveDecoration
-          variant="hero"
-          className="absolute -bottom-6 right-0 w-[85%] max-w-lg"
-        />
       </div>
 
       <div className="container-page relative z-10">

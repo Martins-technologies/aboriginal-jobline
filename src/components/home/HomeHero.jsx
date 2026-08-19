@@ -2,11 +2,9 @@ import { Search, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
 import PageSection from "../common/PageSection";
-import WaveDecoration from "../common/WaveDecoration";
 import JobSearchBar from "../jobs/JobSearchBar";
 import FeatureCard from "../sections/FeatureCard";
 import { homeHeroFeatures } from "../../data/homeHeroFeatures";
-import { images } from "../../data/images";
 import { emptyFilters, searchParamsFromFilters } from "../../utils/jobs";
 
 export default function HomeHero() {
@@ -30,14 +28,12 @@ export default function HomeHero() {
           aria-hidden="true"
         >
           <img
-            key={images.heroHome.src}
-            src={images.heroHome.src}
+            src="/img9.webp"
             alt=""
             fetchPriority="high"
-            className="hero-photo-blend h-full w-full object-cover object-[58%_center]"
+            className="h-full w-full object-cover object-right"
           />
           <div className="absolute inset-y-0 left-0 w-1/3 bg-gradient-to-r from-background to-transparent" />
-          <WaveDecoration variant="hero" className="absolute -bottom-6 right-0 w-[85%] max-w-lg" />
         </div>
 
         <div className="container-page relative z-10">

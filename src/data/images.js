@@ -1,6 +1,6 @@
 export const images = {
   heroHome: {
-    src: "/img9.webp?v=2",
+    src: "/img9.webp",
     alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   mission: {
@@ -12,7 +12,7 @@ export const images = {
     alt: "Three Indigenous professionals smiling together in a workplace setting",
   },
   heroBrowse: {
-    src: "/img9.webp?v=2",
+    src: "/img9.webp",
     alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   logo: {
