@@ -4,7 +4,7 @@ export const images = {
     alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   mission: {
-    src: "/img10.webp?v=2",
+    src: "/img10.webp",
     alt: "Indigenous professionals collaborating around a table with mountains outside the window",
   },
   employerPromo: {
@@ -35,6 +35,14 @@ export const images = {
     src: "/img6.webp",
     alt: "Aboriginal Jobline team collaborating in a modern office",
   },
+  aboutHero: {
+    src: "/img13.webp",
+    alt: "Indigenous community members gathered together outdoors",
+  },
+  aboutStory: {
+    src: "/resource-community.jpg",
+    alt: "Mountain lake and forest landscape representing community, land, and opportunity across Canada",
+  },
   contactIllustration: {
     src: "/img7.webp",
     alt: "Decorative illustration of community figures above stylized waves",
@@ -54,14 +62,15 @@ export const images = {
       objectClass: "object-[center_20%]",
     },
     careerAdvice: {
-      src: "/resource-employers.jpg",
+      src: "/img4.webp",
       alt: "Two professionals talking across a table in a bright office",
       objectClass: "object-center",
     },
     employerResources: {
-      src: "/resource-community.jpg",
-      alt: "Red canoes on a mountain lake surrounded by pine forest",
+      src: "/img3.webp",
+      alt: "Red canoe on a mountain lake surrounded by pine forest",
       objectClass: "object-center",
     },
   },
 };
+

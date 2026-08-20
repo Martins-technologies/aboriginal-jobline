@@ -86,18 +86,25 @@ export default function ContactForm() {
           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
           Thank you — your message has been sent. We’ll get back to you within 1–2 business days.
         </p>
-        <Button
-          type="button"
-          variant="outline"
-          className="mt-5"
-          onClick={() => {
-            setForm(emptyForm);
-            setErrors({});
-            setSuccess(false);
-          }}
-        >
-          Send another message
-        </Button>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => {
+              setForm(emptyForm);
+              setErrors({});
+              setSuccess(false);
+            }}
+          >
+            Send another message
+          </Button>
+          <Button to="/browse-jobs" variant="secondary">
+            Browse jobs
+          </Button>
+          <Button to="/" variant="outline">
+            Back to home
+          </Button>
+        </div>
       </div>
     );
   }

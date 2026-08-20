@@ -5,6 +5,7 @@ import PageSection from "../common/PageSection";
 import JobSearchBar from "../jobs/JobSearchBar";
 import FeatureCard from "../sections/FeatureCard";
 import { homeHeroFeatures } from "../../data/homeHeroFeatures";
+import { images } from "../../data/images";
 import { emptyFilters, searchParamsFromFilters } from "../../utils/jobs";
 
 export default function HomeHero() {
@@ -28,7 +29,7 @@ export default function HomeHero() {
           aria-hidden="true"
         >
           <img
-            src="/img9.webp"
+            src={images.heroHome.src}
             alt=""
             fetchPriority="high"
             className="h-full w-full object-cover object-right"

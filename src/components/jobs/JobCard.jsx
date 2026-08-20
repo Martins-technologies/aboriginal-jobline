@@ -60,7 +60,7 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
             </span>
           </div>
         </div>
-        <Button to={`/jobs/${job.id}`} variant="secondary" size="sm" className="shrink-0 self-start sm:self-center">
+        <Button to={`/jobs/${job.id}#apply`} variant="secondary" size="sm" className="shrink-0 self-start sm:self-center">
           Apply Now
         </Button>
       </article>
@@ -111,7 +111,7 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
           <Button to={`/jobs/${job.id}`} variant="outline" size="sm">
             View Details
           </Button>
-          <Button to={`/jobs/${job.id}`} variant="secondary" size="sm" icon={ArrowRight} iconPosition="right">
+          <Button to={`/jobs/${job.id}#apply`} variant="secondary" size="sm" icon={ArrowRight} iconPosition="right">
             Apply Now
           </Button>
         </div>

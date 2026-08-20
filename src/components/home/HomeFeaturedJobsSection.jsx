@@ -22,7 +22,7 @@ const featuredJobs = featuredJobIds
 export default function HomeFeaturedJobsSection() {
   return (
     <PageSection className="bg-topo section-pad">
-      <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,0.32fr)_minmax(0,0.68fr)] lg:gap-10">
+      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.34fr)_minmax(0,0.66fr)] lg:gap-16">
         <div>
           <SectionEyebrow className="justify-start">Featured Opportunities</SectionEyebrow>
           <h2 className="section-title mt-3">Featured Jobs Across Canada</h2>

@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./components/layout/ScrollToTop";
 import Navbar from "./components/layout/Navbar";
 import ComingSoonPage from "./components/common/ComingSoonPage";
+import NotFoundPage from "./components/common/NotFoundPage";
 import HomePage from "./pages/HomePage";
 import BrowseJobsPage from "./pages/BrowseJobsPage";
 import EmployersPage from "./pages/EmployersPage";
@@ -9,6 +10,7 @@ import AboutUs from "./pages/AboutUs";
 import ContactPage from "./pages/ContactPage";
 import PostJobPage from "./pages/PostJobPage";
 import SignInPage from "./pages/SignInPage";
+import JobDetailsPage from "./pages/JobDetailsPage";
 
 const comingSoonRoutes = [
   { path: "/forgot-password", title: "Forgot Password" },
@@ -46,19 +48,13 @@ function AppLayout() {
           <Route path="/" element={<HomePage />} />
           <Route path="/browse-jobs" element={<BrowseJobsPage />} />
           <Route path="/employers" element={<EmployersPage />} />
+          <Route path="/about" element={<Navigate to="/about-us" replace />} />
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
           <Route path="/post-a-job" element={<PostJobPage />} />
           <Route path="/sign-in" element={<SignInPage />} />
-          <Route
-            path="/jobs/:id"
-            element={
-              <ComingSoonPage
-                title="Job Details"
-                description="Full job detail and application pages will ship in a later module."
-              />
-            }
-          />
+          <Route path="/jobs/:id" element={<JobDetailsPage />} />
           {comingSoonRoutes.map((route) => (
             <Route
               key={route.path}
@@ -66,7 +62,7 @@ function AppLayout() {
               element={<ComingSoonPage title={route.title} />}
             />
           ))}
-          <Route path="*" element={<Navigate to="/browse-jobs" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </main>
     </div>

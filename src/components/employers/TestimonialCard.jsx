@@ -38,7 +38,7 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
         <img
           src={testimonial.avatar}
           alt={testimonial.name}
-          className="h-16 w-16 shrink-0 rounded-full object-cover"
+          className="h-16 w-16 shrink-0 rounded-full object-cover object-top"
         />
         <div className="min-w-0">
           <Quote className={`h-6 w-6 ${quoteClass}`} aria-hidden="true" />
@@ -67,7 +67,7 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
         <img
           src={testimonial.avatar}
           alt={testimonial.name}
-          className="h-[4.75rem] w-[4.75rem] shrink-0 rounded-full object-cover"
+          className="h-[4.75rem] w-[4.75rem] shrink-0 rounded-full object-cover object-top"
         />
       </article>
     );
@@ -81,7 +81,7 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
         <img
           src={testimonial.avatar}
           alt={testimonial.name}
-          className="h-11 w-11 rounded-full object-cover"
+          className="h-11 w-11 rounded-full object-cover object-top"
         />
         <div>
           <p className="font-sans text-sm font-semibold text-primary">{testimonial.name}</p>

@@ -1,7 +1,7 @@
 import { Briefcase, Phone, Users } from "lucide-react";
 import Button from "../common/Button";
 import PageSection from "../common/PageSection";
-import WaveDecoration from "../common/WaveDecoration";
+import WaveGraphic from "../common/WaveGraphic";
 import { images } from "../../data/images";
 
 export default function EmployerClosingCTA() {
@@ -39,11 +39,7 @@ export default function EmployerClosingCTA() {
                 className="aspect-[5/4] h-full w-full object-cover object-[center_30%]"
               />
             </div>
-            <WaveDecoration
-              variant="hero"
-              size="md"
-              className="pointer-events-none absolute -right-6 -bottom-8 z-20"
-            />
+            <WaveGraphic className="pointer-events-none absolute -right-6 -bottom-8 z-20 w-[70%] max-w-sm" />
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import Button from "../common/Button";
 import LeafBranch from "../common/LeafBranch";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
-import WaveDecoration from "../common/WaveDecoration";
+import WaveGraphic from "../common/WaveGraphic";
 import FeatureCard from "../sections/FeatureCard";
 import HowItWorksStep from "./HowItWorksStep";
 import { whyChooseEmployer } from "../../data/whyChooseEmployer";
@@ -56,11 +56,7 @@ export default function WhyChooseEmployerSection() {
       </div>
 
       <div className="relative overflow-hidden">
-        <WaveDecoration
-          variant="hero"
-          size="sm"
-          className="pointer-events-none absolute -bottom-6 -left-8 z-0 scale-x-[-1]"
-        />
+        <WaveGraphic className="pointer-events-none absolute -bottom-8 -left-10 z-0 w-56 max-w-[45%] sm:w-72" />
         <LeafBranch className="pointer-events-none absolute -bottom-4 -right-2 z-0 h-40 w-36 text-accent-light sm:h-48 sm:w-44" />
         <div className="container-page relative z-10 flex flex-col gap-6 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between">
           <div className="max-w-xl">

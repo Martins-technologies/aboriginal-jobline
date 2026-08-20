@@ -6,6 +6,7 @@ export const employerHeroFeatures = [
     icon: "users",
     color: "bg-primary",
     titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    to: "/browse-jobs",
   },
   {
     id: "inclusive",
@@ -14,6 +15,7 @@ export const employerHeroFeatures = [
     icon: "heart-handshake",
     color: "bg-accent",
     titleClassName: "font-sans text-[15px] font-semibold leading-snug text-accent",
+    to: "/inclusive-hiring",
   },
   {
     id: "canada",
@@ -22,6 +24,7 @@ export const employerHeroFeatures = [
     icon: "maple-leaf",
     color: "bg-accent-light",
     titleClassName: "font-sans text-[15px] font-semibold leading-snug text-accent-light",
+    to: "/post-a-job",
   },
   {
     id: "posting",
@@ -30,5 +33,6 @@ export const employerHeroFeatures = [
     icon: "file-pen",
     color: "bg-primary",
     titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    to: "/post-a-job",
   },
 ];

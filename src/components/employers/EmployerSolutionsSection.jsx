@@ -3,7 +3,7 @@ import { Briefcase, Users } from "lucide-react";
 import Button from "../common/Button";
 import InlineCTABar from "../common/InlineCTABar";
 import PageSection from "../common/PageSection";
-import WaveDecoration from "../common/WaveDecoration";
+import WaveGraphic from "../common/WaveGraphic";
 import IndustryTag from "./IndustryTag";
 import SolutionCard from "./SolutionCard";
 import TestimonialCard from "./TestimonialCard";
@@ -49,11 +49,7 @@ export default function EmployerSolutionsSection() {
               <SolutionCard key={item.id} item={item} />
             ))}
           </div>
-          <WaveDecoration
-            variant="hero"
-            size="sm"
-            className="pointer-events-none absolute -right-8 -bottom-10 z-10 hidden md:block"
-          />
+          <WaveGraphic className="pointer-events-none absolute -right-10 -bottom-12 z-10 hidden w-[42%] max-w-sm md:block" />
         </div>
 
         <div className="mt-10">

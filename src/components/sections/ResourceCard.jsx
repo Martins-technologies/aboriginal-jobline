@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 
-export default function ResourceCard({ resource }) {
+export default function ResourceCard({ resource, showTag = true }) {
   return (
     <Link
       to={resource.href}
@@ -15,11 +15,13 @@ export default function ResourceCard({ resource }) {
           loading="lazy"
           className={`h-full w-full object-cover sm:absolute sm:inset-0 ${resource.imageClass || "object-center"}`}
         />
-        <span
-          className={`absolute left-3 top-3 rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white ${resource.tagColor}`}
-        >
-          {resource.tag}
-        </span>
+        {showTag ? (
+          <span
+            className={`absolute left-3 top-3 rounded-md px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-white ${resource.tagColor}`}
+          >
+            {resource.tag}
+          </span>
+        ) : null}
       </div>
       <div className="flex min-w-0 flex-1 flex-col p-3.5 sm:p-4">
         <h3 className="font-sans text-sm font-bold leading-snug text-primary sm:text-[15px]">

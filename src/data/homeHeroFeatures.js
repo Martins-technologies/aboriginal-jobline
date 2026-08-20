@@ -8,6 +8,7 @@ export const homeHeroFeatures = [
     ringClass: "border-primary",
     titleClassName: "font-sans text-base font-bold leading-snug text-primary",
     descriptionClassName: "text-body",
+    to: "/browse-jobs",
   },
   {
     id: "inclusive-employers",
@@ -18,6 +19,7 @@ export const homeHeroFeatures = [
     ringClass: "border-accent",
     titleClassName: "font-sans text-base font-bold leading-snug text-accent",
     descriptionClassName: "text-body",
+    to: "/employers",
   },
   {
     id: "community-focus",
@@ -28,5 +30,6 @@ export const homeHeroFeatures = [
     ringClass: "border-accent-light",
     titleClassName: "font-sans text-base font-bold leading-snug text-accent-light",
     descriptionClassName: "text-body",
+    to: "/about-us",
   },
 ];

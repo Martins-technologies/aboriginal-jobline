@@ -11,6 +11,7 @@ export default function CareerResourcesSection({
   eyebrow = "Resources & Support",
   title = "Career Resources & Community Support",
   description = "Explore tools, programs, and support to help you succeed in your career journey.",
+  showTags = true,
   className = "bg-topo section-pad",
 }) {
   return (
@@ -18,7 +19,7 @@ export default function CareerResourcesSection({
       <SectionHeader eyebrow={eyebrow} title={title} description={description} />
       <div className="mt-5 grid gap-4 md:grid-cols-3">
         {resources.map((resource) => (
-          <ResourceCard key={resource.id} resource={resource} />
+          <ResourceCard key={resource.id} resource={resource} showTag={showTags} />
         ))}
       </div>
     </PageSection>

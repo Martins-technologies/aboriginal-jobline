@@ -4,6 +4,7 @@ import PopularSearchTags from "../jobs/PopularSearchTags";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
 import Button from "../common/Button";
+import { images } from "../../data/images";
 
 export default function HeroSection({ filters, onSearch, onTagSelect }) {
   return (
@@ -13,7 +14,7 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
         aria-hidden="true"
       >
         <img
-          src="/img9.webp"
+            src={images.heroBrowse.src}
           alt=""
           className="h-full w-full object-cover object-right"
         />

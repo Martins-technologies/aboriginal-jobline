@@ -82,7 +82,7 @@ export default function BrowseJobsPage() {
       />
       <CategoryRegionSection />
       <WhyUseSection />
-      <CareerResourcesSection />
+      <CareerResourcesSection showTags={false} />
       <CTABanner />
       <FAQSection />
     </PageWithFooter>

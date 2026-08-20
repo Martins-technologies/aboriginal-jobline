@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Button from "../common/Button";
 import { categories } from "../../data/categories";
+import { saveJobPost } from "../../utils/jobPosts";
 
 const employmentTypes = ["Full-time", "Part-time", "Contract", "Remote"];
 
@@ -42,7 +43,7 @@ const inputClass =
 export default function JobPostingForm() {
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
-  const [success, setSuccess] = useState(false);
+  const [step, setStep] = useState("form");
 
   const update = (field) => (event) => {
     setForm((current) => ({ ...current, [field]: event.target.value }));
@@ -73,7 +74,12 @@ export default function JobPostingForm() {
       return;
     }
 
-    console.log("Job posting submitted", {
+    setStep("review");
+  };
+
+  const handlePublish = () => {
+    saveJobPost({
+      id: `posted-${Date.now()}`,
       title: form.title.trim(),
       company: form.company.trim(),
       location: form.location.trim(),
@@ -81,11 +87,20 @@ export default function JobPostingForm() {
       employmentType: form.employmentType,
       salaryRange: form.salaryRange.trim(),
       summary: form.summary.trim(),
+      postedAt: new Date().toISOString(),
     });
-    setSuccess(true);
+    setStep("published");
   };
 
-  if (success) {
+  const resetForm = () => {
+    setForm(emptyForm);
+    setErrors({});
+    setStep("form");
+  };
+
+  const categoryTitle = categories.find((item) => item.slug === form.category)?.title || form.category;
+
+  if (step === "published") {
     return (
       <div
         className="rounded-2xl border border-primary/15 bg-primary-50 px-6 py-8"
@@ -93,21 +108,71 @@ export default function JobPostingForm() {
       >
         <p className="flex items-start gap-3 text-base font-medium text-primary">
           <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0" aria-hidden="true" />
-          Thank you — your job listing details have been received. A review and publish step
-          will be available in a future update.
+          Thank you — {form.title} at {form.company} is ready for review by our team and will
+          appear with other employer listings once published.
         </p>
-        <Button
-          type="button"
-          variant="outline"
-          className="mt-5"
-          onClick={() => {
-            setForm(emptyForm);
-            setErrors({});
-            setSuccess(false);
-          }}
-        >
-          Post another job
-        </Button>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Button type="button" variant="outline" onClick={resetForm}>
+            Post another job
+          </Button>
+          <Button to="/browse-jobs" variant="secondary">
+            Browse jobs
+          </Button>
+          <Button to="/employers" variant="outline">
+            Employer resources
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (step === "review") {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white px-6 py-8 shadow-card">
+        <h3 className="font-serif text-2xl text-primary">Review your listing</h3>
+        <p className="mt-2 text-sm text-muted">
+          Confirm the details below, then publish. You can go back to edit anything first.
+        </p>
+        <dl className="mt-6 space-y-3 text-sm">
+          <div>
+            <dt className="font-semibold text-primary">Job title</dt>
+            <dd className="text-muted">{form.title}</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-primary">Company</dt>
+            <dd className="text-muted">{form.company}</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-primary">Location</dt>
+            <dd className="text-muted">{form.location}</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-primary">Category</dt>
+            <dd className="text-muted">{categoryTitle}</dd>
+          </div>
+          <div>
+            <dt className="font-semibold text-primary">Employment type</dt>
+            <dd className="text-muted">{form.employmentType}</dd>
+          </div>
+          {form.salaryRange ? (
+            <div>
+              <dt className="font-semibold text-primary">Salary range</dt>
+              <dd className="text-muted">{form.salaryRange}</dd>
+            </div>
+          ) : null}
+          <div>
+            <dt className="font-semibold text-primary">Summary</dt>
+            <dd className="text-muted">{form.summary}</dd>
+          </div>
+        </dl>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Button type="button" variant="outline" onClick={() => setStep("form")}>
+            Edit details
+          </Button>
+          <Button type="button" variant="secondary" onClick={handlePublish}>
+            Publish listing
+          </Button>
+        </div>
       </div>
     );
   }

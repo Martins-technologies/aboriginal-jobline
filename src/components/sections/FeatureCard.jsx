@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { getIcon } from "../../utils/icons";
 
 const ringByColor = {
@@ -41,11 +42,10 @@ export default function FeatureCard({
         : "surface-card p-6";
 
   const rowAlign = align === "start" ? "items-start" : "items-center";
+  const classes = `${boxClass} flex ${isStack ? "h-full flex-col" : `${rowAlign} gap-3`} ${className}`;
 
-  return (
-    <article
-      className={`${boxClass} flex ${isStack ? "h-full flex-col" : `${rowAlign} gap-3`} ${className}`}
-    >
+  const content = (
+    <>
       {dashed ? (
         <span
           className={`flex h-[3.75rem] w-[3.75rem] shrink-0 items-center justify-center rounded-full border border-dotted p-[5px] ${ringClass}`}
@@ -70,6 +70,20 @@ export default function FeatureCard({
           {feature.description}
         </p>
       </div>
-    </article>
+    </>
   );
+
+  if (feature.to) {
+    return (
+      <Link
+        to={feature.to}
+        className={`${classes} rounded-xl transition-opacity hover:opacity-80`}
+        aria-label={feature.title}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return <article className={classes}>{content}</article>;
 }
