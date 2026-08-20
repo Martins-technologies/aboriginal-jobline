@@ -26,22 +26,20 @@ function GreenWaves() {
 
 export default function AboutClosingCTA() {
   return (
-    <PageSection contained={false} className="about-cta bg-[#00564F] py-5 text-white lg:py-5">
-      <div className="container-page relative overflow-hidden px-8 sm:px-10 lg:px-12">
+    <PageSection className="bg-topo section-pad">
+      <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-7 text-white sm:px-10 lg:px-12">
         <GreenWaves />
-        <div className="relative z-10 flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-4">
-            <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white/10">
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-xl">
+            <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-white/70">
               <Handshake className="h-6 w-6 text-white" aria-hidden="true" />
             </span>
-            <div className="max-w-lg">
-              <h2 className="font-serif text-xl font-bold text-white sm:text-2xl">
-                Ready to Take the Next Step?
-              </h2>
-              <p className="mt-1 text-xs leading-relaxed text-white/90 sm:text-sm">
-                Explore job opportunities or connect with inclusive employers who value your talent.
-              </p>
-            </div>
+            <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
+              Ready to Take the Next Step?
+            </h2>
+            <p className="mt-3 text-white/80">
+              Explore job opportunities or connect with inclusive employers who value your talent.
+            </p>
           </div>
           <div className="flex shrink-0 flex-wrap gap-3">
             <Button to="/browse-jobs" variant="white" icon={Search}>

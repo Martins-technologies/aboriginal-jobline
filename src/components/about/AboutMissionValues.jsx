@@ -5,7 +5,7 @@ import { aboutMissionCopy, aboutValues } from "../../data/aboutPage";
 
 export default function AboutMissionValues() {
   return (
-    <PageSection className="bg-topo py-8 lg:py-10">
+    <PageSection className="bg-topo section-pad">
       <div className="rounded-[28px] bg-[#F7F2ED] px-6 py-10 shadow-sm sm:px-10 lg:px-12 lg:py-12">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_auto_minmax(0,1.15fr)] lg:gap-12">
           <div>

@@ -10,18 +10,18 @@ export default function CategoryCard({ category, compact = false }) {
     <Link
       to={buildJobsPath({ category: category.slug })}
       aria-label={`Explore ${category.title} jobs`}
-      className={`surface-card flex h-full items-center gap-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
-        compact ? "p-4" : "p-5"
+      className={`surface-card flex h-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent ${
+        compact ? "min-h-[12.25rem] flex-col p-4" : "items-center gap-4 p-5"
       }`}
     >
-      <span
-        className={`flex shrink-0 items-center justify-center rounded-full ${category.iconBg} ${category.iconColor} ${
-          compact ? "h-11 w-11" : "h-14 w-14"
-        }`}
-      >
-        <Icon className={compact ? "h-5 w-5" : "h-6 w-6"} aria-hidden="true" />
-      </span>
-      <div className="min-w-0 flex-1">
+      <div className={compact ? "flex items-center gap-3" : "contents"}>
+        <span
+          className={`flex shrink-0 items-center justify-center rounded-full ${category.iconBg} ${category.iconColor} ${
+            compact ? "h-12 w-12" : "h-14 w-14"
+          }`}
+        >
+          <Icon className={compact ? "h-6 w-6" : "h-6 w-6"} aria-hidden="true" />
+        </span>
         <h3
           className={`font-sans font-bold leading-snug text-primary ${
             compact ? "text-sm" : "text-[15px]"
@@ -29,16 +29,18 @@ export default function CategoryCard({ category, compact = false }) {
         >
           {category.title}
         </h3>
+      </div>
+      <div className={compact ? "flex min-h-0 flex-1 flex-col" : "min-w-0 flex-1"}>
         <p
           className={`mt-1 leading-relaxed ${
-            compact ? "text-[13px] text-body" : "text-[13px] text-muted"
+            compact ? "mt-3 text-[13px] text-body" : "text-[13px] text-muted"
           }`}
         >
           {category.description}
         </p>
         <span
           className={`inline-flex items-center gap-1 font-semibold text-accent ${
-            compact ? "mt-2 text-[13px]" : "mt-2.5 text-sm"
+            compact ? "mt-auto pt-3 text-[13px]" : "mt-2.5 text-sm"
           }`}
         >
           Explore Jobs

@@ -9,13 +9,11 @@ import { homeFooterConfig } from "../data/footerConfigs";
 export default function AboutUs() {
   return (
     <PageWithFooter config={homeFooterConfig}>
-      <div className="about-page">
-        <AboutHero />
-        <AboutMissionValues />
-        <AboutStory />
-        <AboutCommitment />
-        <AboutClosingCTA />
-      </div>
+      <AboutHero />
+      <AboutMissionValues />
+      <AboutStory />
+      <AboutCommitment />
+      <AboutClosingCTA />
     </PageWithFooter>
   );
 }

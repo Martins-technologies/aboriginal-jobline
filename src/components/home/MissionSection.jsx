@@ -9,25 +9,25 @@ export default function MissionSection() {
   return (
     <PageSection className="overflow-hidden bg-topo" contained={false}>
       <div
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[72%] lg:block"
+        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[64%] lg:block"
         aria-hidden="true"
       >
         <img
-          src={images.mission.src}
+          src="/img10.webp"
           alt=""
-          className="mission-photo-blend h-full w-full object-cover object-[center_center]"
+          className="mission-photo-blend h-full w-full object-cover object-center"
         />
-        <div className="absolute inset-y-0 left-0 w-[22%] bg-gradient-to-r from-background to-transparent" />
-        <WaveGraphic className="absolute -bottom-6 -right-8 w-[48%] max-w-md" />
+        <div className="absolute inset-y-0 left-0 w-[28%] bg-gradient-to-r from-background to-transparent" />
+        <WaveGraphic className="absolute -bottom-8 -right-8 w-[46%] max-w-md" />
       </div>
 
       <div className="container-page relative z-10">
-        <div className="flex items-center py-5 lg:min-h-[23rem] lg:py-6">
-          <div className="w-full lg:w-[32%] lg:min-w-[17.5rem] lg:max-w-[23rem]">
+        <div className="flex items-center py-5 lg:min-h-[21rem] lg:py-0">
+          <div className="w-full lg:w-[36%] lg:min-w-[22rem] lg:max-w-[25rem]">
             <SectionEyebrow className="justify-start" endRule={false}>
               Our Mission
             </SectionEyebrow>
-            <h2 className="section-title mt-2 text-[1.75rem] sm:text-3xl lg:text-[2rem]">
+            <h2 className="section-title mt-2 text-[1.75rem] sm:text-3xl lg:text-[2.5rem]">
               Building Stronger Futures Together
             </h2>
             <p className="mt-3 text-[15px] leading-relaxed text-body">

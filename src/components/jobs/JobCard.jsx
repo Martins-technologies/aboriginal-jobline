@@ -18,15 +18,15 @@ const iconStyles = {
 };
 
 const compactIconStyles = {
-  users: "bg-primary text-white",
-  "file-text": "bg-accent text-white",
-  heart: "bg-accent-light text-white",
-  "heart-pulse": "bg-accent-light text-white",
-  wrench: "bg-accent text-white",
-  utensils: "bg-primary text-white",
-  "book-open": "bg-accent-light text-white",
-  globe: "bg-primary text-white",
-  truck: "bg-accent text-white",
+  users: "border-primary/60 bg-primary/5 text-primary",
+  "file-text": "border-accent/60 bg-accent/5 text-accent",
+  heart: "border-accent-light bg-accent-light/10 text-accent-light",
+  "heart-pulse": "border-accent-light bg-accent-light/10 text-accent-light",
+  wrench: "border-accent/60 bg-accent/5 text-accent",
+  utensils: "border-primary/60 bg-primary/5 text-primary",
+  "book-open": "border-accent-light bg-accent-light/10 text-accent-light",
+  globe: "border-primary/60 bg-primary/5 text-primary",
+  truck: "border-accent/60 bg-accent/5 text-accent",
 };
 
 export default function JobCard({ job, layout = "grid", variant = "default" }) {
@@ -35,13 +35,13 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
 
   if (variant === "compact") {
     return (
-      <article className="surface-card flex h-full flex-col gap-3 p-4 sm:flex-row sm:items-center">
+      <article className="surface-card relative flex h-full min-h-[9.5rem] flex-col gap-3 p-4 pr-28 sm:flex-row sm:items-start lg:h-[10.5rem] lg:min-h-0">
         <span
-          className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-full ${
+          className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-dashed ${
             compactIconStyles[job.icon] || "bg-primary text-white"
           }`}
         >
-          <Icon className="h-5 w-5" aria-hidden="true" />
+          <Icon className="h-6 w-6" aria-hidden="true" />
         </span>
         <div className="min-w-0 flex-1">
           <h3 className="font-sans text-sm font-semibold leading-snug text-primary sm:text-[15px]">
@@ -49,18 +49,23 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
               {job.title}
             </Link>
           </h3>
-          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
-            <span className="inline-flex items-center gap-1">
+          <div className="mt-1 flex items-center gap-x-3 whitespace-nowrap text-xs text-muted">
+            <span className="inline-flex shrink-0 items-center gap-1">
               <MapPin className="h-3 w-3 text-primary" aria-hidden="true" />
               {job.location}
             </span>
-            <span className="inline-flex items-center gap-1">
+            <span className="inline-flex shrink-0 items-center gap-1">
               <Briefcase className="h-3 w-3 text-primary" aria-hidden="true" />
               {job.type}
             </span>
           </div>
         </div>
-        <Button to={`/jobs/${job.id}#apply`} variant="secondary" size="sm" className="shrink-0 self-start sm:self-center">
+        <Button
+          to={`/jobs/${job.id}#apply`}
+          variant="secondary"
+          size="sm"
+          className="absolute bottom-3 right-3 shrink-0"
+        >
           Apply Now
         </Button>
       </article>

@@ -10,7 +10,7 @@ const links = [
   { to: "/browse-jobs", label: "Browse Jobs" },
   { to: "/employers", label: "Employers" },
   { to: "/about-us", label: "About Us" },
-  { to: "/contact", label: "Contact Us" },
+  { to: "/contact", label: "Contact" },
 ];
 
 function NavItems({ onNavigate, className = "" }) {
@@ -57,14 +57,6 @@ export default function Navbar() {
         <NavItems className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" />
 
         <div className="flex items-center gap-3">
-          <Button
-            to="/post-a-job"
-            variant="secondary"
-            icon={Briefcase}
-            className="hidden sm:inline-flex"
-          >
-            Post a Job
-          </Button>
           {session ? (
             <Button
               type="button"
@@ -85,6 +77,14 @@ export default function Navbar() {
               Sign In
             </Button>
           )}
+          <Button
+            to="/post-a-job"
+            variant="secondary"
+            icon={Briefcase}
+            className="hidden sm:inline-flex"
+          >
+            Post a Job
+          </Button>
           <button
             type="button"
             className="rounded-lg p-2 text-primary md:hidden"
@@ -105,15 +105,6 @@ export default function Navbar() {
             className="flex flex-col gap-4 px-6 py-5"
           />
           <div className="flex flex-col gap-3 px-6 pb-5">
-            <Button
-              to="/post-a-job"
-              variant="secondary"
-              icon={Briefcase}
-              className="w-full"
-              onClick={closeMenu}
-            >
-              Post a Job
-            </Button>
             {session ? (
               <Button
                 type="button"
@@ -135,6 +126,15 @@ export default function Navbar() {
                 Sign In
               </Button>
             )}
+            <Button
+              to="/post-a-job"
+              variant="secondary"
+              icon={Briefcase}
+              className="w-full"
+              onClick={closeMenu}
+            >
+              Post a Job
+            </Button>
           </div>
         </div>
       ) : null}

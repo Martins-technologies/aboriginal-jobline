@@ -4,7 +4,7 @@ import { images } from "../../data/images";
 
 export default function AboutHero() {
   return (
-    <PageSection className="bg-topo py-8 lg:py-10">
+    <PageSection className="bg-topo section-pad">
       <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
         <div>
           <p className="text-[11px] font-semibold uppercase tracking-eyebrow text-accent">

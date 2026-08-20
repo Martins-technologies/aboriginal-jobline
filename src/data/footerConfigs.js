@@ -92,7 +92,7 @@ export const contactFooterConfig = {
 };
 
 export const employersFooterConfig = {
-  theme: "light",
+  theme: "dark",
   brand: { blurb: site.tagline },
   columns: [
     { heading: "Quick Links", links: employerQuickLinks },

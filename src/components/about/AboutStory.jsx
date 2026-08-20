@@ -35,7 +35,7 @@ function StoryArcs() {
 
 export default function AboutStory() {
   return (
-    <PageSection className="overflow-hidden bg-topo py-8 lg:py-10">
+    <PageSection className="overflow-hidden bg-topo section-pad">
       <div className="grid items-center gap-6 lg:grid-cols-2 lg:gap-10">
         <div>
           <AboutEyebrow>{aboutStoryCopy.eyebrow}</AboutEyebrow>

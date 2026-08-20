@@ -6,7 +6,7 @@ import { aboutCommitments } from "../../data/aboutPage";
 
 export default function AboutCommitment() {
   return (
-    <PageSection className="bg-topo py-8 lg:py-10">
+    <PageSection className="bg-topo section-pad">
       <AboutEyebrow>Our Commitment</AboutEyebrow>
       <h2 className="section-title mt-3">Creating a More Inclusive Workforce</h2>
       <div className="mt-8 grid gap-6 md:grid-cols-3 md:gap-0">
