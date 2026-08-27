@@ -9,7 +9,7 @@ import CTABanner from "../components/sections/CTABanner";
 import FAQSection from "../components/sections/FAQSection";
 import PageWithFooter from "../components/layout/PageWithFooter";
 import { browseJobsFooterConfig } from "../data/footerConfigs";
-import { jobs } from "../data/jobs";
+import { useServiceCareJobs } from "../hooks/useServiceCareJobs";
 import {
   emptyFilters,
   filterJobs,
@@ -23,15 +23,18 @@ export default function BrowseJobsPage() {
   const [sort, setSort] = useState("relevant");
   const [view, setView] = useState("grid");
 
+  const { jobs: rawJobs, loading, error } = useServiceCareJobs({ limit: 100 });
+
   const filters = useMemo(
     () => filtersFromSearchParams(searchParams),
     [searchParams],
   );
 
   const visibleJobs = useMemo(
-    () => sortJobs(filterJobs(jobs, filters), sort),
-    [filters, sort],
+    () => sortJobs(filterJobs(rawJobs, filters), sort),
+    [rawJobs, filters, sort],
   );
+
 
   const updateFilters = (next, options = {}) => {
     const params = searchParamsFromFilters({ ...emptyFilters, ...next });
@@ -79,6 +82,8 @@ export default function BrowseJobsPage() {
         onResetFilters={handleResetFilters}
         onSortChange={setSort}
         onViewChange={setView}
+        loading={loading}
+        error={error}
       />
       <CategoryRegionSection />
       <WhyUseSection />

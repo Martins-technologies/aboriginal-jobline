@@ -16,10 +16,10 @@ export default function CategoryRegionSection() {
         src={images.categoryGraphic.src}
         alt=""
         aria-hidden="true"
-        className="pointer-events-none absolute -right-6 top-0 hidden h-[520px] w-auto max-w-[38%] object-contain object-right select-none lg:block"
+        className="pointer-events-none absolute -right-8 top-0 z-0 hidden h-[520px] w-auto max-w-[18%] object-contain object-right opacity-90 select-none lg:block"
       />
 
-      <div className="container-page relative">
+      <div className="container-page relative z-10">
         <SectionHeader
           eyebrow="Explore Opportunities"
           title="Browse by Category and Region"
@@ -28,7 +28,7 @@ export default function CategoryRegionSection() {
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {categories.map((category) => (
-            <CategoryCard key={category.slug} category={category} />
+            <CategoryCard key={category.slug} category={category} browse />
           ))}
         </div>
 

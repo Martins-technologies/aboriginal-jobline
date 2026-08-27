@@ -4,22 +4,11 @@ import Button from "../common/Button";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
 import JobCard from "../jobs/JobCard";
-import { jobs } from "../../data/jobs";
-
-const featuredJobIds = [
-  "indigenous-employment-coordinator",
-  "administrative-assistant-toronto",
-  "community-support-worker",
-  "heavy-equipment-operator-fort-mcmurray",
-  "guest-services-associate-calgary",
-  "health-care-aide-halifax",
-];
-
-const featuredJobs = featuredJobIds
-  .map((id) => jobs.find((job) => job.id === id))
-  .filter(Boolean);
+import { useServiceCareJobs } from "../../hooks/useServiceCareJobs";
 
 export default function HomeFeaturedJobsSection() {
+  const { jobs, loading, error } = useServiceCareJobs({ limit: 6 });
+
   return (
     <PageSection className="bg-topo section-pad">
       <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,0.28fr)_minmax(0,0.72fr)] lg:gap-12">
@@ -38,11 +27,19 @@ export default function HomeFeaturedJobsSection() {
         </div>
 
         <div>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {featuredJobs.map((job) => (
-              <JobCard key={job.id} job={job} variant="compact" />
-            ))}
-          </div>
+          {loading ? (
+            <p className="text-muted py-6">Loading jobs...</p>
+          ) : error ? (
+            <p className="text-accent py-6">{error}</p>
+          ) : !jobs.length ? (
+            <p className="text-muted py-6">No active jobs are available right now.</p>
+          ) : (
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {jobs.slice(0, 6).map((job) => (
+                <JobCard key={job.id} job={job} variant="compact" />
+              ))}
+            </div>
+          )}
           <div className="mt-6 text-center">
             <Link
               to="/browse-jobs"
@@ -57,3 +54,4 @@ export default function HomeFeaturedJobsSection() {
     </PageSection>
   );
 }
+

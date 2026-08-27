@@ -4,10 +4,35 @@ import LeafBranch from "../common/LeafBranch";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
 import WaveGraphic from "../common/WaveGraphic";
-import FeatureCard from "../sections/FeatureCard";
 import HowItWorksStep from "./HowItWorksStep";
 import { whyChooseEmployer } from "../../data/whyChooseEmployer";
 import { howItWorksSteps } from "../../data/howItWorksSteps";
+import { getIcon } from "../../utils/icons";
+
+const iconColors = {
+  "bg-primary": "bg-primary",
+  "bg-accent": "bg-accent",
+  "bg-accent-light": "bg-accent-light",
+};
+
+function EmployerReasonCard({ feature }) {
+  const Icon = getIcon(feature.icon);
+
+  return (
+    <article className="surface-card min-h-[15rem] p-7">
+      <span
+        className={`flex h-14 w-14 items-center justify-center rounded-full text-white ${iconColors[feature.color] || "bg-primary"}`}
+      >
+        <Icon className="h-6 w-6" aria-hidden="true" />
+      </span>
+      <h3 className="mt-5 font-sans text-base font-bold leading-snug text-primary sm:text-lg">
+        {feature.title}
+      </h3>
+      <span className="mt-3 block h-[3px] w-9 rounded-full bg-accent" aria-hidden="true" />
+      <p className="mt-3 text-sm leading-relaxed text-muted">{feature.description}</p>
+    </article>
+  );
+}
 
 export default function WhyChooseEmployerSection() {
   return (
@@ -24,14 +49,9 @@ export default function WhyChooseEmployerSection() {
           recruitment.
         </p>
 
-        <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {whyChooseEmployer.map((feature) => (
-            <FeatureCard
-              key={feature.id}
-              feature={feature}
-              layout="stack"
-              showUnderline
-            />
+            <EmployerReasonCard key={feature.id} feature={feature} />
           ))}
         </div>
       </div>

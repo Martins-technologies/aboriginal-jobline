@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Briefcase, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import Button from "../common/Button";
-import { signIn } from "../../utils/auth";
+import { useAuth } from "../../lib/auth/AuthContext";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -37,8 +37,10 @@ const inputClass =
 
 export default function SignInForm({ role, onRoleChange }) {
   const navigate = useNavigate();
+  const { signIn } = useAuth();
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const update = (field) => (event) => {
@@ -56,7 +58,6 @@ export default function SignInForm({ role, onRoleChange }) {
     } else if (!EMAIL_PATTERN.test(form.email.trim())) {
       next.email = "Please enter a valid email.";
     }
-    if (!form.username.trim()) next.username = "Please enter your username.";
     if (!form.password) {
       next.password = "Please enter your password.";
     } else if (form.password.length < 6) {
@@ -76,13 +77,20 @@ export default function SignInForm({ role, onRoleChange }) {
       return;
     }
 
-    signIn({
-      email: form.email.trim(),
-      username: form.username.trim(),
-      role,
-      remember: form.remember,
-    });
-    navigate("/", { replace: true });
+    setLoading(true);
+    signIn(form.email.trim(), form.password)
+      .then(() => {
+        navigate("/", { replace: true });
+      })
+      .catch((err) => {
+        setErrors((curr) => ({
+          ...curr,
+          submit: err.message || "Failed to sign in. Please verify your credentials.",
+        }));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const signupTo = role === "employer" ? "/create-employer-account" : "/create-profile";
@@ -121,6 +129,12 @@ export default function SignInForm({ role, onRoleChange }) {
         </button>
       </div>
 
+      {errors.submit ? (
+        <div className="rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+          {errors.submit}
+        </div>
+      ) : null}
+
       <Field id="signin-email" label="Email address" error={errors.email}>
         <div className="relative">
           <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
@@ -134,24 +148,6 @@ export default function SignInForm({ role, onRoleChange }) {
             aria-invalid={Boolean(errors.email)}
             aria-required="true"
             aria-describedby={errors.email ? "signin-email-error" : undefined}
-            className={inputClass}
-          />
-        </div>
-      </Field>
-
-      <Field id="signin-username" label="Username" error={errors.username}>
-        <div className="relative">
-          <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
-          <input
-            id="signin-username"
-            type="text"
-            autoComplete="username"
-            value={form.username}
-            onChange={update("username")}
-            placeholder="Your username"
-            aria-invalid={Boolean(errors.username)}
-            aria-required="true"
-            aria-describedby={errors.username ? "signin-username-error" : undefined}
             className={inputClass}
           />
         </div>
@@ -208,8 +204,9 @@ export default function SignInForm({ role, onRoleChange }) {
         iconPosition="right"
         className="w-full"
         size="lg"
+        disabled={loading}
       >
-        Sign In
+        {loading ? "Signing In..." : "Sign In"}
       </Button>
 
       <p className="text-center text-sm text-muted">

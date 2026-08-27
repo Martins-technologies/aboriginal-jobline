@@ -1,57 +1,49 @@
-import { useEffect, useState } from "react";
+import { useAuth } from "../lib/auth/AuthContext";
+import { readSession, clearSession } from "../lib/auth/session";
 
-const STORAGE_KEY = "aboriginal-jobline-session";
-const AUTH_EVENT = "auth-changed";
-
+// Backwards compatibility functions that bridge to Context where appropriate
 export function getSession() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY) || sessionStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : null;
-  } catch {
-    return null;
-  }
+  return readSession();
 }
 
 export function signIn({ email, username, role, remember }) {
+  // Static helper fallback - normally components should call signIn from useAuth()
   const session = {
     email,
     username,
     role,
     signedInAt: new Date().toISOString(),
   };
-  const raw = JSON.stringify(session);
-
-  localStorage.removeItem(STORAGE_KEY);
-  sessionStorage.removeItem(STORAGE_KEY);
-
-  if (remember) {
-    localStorage.setItem(STORAGE_KEY, raw);
-  } else {
-    sessionStorage.setItem(STORAGE_KEY, raw);
-  }
-
-  window.dispatchEvent(new Event(AUTH_EVENT));
+  localStorage.setItem("servicecare.session", JSON.stringify({ user: session }));
+  window.dispatchEvent(new Event("auth-changed"));
   return session;
 }
 
 export function signOut() {
-  localStorage.removeItem(STORAGE_KEY);
-  sessionStorage.removeItem(STORAGE_KEY);
-  window.dispatchEvent(new Event(AUTH_EVENT));
+  clearSession();
+  window.dispatchEvent(new Event("auth-changed"));
 }
 
 export function useSession() {
-  const [session, setSession] = useState(getSession);
-
-  useEffect(() => {
-    const sync = () => setSession(getSession());
-    window.addEventListener(AUTH_EVENT, sync);
-    window.addEventListener("storage", sync);
-    return () => {
-      window.removeEventListener(AUTH_EVENT, sync);
-      window.removeEventListener("storage", sync);
+  try {
+    const { session, profile } = useAuth();
+    if (!session) return null;
+    return {
+      email: profile?.email || session.user?.email || "",
+      username: profile?.full_name || session.user?.full_name || "",
+      role: profile?.role || session.user?.role || "",
     };
-  }, []);
-
-  return session;
+  } catch (e) {
+    // Fallback if not wrapped in context provider
+    const cached = readSession();
+    if (cached) {
+      const user = cached.user || {};
+      return {
+        email: user.email || "",
+        username: user.full_name || user.username || "",
+        role: user.role || "",
+      };
+    }
+    return null;
+  }
 }

@@ -16,6 +16,8 @@ export default function FeaturedJobsSection({
   onResetFilters,
   onSortChange,
   onViewChange,
+  loading,
+  error,
 }) {
   return (
     <PageSection id="featured-jobs" className="bg-topo section-pad scroll-mt-20">
@@ -37,12 +39,20 @@ export default function FeaturedJobsSection({
               onSortChange={onSortChange}
               onViewChange={onViewChange}
             />
-            <JobsGrid jobs={jobs} view={view} />
-            <div className="mt-6 text-center">
-              <Button href="#browse-categories" variant="ghost" icon={ArrowRight} iconPosition="right">
-                View More Jobs
-              </Button>
-            </div>
+            {loading ? (
+              <p className="text-muted text-center py-12">Loading jobs...</p>
+            ) : error ? (
+              <p className="text-accent text-center py-12">{error}</p>
+            ) : (
+              <>
+                <JobsGrid jobs={jobs} view={view} />
+                <div className="mt-6 text-center">
+                  <Button href="#browse-categories" variant="ghost" icon={ArrowRight} iconPosition="right">
+                    View More Jobs
+                  </Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

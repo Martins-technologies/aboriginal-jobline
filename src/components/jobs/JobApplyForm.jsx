@@ -2,7 +2,8 @@ import { useState } from "react";
 import { CheckCircle2, Send } from "lucide-react";
 import Button from "../common/Button";
 import { getApplication, saveApplication } from "../../utils/applications";
-import { useSession } from "../../utils/auth";
+import { useAuth } from "../../lib/auth/AuthContext";
+import { applyToJob } from "../../lib/jobs";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -31,16 +32,17 @@ const inputClass =
   "w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-body placeholder:text-muted/80 focus:border-primary focus:outline-none";
 
 export default function JobApplyForm({ job }) {
-  const session = useSession();
+  const { session, profile } = useAuth();
   const existing = getApplication(job.id);
   const [form, setForm] = useState({
-    name: session?.username || "",
-    email: session?.email || "",
+    name: profile?.full_name || session?.user?.full_name || "",
+    email: profile?.email || session?.user?.email || "",
     phone: "",
     coverLetter: "",
   });
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(existing);
+  const [loading, setLoading] = useState(false);
 
   const update = (field) => (event) => {
     setForm((current) => ({ ...current, [field]: event.target.value }));
@@ -71,18 +73,47 @@ export default function JobApplyForm({ job }) {
       return;
     }
 
-    const application = saveApplication({
-      jobId: job.id,
-      jobTitle: job.title,
-      company: job.company,
-      name: form.name.trim(),
-      email: form.email.trim(),
-      phone: form.phone.trim(),
-      coverLetter: form.coverLetter.trim(),
-      appliedAt: new Date().toISOString(),
-    });
-    setSubmitted(application);
+    setLoading(true);
+    applyToJob(job.id, session.accessToken, { coverLetter: form.coverLetter })
+      .then((res) => {
+        const application = saveApplication({
+          jobId: job.id,
+          jobTitle: job.title,
+          company: job.company,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          coverLetter: form.coverLetter.trim(),
+          appliedAt: new Date().toISOString(),
+        });
+        setSubmitted(application);
+      })
+      .catch((err) => {
+        setErrors((curr) => ({
+          ...curr,
+          submit: err.message || "Failed to submit application. Please try again.",
+        }));
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
+
+  if (!session?.accessToken) {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white p-6 text-center shadow-card">
+        <h3 className="font-serif text-lg font-bold text-primary">Sign in to apply</h3>
+        <p className="mt-2 text-sm text-muted">
+          You must be logged in as a candidate to apply for jobs on this platform.
+        </p>
+        <div className="mt-5">
+          <Button to="/sign-in" variant="secondary" className="w-full">
+            Sign In
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   if (submitted) {
     return (
@@ -109,6 +140,11 @@ export default function JobApplyForm({ job }) {
 
   return (
     <form id="apply" onSubmit={handleSubmit} noValidate className="scroll-mt-24 space-y-4">
+      {errors.submit ? (
+        <div className="rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+          {errors.submit}
+        </div>
+      ) : null}
       <Field id="apply-name" label="Full name" required error={errors.name}>
         <input
           id="apply-name"
@@ -155,8 +191,8 @@ export default function JobApplyForm({ job }) {
           className={`${inputClass} min-h-[120px] resize-y`}
         />
       </Field>
-      <Button type="submit" variant="secondary" icon={Send} className="w-full" size="lg">
-        Submit application
+      <Button type="submit" variant="secondary" icon={Send} className="w-full" size="lg" disabled={loading}>
+        {loading ? "Submitting..." : "Submit application"}
       </Button>
     </form>
   );

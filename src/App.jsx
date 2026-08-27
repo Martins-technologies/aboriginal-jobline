@@ -33,6 +33,9 @@ const comingSoonRoutes = [
   { path: "/community-focus", title: "Community Focus" },
 ];
 
+import { AuthProvider } from "./lib/auth/AuthContext";
+import { SavedJobsProvider } from "./lib/SavedJobsContext";
+
 function AppLayout() {
   return (
     <div className="flex min-h-screen flex-col">
@@ -71,9 +74,14 @@ function AppLayout() {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop />
-      <AppLayout />
-    </BrowserRouter>
+    <AuthProvider>
+      <SavedJobsProvider>
+        <BrowserRouter>
+          <ScrollToTop />
+          <AppLayout />
+        </BrowserRouter>
+      </SavedJobsProvider>
+    </AuthProvider>
   );
 }
+

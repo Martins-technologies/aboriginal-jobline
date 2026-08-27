@@ -1,4 +1,5 @@
-import { Navigate, useParams } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Navigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Briefcase, MapPin } from "lucide-react";
 import Badge from "../components/common/Badge";
 import Button from "../components/common/Button";
@@ -6,30 +7,93 @@ import PageSection from "../components/common/PageSection";
 import JobApplyForm from "../components/jobs/JobApplyForm";
 import JobCard from "../components/jobs/JobCard";
 import PageWithFooter from "../components/layout/PageWithFooter";
-import { categories } from "../data/categories";
 import { browseJobsFooterConfig } from "../data/footerConfigs";
-import { jobs } from "../data/jobs";
+import { getPublicJob, getServiceCareCategories, getPublicJobs, recordJobView, normalizeJob } from "../lib/jobs";
 import { formatSalary } from "../utils/jobs";
-
-function relatedJobs(job) {
-  return jobs
-    .filter(
-      (item) =>
-        item.id !== job.id && (item.category === job.category || item.region === job.region),
-    )
-    .slice(0, 3);
-}
 
 export default function JobDetailsPage() {
   const { id } = useParams();
-  const job = jobs.find((item) => item.id === id);
+  const [job, setJob] = useState(null);
+  const [categoriesList, setCategoriesList] = useState([]);
+  const [related, setRelated] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  if (!job) {
-    return <Navigate to="/browse-jobs" replace />;
+  useEffect(() => {
+    let active = true;
+    setLoading(true);
+    setError(null);
+
+    Promise.all([getPublicJob(id), getServiceCareCategories()])
+      .then(([rawJob, rawCategories]) => {
+        if (active) {
+          const normalized = normalizeJob(rawJob, rawCategories);
+          setJob(normalized);
+          setCategoriesList(rawCategories);
+          
+          recordJobView(id).catch((err) => console.error("Error recording view", err));
+
+          getPublicJobs({ limit: 100 })
+            .then((allJobs) => {
+              if (active) {
+                const normalizedRelated = (allJobs || [])
+                  .map((j) => normalizeJob(j, rawCategories))
+                  .filter(
+                    (j) =>
+                      j &&
+                      j.id !== normalized.id &&
+                      (j.category === normalized.category || j.region === normalized.region)
+                  )
+                  .slice(0, 3);
+                setRelated(normalizedRelated);
+              }
+            })
+            .catch((err) => console.error("Error fetching related jobs", err));
+        }
+      })
+      .catch((err) => {
+        if (active) {
+          setError(err.message || "Failed to load job details");
+        }
+      })
+      .finally(() => {
+        if (active) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <PageWithFooter config={browseJobsFooterConfig}>
+        <PageSection className="bg-topo section-pad text-center py-20">
+          <h1 className="font-serif text-3xl font-bold text-primary">Loading job...</h1>
+        </PageSection>
+      </PageWithFooter>
+    );
   }
 
-  const category = categories.find((item) => item.slug === job.category);
-  const related = relatedJobs(job);
+  if (error || !job) {
+    return (
+      <PageWithFooter config={browseJobsFooterConfig}>
+        <PageSection className="bg-topo section-pad text-center py-20">
+          <h1 className="font-serif text-3xl font-bold text-accent">Job not found</h1>
+          <p className="mt-4 text-muted">{error || "The requested job listing could not be found."}</p>
+          <div className="mt-6">
+            <Link to="/browse-jobs" className="text-primary font-semibold hover:underline">
+              Back to Browse Jobs
+            </Link>
+          </div>
+        </PageSection>
+      </PageWithFooter>
+    );
+  }
+
+  const category = categoriesList.find((item) => item.slug === job.category);
 
   return (
     <PageWithFooter config={browseJobsFooterConfig}>

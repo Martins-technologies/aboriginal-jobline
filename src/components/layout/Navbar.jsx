@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { Briefcase, LogIn, LogOut, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import Button from "../common/Button";
-import { signOut, useSession } from "../../utils/auth";
+import { useAuth } from "../../lib/auth/AuthContext";
 
 const links = [
   { to: "/", label: "Home" },
@@ -40,7 +40,7 @@ function NavItems({ onNavigate, className = "" }) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const session = useSession();
+  const { session, signOut } = useAuth();
 
   const closeMenu = () => setOpen(false);
 

@@ -4,8 +4,8 @@ export const images = {
     alt: "Indigenous professionals smiling outdoors beside a lake and mountains",
   },
   mission: {
-    src: "/img10.webp",
-    alt: "Indigenous professionals collaborating around a table with mountains outside the window",
+    src: "/group.webp",
+    alt: "Four Indigenous professionals collaborating around a table with mountains outside the window",
   },
   employerPromo: {
     src: "/img11.webp",
@@ -20,7 +20,7 @@ export const images = {
     alt: "Aboriginal Jobline",
   },
   heroEmployers: {
-    src: "/img1.webp",
+    src: "/employehero.webp",
     alt: "Indigenous professionals collaborating in a modern office",
   },
   heroPostJob: {
@@ -28,8 +28,8 @@ export const images = {
     alt: "Indigenous professionals collaborating around a conference table",
   },
   employerClosing: {
-    src: "/img8.webp",
-    alt: "Indigenous professional smiling outdoors with mountains in the background",
+    src: "/banner.webp",
+    alt: "Build a stronger workforce with Aboriginal Jobline",
   },
   heroContact: {
     src: "/img6.webp",
