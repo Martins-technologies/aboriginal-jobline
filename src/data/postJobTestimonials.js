@@ -5,7 +5,7 @@ export const postJobTestimonials = [
     role: "HR Manager, Northern Logistics",
     quote:
       "Posting with Aboriginal Jobline was straightforward, and we started hearing from qualified Indigenous candidates within days.",
-    avatar: "/img12.webp",
+    avatar: "/img10.webp",
   },
   {
     id: "leah-s",

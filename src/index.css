@@ -44,11 +44,11 @@
   }
 
   .container-page {
-    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-6 sm:px-12 md:px-16 lg:px-24;
   }
 
   .hero-pad {
-    @apply pt-3 pb-5 lg:pt-4 lg:pb-6;
+    @apply pt-6 pb-6 sm:pt-8 sm:pb-8 lg:pt-10 lg:pb-10;
   }
 
   .section-pad {

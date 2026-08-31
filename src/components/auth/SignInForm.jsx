@@ -10,7 +10,6 @@ const emptyForm = {
   email: "",
   username: "",
   password: "",
-  remember: false,
 };
 
 function Field({ id, label, error, children }) {
@@ -37,60 +36,37 @@ const inputClass =
 
 export default function SignInForm({ role, onRoleChange }) {
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { mockSignIn } = useAuth();
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const update = (field) => (event) => {
-    const value = field === "remember" ? event.target.checked : event.target.value;
-    setForm((current) => ({ ...current, [field]: value }));
+    setForm((current) => ({ ...current, [field]: event.target.value }));
     if (errors[field]) {
       setErrors((current) => ({ ...current, [field]: "" }));
     }
   };
 
-  const validate = () => {
-    const next = {};
-    if (!form.email.trim()) {
-      next.email = "Please enter your email address.";
-    } else if (!EMAIL_PATTERN.test(form.email.trim())) {
-      next.email = "Please enter a valid email.";
-    }
-    if (!form.password) {
-      next.password = "Please enter your password.";
-    } else if (form.password.length < 6) {
-      next.password = "Password must be at least 6 characters.";
-    }
-    return next;
-  };
-
+  // No validation — any username + password works in demo mode.
+  // The role tab determines where the user lands after sign-in.
   const handleSubmit = (event) => {
     event.preventDefault();
-    const nextErrors = validate();
-    setErrors(nextErrors);
-
-    if (Object.keys(nextErrors).length > 0) {
-      const firstId = Object.keys(nextErrors)[0];
-      document.getElementById(`signin-${firstId}`)?.focus();
-      return;
-    }
-
     setLoading(true);
-    signIn(form.email.trim(), form.password)
-      .then(() => {
-        navigate("/", { replace: true });
-      })
-      .catch((err) => {
-        setErrors((curr) => ({
-          ...curr,
-          submit: err.message || "Failed to sign in. Please verify your credentials.",
-        }));
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    setErrors({});
+
+    // Mock sign-in: create a local session without hitting the API.
+    // Role is read from the active tab so RequireAuth guards route correctly.
+    mockSignIn({
+      email: form.email || "user@example.com",
+      full_name: form.email?.split("@")[0] || "User",
+      role: role === "employer" ? "employer" : "job-seeker",
+    });
+
+    const dest = role === "employer" ? "/employer-dashboard/overview" : "/dashboard/overview";
+    navigate(dest, { replace: true });
+    setLoading(false);
   };
 
   const signupTo = role === "employer" ? "/create-employer-account" : "/create-profile";
@@ -179,16 +155,7 @@ export default function SignInForm({ role, onRoleChange }) {
         </div>
       </Field>
 
-      <div className="flex items-center justify-between gap-3">
-        <label className="inline-flex items-center gap-2 text-sm text-body">
-          <input
-            type="checkbox"
-            checked={form.remember}
-            onChange={update("remember")}
-            className="h-4 w-4 rounded border-black/20 text-primary focus:ring-accent"
-          />
-          Remember me
-        </label>
+      <div className="flex justify-end">
         <Link
           to="/forgot-password"
           className="text-sm font-semibold text-accent hover:text-accent/80 hover:underline"

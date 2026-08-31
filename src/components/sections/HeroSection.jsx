@@ -2,6 +2,7 @@ import { Search, Users } from "lucide-react";
 import JobSearchBar from "../jobs/JobSearchBar";
 import PopularSearchTags from "../jobs/PopularSearchTags";
 import PageSection from "../common/PageSection";
+import DashedDivider from "../common/DashedDivider";
 import SectionEyebrow from "../common/SectionEyebrow";
 import Button from "../common/Button";
 import { images } from "../../data/images";
@@ -23,8 +24,8 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
 
       <div className="container-page relative z-10">
         <div className="max-w-xl lg:max-w-[46%]">
-          <SectionEyebrow className="justify-start">Explore Opportunities</SectionEyebrow>
-          <h1 className="mt-3 font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
+          <DashedDivider className="mb-5 justify-start" />
+          <h1 className="font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
             <span className="block">Browse Aboriginal and</span>
             <span className="block">Indigenous Jobs</span>
             <span className="mt-1 block text-accent">Across Canada</span>

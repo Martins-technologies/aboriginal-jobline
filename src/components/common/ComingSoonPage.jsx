@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Button from "./Button";
+import DashedDivider from "./DashedDivider";
 import PageSection from "./PageSection";
 import SectionEyebrow from "./SectionEyebrow";
 import PageWithFooter from "../layout/PageWithFooter";
@@ -11,10 +12,10 @@ export default function ComingSoonPage({
 }) {
   return (
     <PageWithFooter config={defaultFooterConfig}>
-      <PageSection className="bg-topo flex min-h-[60vh] items-center py-12">
+      <PageSection className="bg-topo flex min-h-[60vh] items-center hero-pad">
         <div className="mx-auto max-w-xl rounded-2xl bg-white p-10 text-center shadow-card">
-          <SectionEyebrow>Coming Soon</SectionEyebrow>
-          <h1 className="mt-4 text-4xl font-bold text-primary">{title}</h1>
+          <DashedDivider className="mb-4 justify-center" />
+          <h1 className="mt-2 text-4xl font-bold text-primary">{title}</h1>
           <p className="mt-4 text-muted">{description}</p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button to="/" variant="outline">

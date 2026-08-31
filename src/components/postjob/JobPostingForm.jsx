@@ -41,15 +41,41 @@ function Field({ id, label, required = false, error, children }) {
 const inputClass =
   "w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-body placeholder:text-muted/80 focus:border-primary focus:outline-none";
 
-export default function JobPostingForm() {
+export default function JobPostingForm({
+  initialValues,
+  onSavePosting,
+  isDashboard = false,
+}) {
   const { session } = useAuth();
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(() => ({
+    title: initialValues?.title || "",
+    company: initialValues?.company || "",
+    location: initialValues?.location || "",
+    category: initialValues?.category || "",
+    employmentType: initialValues?.employmentType || "",
+    salaryRange: initialValues?.salaryRange || "",
+    summary: initialValues?.summary || initialValues?.description || "",
+  }));
   const [errors, setErrors] = useState({});
   const [step, setStep] = useState("form");
   const [companies, setCompanies] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    if (initialValues) {
+      setForm({
+        title: initialValues.title || "",
+        company: initialValues.company || "",
+        location: initialValues.location || "",
+        category: initialValues.category || "",
+        employmentType: initialValues.employmentType || "",
+        salaryRange: initialValues.salaryRange || "",
+        summary: initialValues.summary || initialValues.description || "",
+      });
+    }
+  }, [initialValues]);
 
   useEffect(() => {
     if (session?.accessToken) {
@@ -94,7 +120,12 @@ export default function JobPostingForm() {
     setStep("review");
   };
 
-  const handlePublish = async () => {
+  const handlePublish = async (status = "Active") => {
+    if (onSavePosting) {
+      onSavePosting(form, status);
+      return;
+    }
+
     if (!session?.accessToken) {
       setErrors({ submit: "You must be logged in to publish a job." });
       return;
@@ -265,7 +296,17 @@ export default function JobPostingForm() {
           <Button type="button" variant="outline" onClick={() => setStep("form")} disabled={loading}>
             Edit details
           </Button>
-          <Button type="button" variant="secondary" onClick={handlePublish} disabled={loading}>
+          {onSavePosting && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => handlePublish("Draft")}
+              disabled={loading}
+            >
+              Save as Draft
+            </Button>
+          )}
+          <Button type="button" variant="secondary" onClick={() => handlePublish("Active")} disabled={loading}>
             {loading ? "Publishing..." : "Publish listing"}
           </Button>
         </div>

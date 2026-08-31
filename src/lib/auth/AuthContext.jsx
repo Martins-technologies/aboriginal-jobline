@@ -74,6 +74,25 @@ export function AuthProvider({ children }) {
     return mapped;
   };
 
+  /**
+   * mockSignIn — bypasses the API, creates a local session from a plain user
+   * object. Used for development / demo mode when no backend is available.
+   * Any username + password combo is accepted; role is inferred from the
+   * sign-in form's selected tab and embedded in the session so RequireAuth
+   * guards route the user correctly.
+   */
+  const mockSignIn = (userObj) => {
+    const mapped = {
+      accessToken: "mock-token-" + Date.now(),
+      refreshToken: "mock-refresh",
+      expiresAt: new Date(Date.now() + 86400000).toISOString(),
+      user: userObj,
+      profile: userObj,
+    };
+    setSession(mapped);
+    return mapped;
+  };
+
   const signUp = async (email, password, fullName, role) => {
     return api("/v1/auth/register", {
       method: "POST",
@@ -118,6 +137,7 @@ export function AuthProvider({ children }) {
         profile: session?.profile || session?.user || null,
         loading: loadingProfile,
         signIn,
+        mockSignIn,
         signUp,
         signOut,
         refresh,

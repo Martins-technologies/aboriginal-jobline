@@ -1,5 +1,6 @@
 import { Briefcase, User } from "lucide-react";
 import Button from "../common/Button";
+import DashedDivider from "../common/DashedDivider";
 import DottedArcs from "../common/DottedArcs";
 import PageSection from "../common/PageSection";
 import SectionWaveDivider from "../common/SectionWaveDivider";
@@ -9,15 +10,15 @@ import { postJobHeroFeatures } from "../../data/postJobHeroFeatures";
 
 export default function PostJobHero() {
   return (
-    <PageSection className="bg-topo overflow-hidden pt-4 lg:pt-5" contained={false}>
+    <PageSection className="bg-topo overflow-hidden hero-pad" contained={false}>
       <DottedArcs />
       <div className="container-page relative z-10 pb-6 lg:pb-7">
         <div className="grid items-center gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-8">
           <div>
+            <DashedDivider className="mb-5 justify-start" />
             <h1 className="max-w-xl font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
               Post a Job and Reach Indigenous Talent Across Canada
             </h1>
-            <span className="mt-4 block h-[5px] w-16 rounded-full bg-accent" aria-hidden="true" />
             <p className="mt-4 max-w-lg text-base leading-relaxed text-muted">
               Connect with skilled Aboriginal and Indigenous job seekers, promote inclusive hiring,
               and fill roles faster with a simple job posting process.

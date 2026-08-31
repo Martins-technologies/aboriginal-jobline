@@ -1,6 +1,7 @@
 import { Search, UserPlus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Button from "../common/Button";
+import DashedDivider from "../common/DashedDivider";
 import PageSection from "../common/PageSection";
 import JobSearchBar from "../jobs/JobSearchBar";
 import FeatureCard from "../sections/FeatureCard";
@@ -39,11 +40,11 @@ export default function HomeHero() {
 
         <div className="container-page relative z-10">
           <div className="max-w-xl lg:max-w-[46%]">
+            <DashedDivider className="mb-5 justify-start" />
             <h1 className="font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
               <span className="block">Find Aboriginal and Indigenous Jobs</span>
               <span className="mt-1 block text-accent">Across Canada</span>
             </h1>
-            <span className="mt-3 block h-[5px] w-16 rounded-full bg-accent" aria-hidden="true" />
             <p className="mt-3 max-w-md text-base leading-relaxed text-muted">
               Connecting Aboriginal talent with inclusive employers and meaningful career
               opportunities.

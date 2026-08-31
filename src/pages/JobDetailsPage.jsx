@@ -3,6 +3,7 @@ import { Navigate, useParams, Link } from "react-router-dom";
 import { ArrowLeft, Briefcase, MapPin } from "lucide-react";
 import Badge from "../components/common/Badge";
 import Button from "../components/common/Button";
+import DashedDivider from "../components/common/DashedDivider";
 import PageSection from "../components/common/PageSection";
 import JobApplyForm from "../components/jobs/JobApplyForm";
 import JobCard from "../components/jobs/JobCard";
@@ -97,7 +98,8 @@ export default function JobDetailsPage() {
 
   return (
     <PageWithFooter config={browseJobsFooterConfig}>
-      <PageSection className="bg-topo section-pad">
+      <PageSection className="bg-topo hero-pad">
+        <DashedDivider className="mb-4 justify-start" />
         <Link
           to="/browse-jobs"
           className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent"

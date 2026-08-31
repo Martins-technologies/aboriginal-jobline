@@ -24,7 +24,7 @@ export const images = {
     alt: "Indigenous professionals collaborating in a modern office",
   },
   heroPostJob: {
-    src: "/img12.webp",
+    src: "/grouphero.webp",
     alt: "Indigenous professionals collaborating around a conference table",
   },
   employerClosing: {

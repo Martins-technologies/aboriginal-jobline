@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import SignInForm from "../components/auth/SignInForm";
+import DashedDivider from "../components/common/DashedDivider";
 import DottedArcs from "../components/common/DottedArcs";
 import PageSection from "../components/common/PageSection";
 import PageWithFooter from "../components/layout/PageWithFooter";
@@ -25,16 +26,16 @@ export default function SignInPage() {
 
   return (
     <PageWithFooter config={defaultFooterConfig}>
-      <PageSection className="bg-topo overflow-hidden" contained={false}>
+      <PageSection className="bg-topo overflow-hidden hero-pad" contained={false}>
         <DottedArcs />
         <div className="container-page relative section-pad">
           <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
             <div className="max-w-xl">
+              <DashedDivider className="mb-5 justify-start" />
               <h1 className="font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl">
                 Welcome back to{" "}
                 <span className="text-accent">Canada&apos;s Indigenous</span> hiring platform.
               </h1>
-              <span className="mt-3 block h-[5px] w-16 rounded-full bg-accent" aria-hidden="true" />
               <p className="mt-4 max-w-md text-base leading-relaxed text-muted">
                 Log in to manage your applications, saved jobs, or job postings — all in one
                 place.
