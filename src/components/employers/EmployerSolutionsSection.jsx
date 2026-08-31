@@ -56,21 +56,14 @@ export default function EmployerSolutionsSection() {
           <DashHeading className="text-2xl sm:text-3xl">
             Industries Hiring Now
           </DashHeading>
-          <div className="mt-6 flex flex-wrap items-center gap-x-2 gap-y-5">
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6 lg:gap-3.5">
             {hiringIndustries.map((category, index) => (
-              <div key={category.slug} className="flex items-center">
-                {index > 0 ? (
-                  <span
-                    className="mx-4 hidden h-8 w-px bg-black/10 sm:block"
-                    aria-hidden="true"
-                  />
-                ) : null}
-                <IndustryTag
-                  category={category}
-                  colorIndex={index}
-                  icon={category.slug === "office-administration" ? "monitor" : category.icon}
-                />
-              </div>
+              <IndustryTag
+                key={category.slug}
+                category={category}
+                colorIndex={index}
+                icon={category.slug === "office-administration" ? "monitor" : category.icon}
+              />
             ))}
           </div>
         </div>
