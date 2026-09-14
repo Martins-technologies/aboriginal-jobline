@@ -5,7 +5,7 @@ export const homeTestimonials = [
     role: "Job Seeker",
     quote:
       "Aboriginal Jobline helped me find a job where I can grow, support my family, and give back to my community.",
-    avatar: "/avatar-melissa.webp",
+    avatar: "/young.jfif",
     tone: "primary",
   },
   {
@@ -14,7 +14,7 @@ export const homeTestimonials = [
     role: "Employer",
     quote:
       "We've connected with incredible Indigenous talent through Aboriginal Jobline. It's a valuable partner in our hiring journey.",
-    avatar: "/avatar-james.webp",
+    avatar: "/boy.jfif",
     tone: "accent",
   },
   {
@@ -23,7 +23,7 @@ export const homeTestimonials = [
     role: "Job Seeker",
     quote:
       "The resources and guidance I found here helped me build confidence and take the next step in my career.",
-    avatar: "/avatar-tanya.webp",
+    avatar: "/old.jfif",
     tone: "gold",
   },
 ];

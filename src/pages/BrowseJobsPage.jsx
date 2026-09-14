@@ -5,6 +5,7 @@ import FeaturedJobsSection from "../components/sections/FeaturedJobsSection";
 import CategoryRegionSection from "../components/sections/CategoryRegionSection";
 import WhyUseSection from "../components/sections/WhyUseSection";
 import CareerResourcesSection from "../components/sections/CareerResourcesSection";
+import { browseCareerResources } from "../data/homeResources";
 import CTABanner from "../components/sections/CTABanner";
 import FAQSection from "../components/sections/FAQSection";
 import PageWithFooter from "../components/layout/PageWithFooter";
@@ -87,7 +88,14 @@ export default function BrowseJobsPage() {
       />
       <CategoryRegionSection />
       <WhyUseSection />
-      <CareerResourcesSection showTags={false} />
+      <CareerResourcesSection
+        resources={browseCareerResources}
+        eyebrow="Resources & Support"
+        title="Career Resources & Community Support"
+        description="Helpful guides, tools, and community support to help you grow your career and achieve your goals."
+        showTags={true}
+        cardVariant="split"
+      />
       <CTABanner />
       <FAQSection />
     </PageWithFooter>

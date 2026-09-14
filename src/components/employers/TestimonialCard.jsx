@@ -52,8 +52,8 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
 
   if (layout === "featured") {
     return (
-      <article className="surface-card flex h-full items-center gap-4 p-5">
-        <div className="min-w-0 flex-[1.15]">
+      <article className="surface-card flex h-full items-center gap-5 p-6">
+        <div className="min-w-0 flex-1">
           <span
             className={`mb-3 flex h-8 w-8 items-center justify-center rounded-full ${tone.badge}`}
             aria-hidden="true"
@@ -61,14 +61,15 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
             <Quote className="h-3.5 w-3.5 fill-white text-white" />
           </span>
           <p className="text-sm leading-relaxed text-body">“{testimonial.quote}”</p>
-          <p className={`mt-3 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
-          <p className="text-xs text-muted">{testimonial.role}</p>
+          <p className={`mt-4 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
+          <p className={`text-xs font-medium ${tone.name}`}>{testimonial.role}</p>
         </div>
-        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full">
+        <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full sm:h-[5.5rem] sm:w-[5.5rem]">
           <img
             src={testimonial.avatar}
             alt={testimonial.name}
-            className="h-full w-full object-cover object-center"
+            loading="lazy"
+            className={`h-full w-full object-cover ${testimonial.avatarClass || "object-center"}`}
           />
         </div>
       </article>
