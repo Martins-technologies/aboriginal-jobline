@@ -17,7 +17,10 @@ import AboutUs from "./pages/AboutUs";
 import ContactPage from "./pages/ContactPage";
 import PostJobPage from "./pages/PostJobPage";
 import SignInPage from "./pages/SignInPage";
+import SignUpPage from "./pages/SignUpPage";
 import JobDetailsPage from "./pages/JobDetailsPage";
+import Spinner from "./components/common/Spinner";
+import { isRecruiterRole, isSeekerRole } from "./lib/mappers";
 
 // Job Seeker Dashboard
 import DashboardLayout from "./components/dashboard/DashboardLayout";
@@ -63,7 +66,6 @@ const EMPLOYER_SIDEBAR_PROPS = {
 // ---------------------------------------------------------------------------
 const comingSoonRoutes = [
   { path: "/forgot-password", title: "Forgot Password" },
-  { path: "/create-profile", title: "Create Profile" },
   { path: "/resume-tips", title: "Resume Tips" },
   { path: "/career-resources", title: "Career Resources" },
   { path: "/community-stories", title: "Community Stories" },
@@ -75,7 +77,6 @@ const comingSoonRoutes = [
   { path: "/privacy-policy", title: "Privacy Policy" },
   { path: "/terms-of-use", title: "Terms of Use" },
   { path: "/accessibility", title: "Accessibility" },
-  { path: "/create-employer-account", title: "Create Employer Account" },
   { path: "/recruitment-solutions", title: "Recruitment Solutions" },
   { path: "/pricing", title: "Pricing" },
   { path: "/community-focus", title: "Community Focus" },
@@ -86,15 +87,22 @@ const comingSoonRoutes = [
 // Job Seeker Auth Guard — unauthenticated -> /sign-in; employer -> /employer-dashboard
 // ---------------------------------------------------------------------------
 function RequireAuth() {
-  const { session, profile } = useAuth();
+  const { session, profile, loading } = useAuth();
+
+  if (loading) {
+    return <Spinner label="Checking your session" className="min-h-screen" />;
+  }
 
   if (!session) {
     return <Navigate to="/sign-in" replace />;
   }
 
-  const role = profile?.role || session?.user?.role || "";
-  if (role === "employer") {
+  if (isRecruiterRole(profile?.role)) {
     return <Navigate to="/employer-dashboard/overview" replace />;
+  }
+
+  if (profile?.role && !isSeekerRole(profile.role)) {
+    return <Navigate to="/sign-in" replace />;
   }
 
   return <Outlet />;
@@ -104,14 +112,17 @@ function RequireAuth() {
 // Employer Auth Guard — unauthenticated -> /sign-in; job seeker -> /dashboard
 // ---------------------------------------------------------------------------
 function RequireEmployerAuth() {
-  const { session, profile } = useAuth();
+  const { session, profile, loading } = useAuth();
+
+  if (loading) {
+    return <Spinner label="Checking your session" className="min-h-screen" />;
+  }
 
   if (!session) {
     return <Navigate to="/sign-in" replace />;
   }
 
-  const role = profile?.role || session?.user?.role || "";
-  if (role !== "employer") {
+  if (!isRecruiterRole(profile?.role)) {
     return <Navigate to="/dashboard/overview" replace />;
   }
 
@@ -210,6 +221,8 @@ export default function App() {
               <Route path="/contact-us" element={<Navigate to="/contact" replace />} />
               <Route path="/post-a-job" element={<PostJobPage />} />
               <Route path="/sign-in" element={<SignInPage />} />
+              <Route path="/create-profile" element={<SignUpPage role="job_seeker" />} />
+              <Route path="/create-employer-account" element={<SignUpPage role="recruiter" />} />
               <Route path="/jobs/:id" element={<JobDetailsPage />} />
               {comingSoonRoutes.map((route) => (
                 <Route

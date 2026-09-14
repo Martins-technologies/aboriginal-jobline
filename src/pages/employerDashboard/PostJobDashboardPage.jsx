@@ -3,18 +3,12 @@ import DashboardTopBanner from "../../components/dashboard/DashboardTopBanner";
 import JobPostingForm from "../../components/postjob/JobPostingForm";
 import { useEmployerData } from "../../context/EmployerDataContext";
 
-/**
- * PostJobDashboardPage — create or edit a job posting within the employer dashboard shell.
- * Reuses Module 2's JobPostingForm component directly.
- * Handles both new creation and edit mode via ?edit=:jobId query parameter.
- */
 export default function PostJobDashboardPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const editJobId = searchParams.get("edit");
 
-  const { jobPostings, createJobPosting, updateJobPosting, companyProfile } =
-    useEmployerData();
+  const { jobPostings, companyProfile } = useEmployerData();
 
   const existingPosting = editJobId
     ? jobPostings.find((p) => p.id === editJobId)
@@ -23,43 +17,17 @@ export default function PostJobDashboardPage() {
   const initialValues = existingPosting
     ? {
         title: existingPosting.title,
-        company: existingPosting.company || companyProfile?.name,
         location: existingPosting.location,
-        category: existingPosting.category,
-        employmentType: existingPosting.employmentType,
-        salaryRange: existingPosting.salaryRange,
+        category_id: existingPosting.categoryId,
+        employment_type: existingPosting.employment_type,
+        workplace_type: existingPosting.workplace_type,
+        experience_level: existingPosting.experience_level,
+        salary_min: existingPosting.salaryMin || "",
+        salary_max: existingPosting.salaryMax || "",
+        salary_period: existingPosting.salary_period || "yearly",
         summary: existingPosting.description,
       }
-    : {
-        company: companyProfile?.name || "",
-      };
-
-  const handleSavePosting = (formData, status = "Active") => {
-    const payload = {
-      title: formData.title.trim(),
-      company: formData.company.trim() || companyProfile?.name || "Company",
-      location: formData.location.trim(),
-      category: formData.category,
-      employmentType: formData.employmentType,
-      salaryRange: formData.salaryRange.trim(),
-      description: formData.summary.trim(),
-      status: status,
-    };
-
-    if (existingPosting) {
-      updateJobPosting(existingPosting.id, payload);
-    } else {
-      createJobPosting(payload);
-    }
-
-    navigate("/employer-dashboard/job-postings", {
-      state: {
-        toastMessage: existingPosting
-          ? `Successfully updated "${payload.title}".`
-          : `Successfully created posting "${payload.title}" (${status}).`,
-      },
-    });
-  };
+    : {};
 
   const pageTitle = existingPosting ? "Edit Job Posting" : "Post a New Job";
   const pageSubtitle = existingPosting
@@ -69,7 +37,7 @@ export default function PostJobDashboardPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title={pageTitle}
         subtitle={pageSubtitle}
       />
@@ -78,8 +46,9 @@ export default function PostJobDashboardPage() {
         <div className="surface-card p-6 sm:p-8">
           <JobPostingForm
             initialValues={initialValues}
-            onSavePosting={handleSavePosting}
+            jobId={existingPosting?.id}
             isDashboard
+            onSuccess={() => navigate("/employer-dashboard/job-postings")}
           />
         </div>
       </div>

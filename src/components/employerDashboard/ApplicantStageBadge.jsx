@@ -12,7 +12,9 @@ const STAGE_STYLES = {
   Shortlisted: "bg-accent-light/20 text-accent-light",
   Interview: "bg-primary text-white",
   Offer: "bg-green-100 text-green-700",
+  Hired: "bg-green-100 text-green-700",
   Rejected: "bg-black/8 text-muted",
+  Withdrawn: "bg-black/8 text-muted",
 };
 
 export default function ApplicantStageBadge({ stage }) {

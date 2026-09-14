@@ -66,14 +66,10 @@ export default function ContactForm() {
       return;
     }
 
-    const payload = {
-      name: form.name.trim(),
-      email: form.email.trim(),
-      subject: form.subject.trim(),
-      message: form.message.trim(),
-    };
-    console.log("Contact form submitted", payload);
-    setSuccess(true);
+    setErrors({
+      submit:
+        "This contact form is not connected to the API yet. Use the email address listed on this page instead of sending through the form.",
+    });
   };
 
   if (success) {
@@ -111,6 +107,11 @@ export default function ContactForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5">
+      {errors.submit ? (
+        <div className="rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+          {errors.submit}
+        </div>
+      ) : null}
       <div className="grid gap-5 sm:grid-cols-2">
         <Field id="contact-name" label="Full Name" error={errors.name}>
           <input

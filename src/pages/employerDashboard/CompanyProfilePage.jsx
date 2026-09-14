@@ -12,9 +12,9 @@ export default function CompanyProfilePage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Company Profile"
-        subtitle="Manage how your organization appears to job seekers on Newcomer Jobline."
+        subtitle="Manage how your organization appears to job seekers on Aboriginal Jobline."
       />
 
       <div className="mx-auto max-w-3xl px-6 py-8 lg:px-8">

@@ -1,15 +1,20 @@
 import { api } from "./api";
+import { createUserSupabase } from "./supabase";
+import { mapPublicJob } from "./mappers";
 import { categories as staticCategories } from "../data/categories";
 
-// Normalization function to map dynamic API category output to UI model with visual fallback config
+export { mapPublicJob as normalizeJob } from "./mappers";
+
 export function normalizeCategory(cat) {
   if (!cat) return null;
   const name = cat.name || cat.title || "";
-  const slug = cat.slug || name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
-  
-  const staticConfig = staticCategories.find(
-    (c) => c.slug === slug || c.title?.toLowerCase() === name.toLowerCase()
-  ) || {};
+  const slug =
+    cat.slug ||
+    name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+  const staticConfig =
+    staticCategories.find(
+      (item) => item.slug === slug || item.title?.toLowerCase() === name.toLowerCase(),
+    ) || {};
 
   return {
     id: cat.id,
@@ -19,149 +24,154 @@ export function normalizeCategory(cat) {
     icon: staticConfig.icon || "briefcase",
     iconColor: staticConfig.iconColor || "text-primary",
     iconBg: staticConfig.iconBg || "bg-primary/10",
+    sector_id: cat.sector_id,
+    sort_order: cat.sort_order,
+    is_active: cat.is_active,
   };
 }
 
-// Normalization function to map raw API job records to frontend representation
-export function normalizeJob(job, categories = []) {
-  if (!job) return null;
+function toQuery(params = {}) {
+  const query = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null || value === "") return;
+    query.set(key, String(value));
+  });
+  const qs = query.toString();
+  return qs ? `?${qs}` : "";
+}
 
-  // Resolve category slug
-  let categorySlug = "";
-  if (job.category_id) {
-    const matchedCategory = categories.find((c) => c.id === job.category_id);
-    categorySlug = matchedCategory ? matchedCategory.slug || matchedCategory.name?.toLowerCase().replace(/\s+/g, "-") : "";
-  } else if (job.category) {
-    categorySlug = typeof job.category === "string" ? job.category : job.category.slug;
-  }
-
-  // Region/Province mapping
-  const province = job.province || "";
-  let region = "remote";
-  if (province && !job.is_remote) {
-    const provLower = province.toLowerCase();
-    if (provLower === "on" || provLower === "ontario") region = "ontario";
-    else if (provLower === "bc" || provLower === "british columbia") region = "british-columbia";
-    else if (provLower === "ab" || provLower === "alberta") region = "alberta";
-    else if (provLower === "mb" || provLower === "manitoba") region = "manitoba";
-    else if (provLower === "sk" || provLower === "saskatchewan") region = "saskatchewan";
-    else if (["ns", "nb", "pe", "nl", "nova scotia", "new brunswick", "prince edward island", "newfoundland"].includes(provLower)) region = "atlantic-canada";
-  }
-
-  // Workplace mapping
-  let workplace = "On-site";
-  if (job.is_remote) workplace = "Remote";
-  else if (job.workplace_type) {
-    workplace = job.workplace_type.charAt(0).toUpperCase() + job.workplace_type.slice(1);
-  } else if (job.workplace) {
-    workplace = job.workplace;
-  }
-
-  // Type mapping
-  const type = job.employment_type || job.type || "Full-time";
-
-  // Salary Period
-  const salaryPeriod = job.salary_period === "hourly" || job.salary_period === "hour" ? "hour" : "year";
-
-  // Icon picking based on category or default
-  const iconsByCategory = {
-    "office-administration": "file-text",
-    "skilled-trades": "wrench",
-    "education": "book-open",
-    "healthcare": "heart-pulse",
-    "hospitality": "utensils",
-    "transportation": "truck",
-    "community-services": "users",
-    "remote-opportunities": "globe",
-  };
-  const icon = iconsByCategory[categorySlug] || job.icon || "briefcase";
-
-  return {
-    id: String(job.id),
-    title: job.title,
-    company: job.company?.name || job.company || "Unknown Company",
-    location: job.is_remote ? "Remote, Canada" : `${job.city || ""}, ${job.province || ""}`.trim().replace(/^,\s*|,\s*$/, ""),
-    province: job.province || "",
-    region,
-    type,
-    category: categorySlug,
-    workplace,
-    experience: job.experience_level || job.experience || "Entry-level",
-    salaryMin: job.salary_min || job.salaryMin || 0,
-    salaryMax: job.salary_max || job.salaryMax || 0,
-    salaryPeriod,
-    hasBenefits: job.has_benefits || job.hasBenefits || false,
-    description: job.description || "",
-    badge: job.company?.verification_status === "verified" ? "Verified Employer" : "Inclusive Employer",
-    icon,
-    postedAt: job.published_at || job.created_at || job.postedAt || new Date().toISOString().split("T")[0],
-  };
+export async function getPublicCategories() {
+  const data = await api("/public/categories");
+  return (data.items || []).map(normalizeCategory);
 }
 
 export async function getServiceCareCategories() {
-  const raw = await api("/v1/taxonomy/categories?sector_id=3");
-  return (raw || []).map(normalizeCategory);
+  return getPublicCategories();
 }
 
 export async function getPublicJobs(params = {}) {
-  const query = new URLSearchParams();
-  const limit = params.limit || 100;
-  query.set("limit", String(limit));
-
-  if (params.q) query.set("q", params.q);
-  if (params.category_id) query.set("category_id", String(params.category_id));
-  if (params.city) query.set("city", params.city);
-  if (params.province) query.set("province", params.province);
-  if (params.employment_type) query.set("employment_type", params.employment_type);
-  if (params.is_remote !== undefined) query.set("is_remote", String(params.is_remote));
-
-  return api(`/v1/jobs?${query.toString()}`);
+  const data = await api(`/public/jobs${toQuery(params)}`);
+  const items = data.items || [];
+  return {
+    items: items.map((job) => mapPublicJob(job)),
+    pagination: data.pagination || { page: 1, limit: items.length, total: items.length, pages: 1 },
+    raw: items,
+  };
 }
 
 export async function getPublicJob(id) {
-  return api(`/v1/jobs/${id}`);
+  const data = await api(`/public/jobs/${id}`);
+  return mapPublicJob(data.job);
 }
 
-export async function recordJobView(id) {
-  return api(`/v1/jobs/${id}/view`, {
+export async function getPublicCompanies() {
+  const data = await api("/public/companies");
+  return data.items || [];
+}
+
+export async function applyToJob(jobId, payload = {}) {
+  return api(`/job-seeker/jobs/${jobId}/apply`, {
     method: "POST",
-    body: JSON.stringify({}),
+    body: {
+      cover_letter: payload.cover_letter || payload.coverLetter || null,
+      resume_path: payload.resume_path || undefined,
+    },
   });
 }
 
-export async function applyToJob(id, token, payload = {}) {
-  return api(`/v1/jobs/${id}/applications`, {
-    method: "POST",
-    body: JSON.stringify({
-      cover_letter: payload.coverLetter || "",
-      ...payload,
-    }),
-  }, token);
+export async function saveJob(jobId) {
+  return api(`/job-seeker/jobs/${jobId}/save`, { method: "POST" });
 }
 
-export async function getMyApplications(token) {
-  return api("/v1/me/applications", {}, token);
+export async function unsaveJob(jobId) {
+  return api(`/job-seeker/jobs/${jobId}/save`, { method: "DELETE" });
 }
 
-export async function getMyCompanies(token) {
-  return api("/v1/companies", {}, token);
+export async function getSeekerDashboard() {
+  return api("/job-seeker/dashboard");
 }
 
-export async function getEmployerJobs(token) {
-  return api("/v1/employer/jobs", {}, token);
+export async function getRecommendedJobs(limit = 6) {
+  return api(`/job-seeker/recommended-jobs${toQuery({ limit })}`);
 }
 
-export async function getJobApplications(jobId, token) {
-  return api(`/v1/employer/jobs/${jobId}/applications`, {}, token);
+export async function listResumes() {
+  return api("/job-seeker/resumes");
 }
 
-export async function getJobViews(jobId, token) {
-  return api(`/v1/employer/jobs/${jobId}/views`, {}, token);
+export async function getResumeUrl(resumeId) {
+  return api(`/job-seeker/resume-url${toQuery({ id: resumeId })}`);
 }
 
-export async function createEmployerJob(payload, token) {
-  return api("/v1/employer/jobs", {
-    method: "POST",
-    body: JSON.stringify(payload),
-  }, token);
+export async function registerResume(body) {
+  return api("/job-seeker/resumes", { method: "POST", body });
+}
+
+export async function uploadAndRegisterResume(file, userId, token) {
+  if (!file) {
+    throw new Error("Choose a PDF resume to upload.");
+  }
+  if (file.type !== "application/pdf") {
+    throw new Error("Resumes must be PDF files.");
+  }
+  if (file.size < 1 || file.size > 5 * 1024 * 1024) {
+    throw new Error("Resumes must be 5 MB or smaller.");
+  }
+  const safeName = file.name.replace(/[^\w.\-]+/g, "_").slice(0, 180);
+  const path = `${userId}/${Date.now()}-${safeName}`;
+  const supabase = createUserSupabase(token);
+  const { error } = await supabase.storage.from("resumes").upload(path, file, {
+    contentType: "application/pdf",
+    upsert: false,
+  });
+  if (error) {
+    throw new Error(error.message || "The resume could not be uploaded.");
+  }
+  return registerResume({
+    path,
+    original_name: file.name.slice(0, 255),
+    size_bytes: file.size,
+    content_type: "application/pdf",
+  });
+}
+
+export async function updateProfile(body) {
+  return api("/auth/profile", { method: "PATCH", body });
+}
+
+export async function getRecruiterDashboard() {
+  return api("/recruiter/dashboard");
+}
+
+export async function getRecruiterCompanies() {
+  const data = await api("/recruiter/companies");
+  return data.items || [];
+}
+
+export async function createRecruiterJob(payload) {
+  return api("/recruiter/jobs", { method: "POST", body: payload });
+}
+
+export async function updateRecruiterJob(jobId, payload) {
+  return api(`/recruiter/jobs/${jobId}`, { method: "PATCH", body: payload });
+}
+
+export async function getJobApplications(jobId) {
+  const data = await api(`/recruiter/jobs/${jobId}/applications`);
+  return data.items || [];
+}
+
+export async function getRecruiterApplications(params = {}) {
+  return api(`/recruiter/applications${toQuery(params)}`);
+}
+
+export async function updateApplicationStatus(applicationId, status) {
+  return api(`/recruiter/applications/${applicationId}`, {
+    method: "PATCH",
+    body: { status },
+  });
+}
+
+export async function getApplicantResumeUrl(applicationId) {
+  return api(`/recruiter/applications/${applicationId}/resume-url`);
 }

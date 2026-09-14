@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Briefcase, Building2, ChevronDown, DollarSign, LayoutGrid, MapPin, RotateCcw, User } from "lucide-react";
 import Button from "../common/Button";
-import { categories } from "../../data/categories";
+import { useServiceCareCategories } from "../../hooks/useServiceCareCategories";
 import { regions } from "../../data/regions";
 import { experienceLevels, jobTypes, salaryRanges, workplaceTypes } from "../../data/jobs";
 
 export default function FilterSidebar({ filters, onApply, onReset }) {
   const [draft, setDraft] = useState(filters);
+  const { categories, loading } = useServiceCareCategories();
 
   useEffect(() => {
     setDraft(filters);
@@ -19,6 +20,7 @@ export default function FilterSidebar({ filters, onApply, onReset }) {
   return (
     <aside className="surface-card h-fit p-6 shadow-card">
       <h3 className="font-serif text-2xl text-primary">Filter Jobs</h3>
+      {loading ? <p className="mt-2 text-xs text-muted">Loading categories…</p> : null}
       <form
         className="mt-5 space-y-4"
         onSubmit={(event) => {
@@ -34,7 +36,7 @@ export default function FilterSidebar({ filters, onApply, onReset }) {
           onChange={update("category")}
         >
           <option value="">All Categories</option>
-          {categories.map((category) => (
+          {(categories.length ? categories : []).map((category) => (
             <option key={category.slug} value={category.slug}>
               {category.title}
             </option>

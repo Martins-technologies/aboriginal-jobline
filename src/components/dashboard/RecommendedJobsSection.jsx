@@ -114,16 +114,25 @@ export default function RecommendedJobsSection({ jobs, isApplied, isSaved, onApp
         <p className="mt-1 text-sm text-muted">Jobs selected for you based on your profile.</p>
       </div>
       <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
-        {jobs.map((job) => (
-          <DashboardJobCard
-            key={job.id}
-            job={job}
-            isApplied={isApplied(job.id)}
-            isSaved={isSaved(job.id)}
-            onApply={onApply}
-            onToggleSave={onToggleSave}
-          />
-        ))}
+        {jobs.length === 0 ? (
+          <div className="surface-card col-span-full p-10 text-center">
+            <p className="font-serif text-2xl text-primary">No recommendations yet</p>
+            <p className="mt-2 text-sm text-muted">
+              Add skills and experience to your profile to see jobs chosen for you.
+            </p>
+          </div>
+        ) : (
+          jobs.map((job) => (
+            <DashboardJobCard
+              key={job.id}
+              job={job}
+              isApplied={isApplied(job.id)}
+              isSaved={isSaved(job.id)}
+              onApply={onApply}
+              onToggleSave={onToggleSave}
+            />
+          ))
+        )}
       </div>
     </section>
   );

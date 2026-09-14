@@ -17,8 +17,8 @@ export default function ApplicantListItem({
 }) {
   const { id, name, appliedDate, stage, resumeFilename } = applicant;
 
-  const isAtOffer = stage === "Offer";
-  const isRejected = stage === "Rejected";
+  const isAtOffer = stage === "Offer" || stage === "Hired";
+  const isRejected = stage === "Rejected" || stage === "Withdrawn";
   const canAdvance = !isAtOffer && !isRejected;
 
   const nextStage = canAdvance

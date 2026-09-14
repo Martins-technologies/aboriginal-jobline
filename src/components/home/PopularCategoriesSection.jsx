@@ -1,6 +1,7 @@
 import CategoryCard from "../categories/CategoryCard";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
+import Spinner from "../common/Spinner";
 import { useServiceCareCategories } from "../../hooks/useServiceCareCategories";
 
 export default function PopularCategoriesSection() {
@@ -11,9 +12,11 @@ export default function PopularCategoriesSection() {
       <SectionEyebrow>Popular Job Categories</SectionEyebrow>
       <h2 className="sr-only">Popular Job Categories</h2>
       {loading ? (
-        <div className="mt-5 text-center text-sm text-muted">Loading categories...</div>
+        <Spinner label="Loading categories" />
       ) : error ? (
         <div className="mt-5 text-center text-sm text-accent">{error}</div>
+      ) : categories.length === 0 ? (
+        <div className="mt-5 text-center text-sm text-muted">No categories are available yet.</div>
       ) : (
         <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-6 lg:gap-3.5">
           {categories.slice(0, 6).map((category) => (

@@ -11,11 +11,12 @@
  */
 
 const STATUS_STYLES = {
-  Applied:        "bg-primary/10 text-primary",
-  "In Review":    "bg-accent/15 text-accent",
-  Interview:      "bg-primary text-white",
-  Offer:          "bg-green-100 text-green-700",
+  Applied: "bg-primary/10 text-primary",
+  "In Review": "bg-accent/15 text-accent",
+  Interview: "bg-primary text-white",
+  Offer: "bg-green-100 text-green-700",
   "Not Selected": "bg-black/8 text-muted",
+  Withdrawn: "bg-black/8 text-muted",
 };
 
 export default function ApplicationStatusBadge({ status }) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getServiceCareCategories } from "../lib/jobs";
+import { getPublicCategories } from "../lib/jobs";
 
 export function useServiceCareCategories() {
   const [categories, setCategories] = useState([]);
@@ -9,22 +9,20 @@ export function useServiceCareCategories() {
   useEffect(() => {
     let active = true;
     setLoading(true);
-    getServiceCareCategories()
+    getPublicCategories()
       .then((data) => {
-        if (active) {
-          setCategories(data);
-          setError(null);
-        }
+        if (!active) return;
+        setCategories(data);
+        setError(null);
       })
       .catch((err) => {
         if (active) {
-          setError(err.message || "Failed to load categories");
+          setCategories([]);
+          setError(err.message || "Categories could not be loaded.");
         }
       })
       .finally(() => {
-        if (active) {
-          setLoading(false);
-        }
+        if (active) setLoading(false);
       });
     return () => {
       active = false;

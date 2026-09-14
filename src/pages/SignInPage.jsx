@@ -8,7 +8,9 @@ import PageSection from "../components/common/PageSection";
 import PageWithFooter from "../components/layout/PageWithFooter";
 import { defaultFooterConfig } from "../data/footerConfigs";
 import { homeTestimonials } from "../data/homeTestimonials";
-import { useSession } from "../utils/auth";
+import { isRecruiterRole } from "../lib/mappers";
+import { useAuth } from "../lib/auth/AuthContext";
+import Spinner from "../components/common/Spinner";
 
 const testimonialsByRole = {
   "job-seeker": homeTestimonials.find((item) => item.id === "melissa-k") || homeTestimonials[0],
@@ -16,12 +18,25 @@ const testimonialsByRole = {
 };
 
 export default function SignInPage() {
-  const session = useSession();
+  const { session, loading, profile } = useAuth();
   const [role, setRole] = useState("job-seeker");
   const testimonial = testimonialsByRole[role];
 
+  if (loading) {
+    return (
+      <PageWithFooter config={defaultFooterConfig}>
+        <Spinner label="Checking your session" className="min-h-[50vh]" />
+      </PageWithFooter>
+    );
+  }
+
   if (session) {
-    return <Navigate to="/" replace />;
+    return (
+      <Navigate
+        to={isRecruiterRole(profile?.role) ? "/employer-dashboard/overview" : "/dashboard/overview"}
+        replace
+      />
+    );
   }
 
   return (

@@ -1,182 +1,221 @@
-import React, { createContext, useCallback, useContext, useMemo, useState } from "react";
-import { mockJobPostings } from "../data/mockJobPostings";
-import { mockApplicants } from "../data/mockApplicants";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import Spinner from "../components/common/Spinner";
+import { ApiError } from "../lib/api";
+import { useAuth } from "../lib/auth/AuthContext";
+import {
+  createRecruiterJob,
+  getApplicantResumeUrl,
+  getJobApplications,
+  getRecruiterApplications,
+  getRecruiterCompanies,
+  getRecruiterDashboard,
+  updateApplicationStatus,
+  updateRecruiterJob,
+} from "../lib/jobs";
+import {
+  EMPLOYER_STAGES,
+  mapApplicant,
+  mapRecruiterJob,
+  nextApplicationStatus,
+  RECRUITER_STAGE_TO_STATUS,
+} from "../lib/mappers";
 
-// ---------------------------------------------------------------------------
-// Employer pipeline stages — employer-facing labels
-// Seeker↔Employer mapping:
-//   Applied → New | In Review → Reviewed | Interview → Interview
-//   Offer → Offer | Not Selected → Rejected
-// ---------------------------------------------------------------------------
-export const EMPLOYER_STAGES = ["New", "Reviewed", "Shortlisted", "Interview", "Offer", "Rejected"];
+export { EMPLOYER_STAGES };
 
-// ---------------------------------------------------------------------------
-// Context shape
-// ---------------------------------------------------------------------------
 const EmployerDataContext = createContext(null);
 
-// ---------------------------------------------------------------------------
-// Mock seed: initial company profile
-// ---------------------------------------------------------------------------
-const INITIAL_COMPANY_PROFILE = {
-  name: "Northern Health Services",
-  logoFilename: "",
-  industry: "Healthcare",
-  size: "51-200",
-  website: "https://northernhealth.ca",
-  location: "Winnipeg, MB",
-  description:
-    "Northern Health Services is a leading Indigenous-owned health organization providing culturally safe care and community wellness programs across Manitoba.",
-};
-
-// ---------------------------------------------------------------------------
-// Provider
-// ---------------------------------------------------------------------------
 export function EmployerDataProvider({ children }) {
-  const [jobPostings, setJobPostings] = useState(mockJobPostings);
-  const [applicants, setApplicants] = useState(mockApplicants);
-  const [companyProfile, setCompanyProfile] = useState(INITIAL_COMPANY_PROFILE);
+  const { session, isRecruiter } = useAuth();
+  const [jobPostings, setJobPostings] = useState([]);
+  const [applicants, setApplicants] = useState([]);
+  const [companies, setCompanies] = useState([]);
+  const [metrics, setMetrics] = useState({
+    companies: 0,
+    jobs: 0,
+    activeJobs: 0,
+    applications: 0,
+    views: 0,
+  });
+  const [pipeline, setPipeline] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [actionError, setActionError] = useState("");
+  const [actionMessage, setActionMessage] = useState("");
 
-  // ---------------------------------------------------------------------------
-  // Job Posting Actions
-  // Each action is structured so swapping to an API call later is a localized change.
-  // ---------------------------------------------------------------------------
+  const companyProfile = companies[0] || null;
 
-  /** Create a new job posting with a generated id and timestamp. */
-  const createJobPosting = useCallback((data) => {
-    const newPosting = {
-      id: `emp-job-${Date.now()}`,
-      postedDate: new Date().toISOString().slice(0, 10),
-      applicantCount: 0,
-      ...data,
-    };
-    setJobPostings((prev) => [newPosting, ...prev]);
-    return newPosting;
-  }, []);
+  const reload = useCallback(async () => {
+    if (!session?.accessToken || !isRecruiter) return;
+    setLoading(true);
+    setError("");
+    try {
+      const [dashboard, companyItems, applicationPage] = await Promise.all([
+        getRecruiterDashboard(),
+        getRecruiterCompanies(),
+        getRecruiterApplications({ page: 1, pageSize: 100 }),
+      ]);
+      setCompanies(companyItems);
+      setJobPostings((dashboard.jobs || []).map(mapRecruiterJob));
+      setApplicants((applicationPage.items || dashboard.recentApplications || []).map(mapApplicant));
+      setMetrics({
+        companies: dashboard.metrics?.companies ?? companyItems.length,
+        jobs: dashboard.metrics?.jobs ?? 0,
+        activeJobs: dashboard.metrics?.activeJobs ?? 0,
+        applications: dashboard.metrics?.applications ?? 0,
+        views: dashboard.metrics?.views ?? 0,
+      });
+      setPipeline(dashboard.pipeline || {});
+    } catch (err) {
+      setError(err.message || "Your employer dashboard could not be loaded.");
+    } finally {
+      setLoading(false);
+    }
+  }, [isRecruiter, session?.accessToken]);
 
-  /** Update an existing posting by id. */
-  const updateJobPosting = useCallback((id, data) => {
-    setJobPostings((prev) =>
-      prev.map((posting) => (posting.id === id ? { ...posting, ...data } : posting))
-    );
-  }, []);
+  useEffect(() => {
+    reload();
+  }, [reload]);
 
-  /** Mark a posting as Closed — it stops accepting new applicants. */
-  const closeJobPosting = useCallback((id) => {
-    setJobPostings((prev) =>
-      prev.map((posting) =>
-        posting.id === id ? { ...posting, status: "Closed" } : posting
-      )
-    );
-  }, []);
-
-  /** Permanently remove a posting. */
-  const deleteJobPosting = useCallback((id) => {
-    setJobPostings((prev) => prev.filter((posting) => posting.id !== id));
-  }, []);
-
-  // ---------------------------------------------------------------------------
-  // Applicant Actions
-  // ---------------------------------------------------------------------------
-
-  /** Advance an applicant to the next pipeline stage. Noop at "Offer". */
-  const advanceApplicantStage = useCallback((id) => {
-    setApplicants((prev) =>
-      prev.map((applicant) => {
-        if (applicant.id !== id) return applicant;
-        const currentIndex = EMPLOYER_STAGES.indexOf(applicant.stage);
-        // Don't advance past Offer; can't advance someone who is Rejected
-        if (
-          applicant.stage === "Rejected" ||
-          currentIndex >= EMPLOYER_STAGES.indexOf("Offer")
-        ) {
-          return applicant;
-        }
-        return { ...applicant, stage: EMPLOYER_STAGES[currentIndex + 1] };
-      })
-    );
-  }, []);
-
-  /** Mark an applicant as Rejected. */
-  const rejectApplicant = useCallback((id) => {
-    setApplicants((prev) =>
-      prev.map((applicant) =>
-        applicant.id === id ? { ...applicant, stage: "Rejected" } : applicant
-      )
-    );
-  }, []);
-
-  /** Update recruiter's private notes for an applicant. */
-  const updateApplicantNotes = useCallback((id, notes) => {
-    setApplicants((prev) =>
-      prev.map((applicant) =>
-        applicant.id === id ? { ...applicant, recruiterNotes: notes } : applicant
-      )
-    );
-  }, []);
-
-  /** Set an applicant to a specific pipeline stage directly. */
-  const setApplicantStage = useCallback((id, stage) => {
-    setApplicants((prev) =>
-      prev.map((applicant) =>
-        applicant.id === id ? { ...applicant, stage } : applicant
-      )
-    );
-  }, []);
-
-  // ---------------------------------------------------------------------------
-  // Company Profile Actions
-  // ---------------------------------------------------------------------------
-
-  /** Persist company profile changes (structured for easy API swap later). */
-  const updateCompanyProfile = useCallback((data) => {
-    setCompanyProfile((prev) => ({ ...prev, ...data }));
-  }, []);
-
-  // ---------------------------------------------------------------------------
-  // Derived stats
-  // ---------------------------------------------------------------------------
-  const stats = useMemo(
-    () => ({
-      activePostings: jobPostings.filter((p) => p.status === "Active").length,
-      totalApplicants: applicants.length,
-      interviewsScheduled: applicants.filter((a) => a.stage === "Interview").length,
-      positionsFilled: applicants.filter((a) => a.stage === "Offer").length,
-    }),
-    [jobPostings, applicants]
+  const createJobPosting = useCallback(
+    async (payload) => {
+      setActionError("");
+      const data = await createRecruiterJob(payload);
+      await reload();
+      return data.job;
+    },
+    [reload],
   );
 
-  // ---------------------------------------------------------------------------
-  // Derived: applicant count per posting (kept in sync)
-  // ---------------------------------------------------------------------------
-  const enrichedPostings = useMemo(
-    () =>
-      jobPostings.map((posting) => ({
-        ...posting,
-        applicantCount: applicants.filter((a) => a.jobId === posting.id).length,
-      })),
-    [jobPostings, applicants]
+  const updateJobPosting = useCallback(
+    async (id, payload) => {
+      setActionError("");
+      const data = await updateRecruiterJob(id, payload);
+      await reload();
+      return data.job;
+    },
+    [reload],
+  );
+
+  const closeJobPosting = useCallback(
+    async (id) => {
+      setActionError("");
+      setActionMessage("");
+      try {
+        await updateRecruiterJob(id, { status: "closed" });
+        setActionMessage("This posting is now closed.");
+        await reload();
+      } catch (err) {
+        setActionError(err.message || "This posting could not be closed.");
+      }
+    },
+    [reload],
+  );
+
+  const deleteJobPosting = useCallback(async () => {
+    setActionError("Recruiters cannot delete postings from this site. Close the posting instead, or ask an admin to remove it.");
+  }, []);
+
+  const setApplicantStage = useCallback(
+    async (id, stageOrStatus) => {
+      setActionError("");
+      const status = RECRUITER_STAGE_TO_STATUS[stageOrStatus] || stageOrStatus;
+      try {
+        await updateApplicationStatus(id, status);
+        await reload();
+      } catch (err) {
+        if (err instanceof ApiError && err.code === "INVALID_APPLICATION_TRANSITION") {
+          setActionError("That stage change is not allowed from the candidate’s current status.");
+        } else {
+          setActionError(err.message || "The candidate status could not be updated.");
+        }
+        throw err;
+      }
+    },
+    [reload],
+  );
+
+  const advanceApplicantStage = useCallback(
+    async (id) => {
+      const current = applicants.find((item) => item.id === id);
+      const next = nextApplicationStatus(current?.apiStatus);
+      if (!next) {
+        setActionError("This candidate cannot be advanced any further.");
+        return;
+      }
+      await setApplicantStage(id, next);
+    },
+    [applicants, setApplicantStage],
+  );
+
+  const rejectApplicant = useCallback(
+    async (id) => {
+      await setApplicantStage(id, "rejected");
+    },
+    [setApplicantStage],
+  );
+
+  const updateApplicantNotes = useCallback(() => {
+    setActionError("Private recruiter notes are not stored by the API yet.");
+  }, []);
+
+  const updateCompanyProfile = useCallback(async () => {
+    throw new ApiError({
+      status: 404,
+      code: "NOT_FOUND",
+      message: "Company profile updates are not available on the API yet.",
+    });
+  }, []);
+
+  const loadJobApplicants = useCallback(async (jobId) => {
+    const items = await getJobApplications(jobId);
+    return items.map(mapApplicant);
+  }, []);
+
+  const openResume = useCallback(async (applicationId) => {
+    const data = await getApplicantResumeUrl(applicationId);
+    if (data.url) window.open(data.url, "_blank", "noopener,noreferrer");
+    await reload();
+    return data;
+  }, [reload]);
+
+  const stats = useMemo(
+    () => ({
+      activePostings: metrics.activeJobs,
+      totalApplicants: metrics.applications,
+      interviewsScheduled: pipeline.interviewing || 0,
+      positionsFilled: pipeline.hired || pipeline.offered || 0,
+    }),
+    [metrics, pipeline],
   );
 
   const value = {
-    // State
-    jobPostings: enrichedPostings,
+    jobPostings,
     applicants,
+    companies,
     companyProfile,
     stats,
-    // Job Posting actions
+    pipeline,
+    loading,
+    error,
+    actionError,
+    actionMessage,
     createJobPosting,
     updateJobPosting,
     closeJobPosting,
     deleteJobPosting,
-    // Applicant actions
     advanceApplicantStage,
     rejectApplicant,
     updateApplicantNotes,
     setApplicantStage,
-    // Company profile actions
     updateCompanyProfile,
+    loadJobApplicants,
+    openResume,
+    reload,
   };
+
+  if (loading) {
+    return <Spinner label="Loading employer workspace" className="min-h-[50vh]" />;
+  }
 
   return (
     <EmployerDataContext.Provider value={value}>
@@ -185,9 +224,6 @@ export function EmployerDataProvider({ children }) {
   );
 }
 
-// ---------------------------------------------------------------------------
-// Hook
-// ---------------------------------------------------------------------------
 export function useEmployerData() {
   const ctx = useContext(EmployerDataContext);
   if (!ctx) throw new Error("useEmployerData must be used within EmployerDataProvider");

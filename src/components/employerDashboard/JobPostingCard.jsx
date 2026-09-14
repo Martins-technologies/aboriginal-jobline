@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CalendarDays, Edit2, MapPin, Trash2, Users, X } from "lucide-react";
+import { CalendarDays, Edit2, MapPin, Users, X } from "lucide-react";
 import JobPostingStatusBadge from "./JobPostingStatusBadge";
 import Button from "../common/Button";
 
@@ -82,16 +82,6 @@ export default function JobPostingCard({ posting, onClose, onDelete }) {
             Close Posting
           </button>
         )}
-
-        <button
-          type="button"
-          onClick={() => onDelete?.(posting)}
-          className="ml-auto flex items-center gap-1.5 rounded-xl border border-transparent px-3 py-1.5 text-xs font-semibold text-accent transition-colors hover:border-accent/20 hover:bg-accent/5"
-          aria-label={`Delete posting: ${title}`}
-        >
-          <Trash2 className="h-3.5 w-3.5" aria-hidden="true" />
-          Delete
-        </button>
       </div>
     </article>
   );

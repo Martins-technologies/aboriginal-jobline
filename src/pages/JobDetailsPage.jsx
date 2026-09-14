@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
-import { Navigate, useParams, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { ArrowLeft, Briefcase, MapPin } from "lucide-react";
 import Badge from "../components/common/Badge";
 import Button from "../components/common/Button";
 import DashedDivider from "../components/common/DashedDivider";
 import PageSection from "../components/common/PageSection";
+import Spinner from "../components/common/Spinner";
 import JobApplyForm from "../components/jobs/JobApplyForm";
 import JobCard from "../components/jobs/JobCard";
 import PageWithFooter from "../components/layout/PageWithFooter";
 import { browseJobsFooterConfig } from "../data/footerConfigs";
-import { getPublicJob, getServiceCareCategories, getPublicJobs, recordJobView, normalizeJob } from "../lib/jobs";
+import { getPublicJob, getPublicCategories, getPublicJobs } from "../lib/jobs";
 import { formatSalary } from "../utils/jobs";
 
 export default function JobDetailsPage() {
@@ -24,43 +25,34 @@ export default function JobDetailsPage() {
     let active = true;
     setLoading(true);
     setError(null);
+    setJob(null);
 
-    Promise.all([getPublicJob(id), getServiceCareCategories()])
-      .then(([rawJob, rawCategories]) => {
-        if (active) {
-          const normalized = normalizeJob(rawJob, rawCategories);
-          setJob(normalized);
-          setCategoriesList(rawCategories);
-          
-          recordJobView(id).catch((err) => console.error("Error recording view", err));
-
-          getPublicJobs({ limit: 100 })
-            .then((allJobs) => {
-              if (active) {
-                const normalizedRelated = (allJobs || [])
-                  .map((j) => normalizeJob(j, rawCategories))
-                  .filter(
-                    (j) =>
-                      j &&
-                      j.id !== normalized.id &&
-                      (j.category === normalized.category || j.region === normalized.region)
-                  )
-                  .slice(0, 3);
-                setRelated(normalizedRelated);
-              }
-            })
-            .catch((err) => console.error("Error fetching related jobs", err));
-        }
+    Promise.all([getPublicJob(id), getPublicCategories()])
+      .then(([normalized, rawCategories]) => {
+        if (!active) return;
+        setJob(normalized);
+        setCategoriesList(rawCategories);
+        getPublicJobs({ limit: 12 })
+          .then((result) => {
+            if (!active) return;
+            const relatedJobs = (result.items || [])
+              .filter(
+                (item) =>
+                  item.id !== normalized.id &&
+                  (item.category === normalized.category || item.region === normalized.region),
+              )
+              .slice(0, 3);
+            setRelated(relatedJobs);
+          })
+          .catch(() => {
+            if (active) setRelated([]);
+          });
       })
       .catch((err) => {
-        if (active) {
-          setError(err.message || "Failed to load job details");
-        }
+        if (active) setError(err.message || "This job could not be loaded.");
       })
       .finally(() => {
-        if (active) {
-          setLoading(false);
-        }
+        if (active) setLoading(false);
       });
 
     return () => {
@@ -71,8 +63,8 @@ export default function JobDetailsPage() {
   if (loading) {
     return (
       <PageWithFooter config={browseJobsFooterConfig}>
-        <PageSection className="bg-topo section-pad text-center py-20">
-          <h1 className="font-serif text-3xl font-bold text-primary">Loading job...</h1>
+        <PageSection className="bg-topo section-pad">
+          <Spinner label="Loading job" />
         </PageSection>
       </PageWithFooter>
     );
@@ -136,21 +128,20 @@ export default function JobDetailsPage() {
             <div className="mt-8 space-y-6">
               <section>
                 <h2 className="font-serif text-2xl text-primary">About this role</h2>
-                <p className="mt-3 text-base leading-relaxed text-muted">{job.description}</p>
+                <p className="mt-3 whitespace-pre-wrap text-base leading-relaxed text-muted">{job.description}</p>
               </section>
-              <section>
-                <h2 className="font-serif text-2xl text-primary">What you’ll do</h2>
-                <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-muted">
-                  <li>{job.description}</li>
-                  <li>
-                    Work with inclusive teams committed to Indigenous talent and community
-                    partnership.
-                  </li>
-                  <li>
-                    Contribute to a culturally respectful workplace that values your experience.
-                  </li>
-                </ul>
-              </section>
+              {job.skills?.length ? (
+                <section>
+                  <h2 className="font-serif text-2xl text-primary">Skills</h2>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {job.skills.map((skill) => (
+                      <span key={skill} className="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                </section>
+              ) : null}
               <section>
                 <h2 className="font-serif text-2xl text-primary">What you’ll bring</h2>
                 <ul className="mt-3 list-disc space-y-2 pl-5 text-base leading-relaxed text-muted">
@@ -165,8 +156,7 @@ export default function JobDetailsPage() {
           <aside className="surface-card p-6 sm:p-8">
             <h2 className="font-serif text-2xl text-primary">Apply for this job</h2>
             <p className="mt-2 text-sm leading-relaxed text-muted">
-              Share your details and a short cover note. We’ll keep a copy of your application
-              so you can keep browsing other roles.
+              Upload or choose a PDF resume, then send a short cover note if you like.
             </p>
             <div className="mt-6">
               <JobApplyForm job={job} />

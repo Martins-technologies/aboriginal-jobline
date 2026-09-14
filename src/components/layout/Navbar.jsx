@@ -4,6 +4,7 @@ import { Briefcase, LogIn, LogOut, Menu, X } from "lucide-react";
 import Logo from "./Logo";
 import Button from "../common/Button";
 import { useAuth } from "../../lib/auth/AuthContext";
+import { isRecruiterRole } from "../../lib/mappers";
 
 const links = [
   { to: "/", label: "Home" },
@@ -40,7 +41,10 @@ function NavItems({ onNavigate, className = "" }) {
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const { session, signOut } = useAuth();
+  const { session, signOut, profile } = useAuth();
+  const dashboardTo = isRecruiterRole(profile?.role)
+    ? "/employer-dashboard/overview"
+    : "/dashboard/overview";
 
   const closeMenu = () => setOpen(false);
 
@@ -66,15 +70,20 @@ export default function Navbar() {
             Post a Job
           </Button>
           {session ? (
-            <Button
-              type="button"
-              variant="secondary"
-              icon={LogOut}
-              className="hidden sm:inline-flex"
-              onClick={handleSignOut}
-            >
-              Sign Out
-            </Button>
+            <>
+              <Button to={dashboardTo} variant="outline" className="hidden sm:inline-flex">
+                Dashboard
+              </Button>
+              <Button
+                type="button"
+                variant="secondary"
+                icon={LogOut}
+                className="hidden sm:inline-flex"
+                onClick={handleSignOut}
+              >
+                Sign Out
+              </Button>
+            </>
           ) : (
             <Button
               to="/sign-in"
@@ -115,15 +124,20 @@ export default function Navbar() {
               Post a Job
             </Button>
             {session ? (
-              <Button
-                type="button"
-                variant="secondary"
-                icon={LogOut}
-                className="w-full"
-                onClick={handleSignOut}
-              >
-                Sign Out
-              </Button>
+              <>
+                <Button to={dashboardTo} variant="outline" className="w-full" onClick={closeMenu}>
+                  Dashboard
+                </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  icon={LogOut}
+                  className="w-full"
+                  onClick={handleSignOut}
+                >
+                  Sign Out
+                </Button>
+              </>
             ) : (
               <Button
                 to="/sign-in"

@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { X, FileText, Phone, Mail, MapPin, Briefcase, GraduationCap, ChevronRight } from "lucide-react";
 import ApplicantStageBadge from "./ApplicantStageBadge";
 import Button from "../common/Button";
@@ -19,9 +19,11 @@ export default function ApplicantProfileDrawer({
   onClose,
   onStageChange,
   onNotesChange,
+  onOpenResume,
 }) {
   const drawerRef = useRef(null);
   const closeBtnRef = useRef(null);
+  const [resumeMessage, setResumeMessage] = useState("");
 
   // Trap focus and handle Escape key
   useEffect(() => {
@@ -122,16 +124,24 @@ export default function ApplicantProfileDrawer({
                   <button
                     type="button"
                     className="font-medium text-accent hover:text-accent/80 hover:underline"
-                    onClick={() =>
-                      alert(`Resume preview coming soon: ${resumeFilename}`)
-                    }
+                    onClick={async () => {
+                      try {
+                        const data = await onOpenResume?.(id);
+                        if (!data?.url) {
+                          setResumeMessage("This application does not have a resume file.");
+                        }
+                      } catch (err) {
+                        setResumeMessage(err.message || "The resume could not be opened.");
+                      }
+                    }}
                   >
                     {resumeFilename}
                   </button>
-                  <span className="text-xs text-muted">(preview placeholder)</span>
+                  <span className="text-xs text-muted">(opens a private link)</span>
                 </li>
               )}
             </ul>
+            {resumeMessage ? <p className="mt-2 text-sm text-accent">{resumeMessage}</p> : null}
           </section>
 
           {/* Skills */}
@@ -224,7 +234,7 @@ export default function ApplicantProfileDrawer({
           {/* Recruiter Notes */}
           <section>
             <h3 className="mb-3 font-serif text-base font-bold text-primary">Recruiter Notes</h3>
-            <p className="mb-2 text-xs text-muted">Private notes — not visible to the candidate.</p>
+            <p className="mb-2 text-xs text-muted">Private notes are not stored by the API yet.</p>
             <textarea
               rows={4}
               defaultValue={recruiterNotes}

@@ -8,17 +8,22 @@ import { useDashboard } from "../../context/DashboardDataContext";
  * Each item has Remove + Apply Now actions wired to DashboardDataContext.
  */
 export default function SavedJobsPage() {
-  const { savedJobs, toggleSaveJob, applyToJob, isApplied } = useDashboard();
+  const { savedJobs, toggleSaveJob, applyToJob, isApplied, actionError } = useDashboard();
 
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Saved Jobs"
         subtitle="Jobs you've bookmarked for later."
       />
 
       <div className="px-6 py-6 lg:px-8">
+        {actionError ? (
+          <div className="mb-4 rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+            {actionError}
+          </div>
+        ) : null}
         {savedJobs.length === 0 ? (
           <div className="surface-card p-10 text-center">
             <p className="font-serif text-2xl text-primary">No saved jobs yet</p>

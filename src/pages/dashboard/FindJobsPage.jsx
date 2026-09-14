@@ -12,6 +12,7 @@ import {
 } from "../../utils/jobs";
 import { Bookmark, BookmarkCheck, Check, ArrowRight, MapPin, Briefcase } from "lucide-react";
 import { Link } from "react-router-dom";
+import Spinner from "../../components/common/Spinner";
 import { getIcon } from "../../utils/icons";
 // ---------------------------------------------------------------------------
 // Inline dashboard-aware job card for Find Jobs page
@@ -141,7 +142,7 @@ export default function FindJobsPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Find Jobs"
         subtitle="Search and filter jobs from inclusive employers across Canada."
       />
@@ -165,7 +166,7 @@ export default function FindJobsPage() {
             />
 
             {loading ? (
-              <p className="py-12 text-center text-muted">Loading jobs…</p>
+              <Spinner label="Loading jobs" />
             ) : error ? (
               <p className="py-12 text-center text-accent">{error}</p>
             ) : visibleJobs.length === 0 ? (

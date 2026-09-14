@@ -45,13 +45,9 @@ function Toggle({ id, label, description, checked, onChange }) {
  * Account, Notifications, Team Members, and Danger Zone (Sign Out + Delete Account).
  */
 export default function EmployerSettingsPage() {
-  const { signOut } = useAuth();
+  const { signOut, profile, user } = useAuth();
   const navigate = useNavigate();
-
-  // Account state
-  const [email, setEmail] = useState("");
-  const [newPwd, setNewPwd] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
+  const currentEmail = profile?.email || user?.email || "";
   const [accountMsg, setAccountMsg] = useState(null);
 
   // Notification state
@@ -63,9 +59,8 @@ export default function EmployerSettingsPage() {
   });
 
   // Team members state
-  const [teamMembers, setTeamMembers] = useState([
-    { id: "tm-1", name: "Recruiter Admin", email: "recruiter@northernhealth.ca", role: "Admin", status: "Active" },
-  ]);
+  const [teamMembers] = useState([]);
+  const [inviteMsg, setInviteMsg] = useState("");
   const [newInviteEmail, setNewInviteEmail] = useState("");
   const [showInviteForm, setShowInviteForm] = useState(false);
 
@@ -77,35 +72,19 @@ export default function EmployerSettingsPage() {
 
   const handleAccountSave = (e) => {
     e.preventDefault();
-    if (newPwd && newPwd !== confirmPwd) {
-      setAccountMsg({ type: "error", text: "Passwords do not match." });
-      return;
-    }
-    setAccountMsg({ type: "success", text: "Account settings updated!" });
-    setTimeout(() => setAccountMsg(null), 3000);
-    setNewPwd("");
-    setConfirmPwd("");
+    setAccountMsg({
+      type: "error",
+      text: "Email and password changes are not available on this API.",
+    });
   };
 
   const handleInviteTeammate = (e) => {
     e.preventDefault();
-    if (!newInviteEmail.trim()) return;
-    setTeamMembers((prev) => [
-      ...prev,
-      {
-        id: `tm-${Date.now()}`,
-        name: newInviteEmail.split("@")[0],
-        email: newInviteEmail.trim(),
-        role: "Recruiter",
-        status: "Pending Invite",
-      },
-    ]);
-    setNewInviteEmail("");
-    setShowInviteForm(false);
+    setInviteMsg("Team invites are not available on this API yet.");
   };
 
-  const handleRemoveTeammate = (id) => {
-    setTeamMembers((prev) => prev.filter((tm) => tm.id !== id));
+  const handleRemoveTeammate = () => {
+    setInviteMsg("Team member management is not available on this API yet.");
   };
 
   const handleSignOut = () => {
@@ -114,14 +93,17 @@ export default function EmployerSettingsPage() {
   };
 
   const handleDeleteAccount = () => {
-    signOut();
-    navigate("/", { replace: true });
+    setShowDeleteConfirm(false);
+    setAccountMsg({
+      type: "error",
+      text: "Company account deletion is not available on this API.",
+    });
   };
 
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Settings"
         subtitle="Manage your employer account, notifications, and team access."
       />
@@ -142,43 +124,11 @@ export default function EmployerSettingsPage() {
               <input
                 id="emp-settings-email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="recruiter@company.ca"
-                className={inputClass}
+                value={currentEmail}
+                readOnly
+                className={`${inputClass} bg-black/5`}
                 autoComplete="email"
               />
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="emp-settings-pwd" className="mb-1.5 block text-sm font-semibold text-primary">
-                  New Password
-                </label>
-                <input
-                  id="emp-settings-pwd"
-                  type="password"
-                  value={newPwd}
-                  onChange={(e) => setNewPwd(e.target.value)}
-                  placeholder="Enter new password"
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-              </div>
-              <div>
-                <label htmlFor="emp-settings-cpwd" className="mb-1.5 block text-sm font-semibold text-primary">
-                  Confirm New Password
-                </label>
-                <input
-                  id="emp-settings-cpwd"
-                  type="password"
-                  value={confirmPwd}
-                  onChange={(e) => setConfirmPwd(e.target.value)}
-                  placeholder="Re-enter new password"
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-              </div>
             </div>
 
             <div className="flex items-center gap-4">
@@ -260,6 +210,10 @@ export default function EmployerSettingsPage() {
               </Button>
             )}
           </div>
+
+          {inviteMsg ? (
+            <p className="mt-3 text-sm font-semibold text-accent" role="alert">{inviteMsg}</p>
+          ) : null}
 
           {showInviteForm && (
             <form onSubmit={handleInviteTeammate} className="mt-4 flex flex-wrap gap-3">

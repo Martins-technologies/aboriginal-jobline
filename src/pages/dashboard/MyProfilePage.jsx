@@ -152,8 +152,13 @@ export default function MyProfilePage() {
   const { profile, updateProfile } = useDashboard();
   const [form, setForm] = useState({ ...profile });
   const [saved, setSaved] = useState(false);
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const set = (field) => (e) => setForm((f) => ({ ...f, [field]: e.target.value }));
+  const set = (field) => (e) => {
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+    if (errors[field]) setErrors((current) => ({ ...current, [field]: "" }));
+  };
 
   const addExperience = () =>
     setForm((f) => ({ ...f, experience: [...(f.experience || []), emptyExperience()] }));
@@ -169,17 +174,41 @@ export default function MyProfilePage() {
   const removeEdu = (id) =>
     setForm((f) => ({ ...f, education: f.education.filter((e) => e.id !== id) }));
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
-    updateProfile(form);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    const next = {};
+    if (!form.fullName?.trim()) next.fullName = "Enter your full name.";
+    else if (form.fullName.trim().length < 2) next.fullName = "Full name must be at least 2 characters.";
+    else if (form.fullName.trim().length > 160) next.fullName = "Full name cannot be longer than 160 characters.";
+    if ((form.skills || []).length > 50) next.skills = "You can add up to 50 skills.";
+    (form.experience || []).forEach((entry, index) => {
+      if (!entry.jobTitle?.trim()) next[`experience-${index}`] = `Work experience #${index + 1} needs a job title.`;
+      else if (!entry.company?.trim()) next[`experience-${index}`] = `Work experience #${index + 1} needs a company name.`;
+    });
+    (form.education || []).forEach((entry, index) => {
+      if (!entry.school?.trim() && !entry.degree?.trim() && !entry.field?.trim()) {
+        next[`education-${index}`] = `Education #${index + 1} needs a school, degree, or field of study.`;
+      }
+    });
+    setErrors(next);
+    if (Object.keys(next).length > 0) return;
+
+    setLoading(true);
+    setSaved(false);
+    try {
+      await updateProfile(form);
+      setSaved(true);
+    } catch (err) {
+      setErrors({ submit: err.message || "Your profile could not be saved." });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="My Profile"
         subtitle="Tell us a bit about yourself so employers can get to know you."
       />
@@ -192,6 +221,11 @@ export default function MyProfilePage() {
 
         <form onSubmit={handleSave} noValidate>
           <div className="surface-card p-6 sm:p-8">
+            {errors.submit ? (
+              <div className="mb-4 rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+                {errors.submit}
+              </div>
+            ) : null}
             <h2 className="font-serif text-2xl font-bold text-primary">Personal Details</h2>
             <p className="mt-1 text-sm text-muted">Fill in what you know — you can always come back and update this later.</p>
 
@@ -207,6 +241,7 @@ export default function MyProfilePage() {
                   placeholder="Enter your full name"
                   className={inputClass}
                 />
+                {errors.fullName ? <p className="mt-1.5 text-sm text-accent">{errors.fullName}</p> : null}
               </div>
 
               {/* Email — prominent, near top */}
@@ -216,10 +251,11 @@ export default function MyProfilePage() {
                   id="profile-email"
                   type="email"
                   value={form.email}
-                  onChange={set("email")}
+                  disabled
                   placeholder="Enter your email address"
-                  className={inputClass}
+                  className={`${inputClass} bg-black/5`}
                 />
+                <p className="mt-1.5 text-xs text-muted">Email is managed by your sign-in account and cannot be changed here.</p>
               </div>
 
               {/* Phone */}
@@ -325,8 +361,8 @@ export default function MyProfilePage() {
 
             {/* Save */}
             <div className="mt-8 flex items-center gap-4">
-              <Button type="submit" variant="secondary" size="lg">
-                Save Changes
+              <Button type="submit" variant="secondary" size="lg" disabled={loading}>
+                {loading ? "Saving…" : "Save Changes"}
               </Button>
               {saved && (
                 <span className="inline-flex items-center gap-1.5 text-sm font-semibold text-green-600">

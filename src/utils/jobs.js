@@ -115,6 +115,8 @@ export function searchParamsFromFilters(filters) {
 }
 
 export function formatSalary(job) {
+  if (!job?.salaryMin && !job?.salaryMax) return "Salary not listed";
+
   const formatNumber = (value) => {
     if (job.salaryPeriod === "hour") {
       return `$${Number(value).toFixed(2)}`;
@@ -124,7 +126,11 @@ export function formatSalary(job) {
 
   const period = job.salaryPeriod === "hour" ? "hour" : "year";
   const suffix = job.hasBenefits ? " + Benefits" : "";
-  return `${formatNumber(job.salaryMin)} – ${formatNumber(job.salaryMax)} / ${period}${suffix}`;
+  if (job.salaryMin && job.salaryMax) {
+    return `${formatNumber(job.salaryMin)} – ${formatNumber(job.salaryMax)} / ${period}${suffix}`;
+  }
+  const value = job.salaryMin || job.salaryMax;
+  return `${formatNumber(value)} / ${period}${suffix}`;
 }
 
 export function buildJobsPath(query = {}) {

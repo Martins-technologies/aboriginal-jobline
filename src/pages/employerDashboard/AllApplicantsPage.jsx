@@ -22,6 +22,8 @@ export default function AllApplicantsPage() {
     rejectApplicant,
     updateApplicantNotes,
     setApplicantStage,
+    openResume,
+    actionError,
   } = useEmployerData();
 
   const [selectedPostingId, setSelectedPostingId] = useState("All");
@@ -48,12 +50,17 @@ export default function AllApplicantsPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="All Applicants"
         subtitle="Review, filter, and advance candidates across all of your job listings."
       />
 
       <div className="px-6 py-6 lg:px-8">
+        {actionError ? (
+          <div className="mb-4 rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+            {actionError}
+          </div>
+        ) : null}
         {/* Filter bar */}
         <div className="mb-6 flex flex-wrap items-center gap-3">
           {/* Search by name */}
@@ -158,6 +165,7 @@ export default function AllApplicantsPage() {
             setActiveDrawer((prev) => (prev ? { ...prev, stage } : null));
           }}
           onNotesChange={updateApplicantNotes}
+          onOpenResume={openResume}
         />
       )}
     </div>

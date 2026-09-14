@@ -21,16 +21,17 @@ export default function EmployerOverviewPage() {
     jobPostings,
     applicants,
     closeJobPosting,
-    deleteJobPosting,
     advanceApplicantStage,
     rejectApplicant,
     updateApplicantNotes,
     setApplicantStage,
+    openResume,
+    actionError,
+    actionMessage,
   } = useEmployerData();
 
-  const [confirmClose, setConfirmClose] = useState(null); // posting id
-  const [confirmDelete, setConfirmDelete] = useState(null); // posting object
-  const [confirmReject, setConfirmReject] = useState(null); // applicant object
+  const [confirmClose, setConfirmClose] = useState(null);
+  const [confirmReject, setConfirmReject] = useState(null);
   const [activeDrawer, setActiveDrawer] = useState(null); // applicant object
 
   // Map stat keys expected by StatCardRow component
@@ -57,12 +58,16 @@ export default function EmployerOverviewPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Overview"
         subtitle="Your hiring activity at a glance."
       />
 
-      {/* Stat cards — reuse StatCardRow directly with employer-mapped stats */}
+      {actionError || actionMessage ? (
+        <div className={`mx-6 mt-4 rounded-xl p-3.5 text-sm font-semibold lg:mx-8 ${actionError ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"}`} role="status">
+          {actionError || actionMessage}
+        </div>
+      ) : null}
       <StatCardRow stats={mappedStats} />
 
       {/* Empty state — no postings yet */}
@@ -131,7 +136,6 @@ export default function EmployerOverviewPage() {
                 key={posting.id}
                 posting={posting}
                 onClose={(id) => setConfirmClose(id)}
-                onDelete={(p) => setConfirmDelete(p)}
               />
             ))}
           </div>
@@ -149,19 +153,6 @@ export default function EmployerOverviewPage() {
             setConfirmClose(null);
           }}
           onCancel={() => setConfirmClose(null)}
-        />
-      )}
-      {confirmDelete && (
-        <ConfirmDialog
-          title={`Delete "${confirmDelete.title}"?`}
-          description="This action cannot be undone. The posting and its applicants will be permanently removed."
-          confirmLabel="Delete Posting"
-          dangerous
-          onConfirm={() => {
-            deleteJobPosting(confirmDelete.id);
-            setConfirmDelete(null);
-          }}
-          onCancel={() => setConfirmDelete(null)}
         />
       )}
       {confirmReject && (
@@ -188,6 +179,7 @@ export default function EmployerOverviewPage() {
             setActiveDrawer((prev) => prev ? { ...prev, stage } : null);
           }}
           onNotesChange={updateApplicantNotes}
+          onOpenResume={openResume}
         />
       )}
     </div>

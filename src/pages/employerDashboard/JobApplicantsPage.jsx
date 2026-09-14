@@ -20,6 +20,8 @@ export default function JobApplicantsPage() {
     rejectApplicant,
     updateApplicantNotes,
     setApplicantStage,
+    openResume,
+    actionError,
   } = useEmployerData();
 
   const [confirmReject, setConfirmReject] = useState(null);
@@ -33,12 +35,17 @@ export default function JobApplicantsPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title={`Applicants: ${jobTitle}`}
         subtitle={`Review and manage candidates who applied for this role (${postingApplicants.length}).`}
       />
 
       <div className="px-6 py-6 lg:px-8">
+        {actionError ? (
+          <div className="mb-4 rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+            {actionError}
+          </div>
+        ) : null}
         {/* Back link */}
         <div className="mb-6">
           <Link
@@ -102,6 +109,7 @@ export default function JobApplicantsPage() {
             setActiveDrawer((prev) => (prev ? { ...prev, stage } : null));
           }}
           onNotesChange={updateApplicantNotes}
+          onOpenResume={openResume}
         />
       )}
     </div>

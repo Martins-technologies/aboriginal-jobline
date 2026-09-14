@@ -13,12 +13,11 @@ import { useEmployerData } from "../../context/EmployerDataContext";
  * Each posting card has Edit, View Applicants, Close, and Delete actions.
  */
 export default function JobPostingsPage() {
-  const { jobPostings, closeJobPosting, deleteJobPosting } = useEmployerData();
+  const { jobPostings, closeJobPosting, actionError, actionMessage } = useEmployerData();
 
   const [activeStatus, setActiveStatus] = useState("All");
   const [search, setSearch] = useState("");
   const [confirmClose, setConfirmClose] = useState(null);
-  const [confirmDelete, setConfirmDelete] = useState(null);
 
   // Filter postings by status and search term
   const filtered = jobPostings.filter((posting) => {
@@ -30,12 +29,17 @@ export default function JobPostingsPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Job Postings"
         subtitle="Manage all of your active, draft, and closed job listings."
       />
 
       <div className="px-6 py-6 lg:px-8">
+        {actionError || actionMessage ? (
+          <div className={`mb-4 rounded-xl p-3.5 text-sm font-semibold ${actionError ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary"}`} role="status">
+            {actionError || actionMessage}
+          </div>
+        ) : null}
         {/* Filter bar + Post a Job CTA */}
         <div className="mb-6 flex flex-wrap items-center gap-3">
           <JobPostingsFilterBar
@@ -62,7 +66,6 @@ export default function JobPostingsPage() {
                 key={posting.id}
                 posting={posting}
                 onClose={(id) => setConfirmClose(id)}
-                onDelete={(p) => setConfirmDelete(p)}
               />
             ))}
           </div>
@@ -102,19 +105,6 @@ export default function JobPostingsPage() {
             setConfirmClose(null);
           }}
           onCancel={() => setConfirmClose(null)}
-        />
-      )}
-      {confirmDelete && (
-        <ConfirmDialog
-          title={`Delete "${confirmDelete.title}"?`}
-          description="This action cannot be undone. The posting and any associated applicants will be permanently removed."
-          confirmLabel="Delete Posting"
-          dangerous
-          onConfirm={() => {
-            deleteJobPosting(confirmDelete.id);
-            setConfirmDelete(null);
-          }}
-          onCancel={() => setConfirmDelete(null)}
         />
       )}
     </div>

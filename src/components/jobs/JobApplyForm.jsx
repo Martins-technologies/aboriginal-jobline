@@ -1,11 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CheckCircle2, Send } from "lucide-react";
 import Button from "../common/Button";
-import { getApplication, saveApplication } from "../../utils/applications";
+import { ApiError, fieldErrorsFromApi } from "../../lib/api";
 import { useAuth } from "../../lib/auth/AuthContext";
-import { applyToJob } from "../../lib/jobs";
-
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { applyToJob, listResumes, uploadAndRegisterResume } from "../../lib/jobs";
 
 function Field({ id, label, required = false, error, children }) {
   return (
@@ -13,9 +11,7 @@ function Field({ id, label, required = false, error, children }) {
       <label htmlFor={id} className="mb-1.5 block text-sm font-semibold text-primary">
         {label}
         {required ? (
-          <span className="ml-0.5 text-accent" aria-hidden="true">
-            *
-          </span>
+          <span className="ml-0.5 text-accent" aria-hidden="true">*</span>
         ) : null}
       </label>
       {children}
@@ -32,71 +28,95 @@ const inputClass =
   "w-full rounded-xl border border-black/10 bg-white px-4 py-3 text-sm text-body placeholder:text-muted/80 focus:border-primary focus:outline-none";
 
 export default function JobApplyForm({ job }) {
-  const { session, profile } = useAuth();
-  const existing = getApplication(job.id);
+  const { session, profile, user, isSeeker } = useAuth();
   const [form, setForm] = useState({
-    name: profile?.full_name || session?.user?.full_name || "",
-    email: profile?.email || session?.user?.email || "",
-    phone: "",
     coverLetter: "",
+    resumeId: "",
   });
+  const [resumeFile, setResumeFile] = useState(null);
+  const [resumes, setResumes] = useState([]);
   const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(existing);
+  const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [loadingResumes, setLoadingResumes] = useState(false);
+
+  useEffect(() => {
+    if (!session?.accessToken || !isSeeker) return undefined;
+    let active = true;
+    setLoadingResumes(true);
+    listResumes()
+      .then((data) => {
+        if (!active) return;
+        const items = data.items || [];
+        setResumes(items);
+        const defaultPath = profile?.default_resume_path;
+        const match = items.find((item) => item.storage_path === defaultPath) || items[0];
+        if (match) setForm((current) => ({ ...current, resumeId: match.id }));
+      })
+      .catch((err) => {
+        if (active) setErrors({ submit: err.message || "Your resumes could not be loaded." });
+      })
+      .finally(() => {
+        if (active) setLoadingResumes(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [isSeeker, profile?.default_resume_path, session?.accessToken]);
 
   const update = (field) => (event) => {
     setForm((current) => ({ ...current, [field]: event.target.value }));
-    if (errors[field]) {
-      setErrors((current) => ({ ...current, [field]: "" }));
-    }
+    if (errors[field]) setErrors((current) => ({ ...current, [field]: "" }));
   };
 
   const validate = () => {
     const next = {};
-    if (!form.name.trim()) next.name = "Please enter your full name.";
-    if (!form.email.trim()) {
-      next.email = "Please enter your email address.";
-    } else if (!EMAIL_PATTERN.test(form.email.trim())) {
-      next.email = "Please enter a valid email address.";
+    if (!form.resumeId && !resumeFile) next.resume = "Choose an existing PDF resume or upload a new one.";
+    if (resumeFile && resumeFile.type !== "application/pdf") next.resume = "Upload a PDF file only.";
+    else if (resumeFile && resumeFile.size > 5 * 1024 * 1024) next.resume = "That PDF is larger than the 5 MB limit.";
+    if (form.coverLetter && form.coverLetter.length > 10000) {
+      next.coverLetter = "Cover notes cannot be longer than 10,000 characters.";
     }
-    if (!form.coverLetter.trim()) next.coverLetter = "Please add a short note for the employer.";
     return next;
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const nextErrors = validate();
     setErrors(nextErrors);
-    if (Object.keys(nextErrors).length > 0) {
-      const firstId = Object.keys(nextErrors)[0];
-      document.getElementById(`apply-${firstId}`)?.focus();
+    if (Object.keys(nextErrors).length > 0) return;
+
+    if (!isSeeker) {
+      setErrors({ submit: "Only job seeker accounts can apply for jobs." });
       return;
     }
 
     setLoading(true);
-    applyToJob(job.id, session.accessToken, { coverLetter: form.coverLetter })
-      .then((res) => {
-        const application = saveApplication({
-          jobId: job.id,
-          jobTitle: job.title,
-          company: job.company,
-          name: form.name.trim(),
-          email: form.email.trim(),
-          phone: form.phone.trim(),
-          coverLetter: form.coverLetter.trim(),
-          appliedAt: new Date().toISOString(),
-        });
-        setSubmitted(application);
-      })
-      .catch((err) => {
-        setErrors((curr) => ({
-          ...curr,
-          submit: err.message || "Failed to submit application. Please try again.",
-        }));
-      })
-      .finally(() => {
-        setLoading(false);
+    try {
+      let resumePath = resumes.find((item) => item.id === form.resumeId)?.storage_path;
+      if (resumeFile) {
+        const registered = await uploadAndRegisterResume(resumeFile, user?.id || profile?.id, session.accessToken);
+        resumePath = registered.resume?.storage_path;
+      }
+      await applyToJob(job.id, {
+        cover_letter: form.coverLetter.trim() || null,
+        resume_path: resumePath,
       });
+      setSubmitted(true);
+    } catch (err) {
+      const fields = err instanceof ApiError ? fieldErrorsFromApi(err) : {};
+      let submit = err.message || "Your application could not be submitted.";
+      if (err instanceof ApiError) {
+        if (err.code === "ALREADY_APPLIED") submit = "You have already applied to this job.";
+        else if (err.code === "RESUME_REQUIRED") submit = "A registered PDF resume is required before you can apply.";
+        else if (err.code === "JOB_EXPIRED") submit = "This job is no longer accepting applications.";
+        else if (err.code === "JOB_NOT_FOUND") submit = "This job is not available on Aboriginal Jobline.";
+        else if (err.code === "VALIDATION_ERROR") submit = "Fix the highlighted fields, then submit again.";
+      }
+      setErrors({ ...fields, resume: fields.resume_path || fields.resume, coverLetter: fields.cover_letter, submit });
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (!session?.accessToken) {
@@ -104,13 +124,24 @@ export default function JobApplyForm({ job }) {
       <div className="rounded-2xl border border-black/10 bg-white p-6 text-center shadow-card">
         <h3 className="font-serif text-lg font-bold text-primary">Sign in to apply</h3>
         <p className="mt-2 text-sm text-muted">
-          You must be logged in as a candidate to apply for jobs on this platform.
+          You must be signed in as a job seeker to apply.
         </p>
         <div className="mt-5">
           <Button to="/sign-in" variant="secondary" className="w-full">
             Sign In
           </Button>
         </div>
+      </div>
+    );
+  }
+
+  if (!isSeeker) {
+    return (
+      <div className="rounded-2xl border border-black/10 bg-white p-6 text-center shadow-card">
+        <h3 className="font-serif text-lg font-bold text-primary">Job seeker account required</h3>
+        <p className="mt-2 text-sm text-muted">
+          Recruiter accounts cannot apply to jobs. Sign in with a job seeker profile.
+        </p>
       </div>
     );
   }
@@ -123,15 +154,14 @@ export default function JobApplyForm({ job }) {
           Your application for {job.title} at {job.company} has been submitted.
         </p>
         <p className="mt-3 text-sm leading-relaxed text-muted">
-          We saved your details so you can continue browsing. A recruiter from {job.company} can
-          follow up at {submitted.email}.
+          You can track this application from your dashboard.
         </p>
         <div className="mt-5 flex flex-wrap gap-3">
-          <Button to="/browse-jobs" variant="secondary">
-            Browse more jobs
+          <Button to="/dashboard/applications" variant="secondary">
+            View applications
           </Button>
-          <Button to="/" variant="outline">
-            Back to Home
+          <Button to="/browse-jobs" variant="outline">
+            Browse more jobs
           </Button>
         </div>
       </div>
@@ -145,54 +175,58 @@ export default function JobApplyForm({ job }) {
           {errors.submit}
         </div>
       ) : null}
-      <Field id="apply-name" label="Full name" required error={errors.name}>
+
+      <Field id="apply-resume" label="Resume (PDF)" required error={errors.resume}>
+        {loadingResumes ? (
+          <p className="text-sm text-muted">Loading your resumes…</p>
+        ) : resumes.length ? (
+          <select
+            id="apply-resume"
+            value={form.resumeId}
+            onChange={update("resumeId")}
+            className={inputClass}
+          >
+            <option value="">Select a saved resume</option>
+            {resumes.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.original_name}
+              </option>
+            ))}
+          </select>
+        ) : (
+          <p className="text-sm text-muted">No resume on file yet — upload a PDF below.</p>
+        )}
         <input
-          id="apply-name"
-          type="text"
-          value={form.name}
-          onChange={update("name")}
-          placeholder="Your full name"
-          aria-invalid={Boolean(errors.name)}
-          aria-required="true"
-          className={inputClass}
+          className={`${inputClass} mt-2`}
+          type="file"
+          accept="application/pdf"
+          onChange={(event) => {
+            setResumeFile(event.target.files?.[0] || null);
+            if (errors.resume) setErrors((current) => ({ ...current, resume: "" }));
+          }}
         />
       </Field>
-      <Field id="apply-email" label="Email address" required error={errors.email}>
-        <input
-          id="apply-email"
-          type="email"
-          value={form.email}
-          onChange={update("email")}
-          placeholder="you@email.com"
-          aria-invalid={Boolean(errors.email)}
-          aria-required="true"
-          className={inputClass}
-        />
-      </Field>
-      <Field id="apply-phone" label="Phone" error={errors.phone}>
-        <input
-          id="apply-phone"
-          type="tel"
-          value={form.phone}
-          onChange={update("phone")}
-          placeholder="Optional"
-          className={inputClass}
-        />
-      </Field>
-      <Field id="apply-coverLetter" label="Cover note" required error={errors.coverLetter}>
+
+      <Field id="apply-coverLetter" label="Cover note" error={errors.coverLetter}>
         <textarea
           id="apply-coverLetter"
           rows={5}
           value={form.coverLetter}
           onChange={update("coverLetter")}
-          placeholder="Share why this role is a good fit and what you bring to the team."
+          placeholder="Optional — share why this role is a good fit (max 10,000 characters)."
           aria-invalid={Boolean(errors.coverLetter)}
-          aria-required="true"
           className={`${inputClass} min-h-[120px] resize-y`}
         />
       </Field>
       <Button type="submit" variant="secondary" icon={Send} className="w-full" size="lg" disabled={loading}>
-        {loading ? "Submitting..." : "Submit application"}
+        {loading ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            Submitting
+          </span>
+        ) : (
+          "Submit application"
+        )}
       </Button>
     </form>
   );

@@ -5,6 +5,7 @@ import JobsGrid from "../jobs/JobsGrid";
 import Button from "../common/Button";
 import PageSection from "../common/PageSection";
 import SectionHeader from "../common/SectionHeader";
+import Spinner from "../common/Spinner";
 
 export default function FeaturedJobsSection({
   jobs,
@@ -40,7 +41,7 @@ export default function FeaturedJobsSection({
               onViewChange={onViewChange}
             />
             {loading ? (
-              <p className="text-muted text-center py-12">Loading jobs...</p>
+              <Spinner label="Loading jobs" />
             ) : error ? (
               <p className="text-accent text-center py-12">{error}</p>
             ) : (

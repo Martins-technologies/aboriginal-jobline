@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Briefcase, ChevronDown, LayoutGrid, MapPin, Search } from "lucide-react";
 import Button from "../common/Button";
-import { categories } from "../../data/categories";
+import { useServiceCareCategories } from "../../hooks/useServiceCareCategories";
 import { jobTypes } from "../../data/jobs";
 import { emptyFilters } from "../../utils/jobs";
 
@@ -12,6 +12,7 @@ export default function JobSearchBar({
 }) {
   const compact = variant === "compact";
   const idPrefix = compact ? "home-search" : "search";
+  const { categories } = useServiceCareCategories();
 
   const [form, setForm] = useState({
     keyword: filters.keyword || "",

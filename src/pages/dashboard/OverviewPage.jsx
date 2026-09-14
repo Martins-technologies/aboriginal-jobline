@@ -9,16 +9,22 @@ import { useDashboard } from "../../context/DashboardDataContext";
  * Banner → stat cards → profile completeness → recommended jobs grid.
  */
 export default function OverviewPage() {
-  const { stats, profile, recommendedJobs, isApplied, isSaved, applyToJob, toggleSaveJob } =
+  const { stats, profile, recommendedJobs, isApplied, isSaved, applyToJob, toggleSaveJob, error, actionError } =
     useDashboard();
 
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Overview"
         subtitle="Your job search at a glance."
       />
+
+      {error || actionError ? (
+        <div className="mx-6 mt-4 rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent lg:mx-8" role="alert">
+          {actionError || error}
+        </div>
+      ) : null}
 
       <StatCardRow stats={stats} />
 

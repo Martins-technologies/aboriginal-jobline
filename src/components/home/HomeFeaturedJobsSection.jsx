@@ -4,6 +4,7 @@ import Button from "../common/Button";
 import PageSection from "../common/PageSection";
 import SectionEyebrow from "../common/SectionEyebrow";
 import JobCard from "../jobs/JobCard";
+import Spinner from "../common/Spinner";
 import { useServiceCareJobs } from "../../hooks/useServiceCareJobs";
 
 export default function HomeFeaturedJobsSection() {
@@ -28,7 +29,7 @@ export default function HomeFeaturedJobsSection() {
 
         <div>
           {loading ? (
-            <p className="text-muted py-6">Loading jobs...</p>
+            <Spinner label="Loading jobs" />
           ) : error ? (
             <p className="text-accent py-6">{error}</p>
           ) : !jobs.length ? (

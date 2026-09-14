@@ -1,151 +1,205 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
-import { api } from "../api";
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { api, ApiError } from "../api";
+import { isRecruiterRole, isSeekerRole } from "../mappers";
 import { clearSession, readSession, writeSession } from "./session";
 
 const AuthContext = createContext(null);
 
+function normalizeSession(raw) {
+  if (!raw) return null;
+  return {
+    accessToken: raw.accessToken || raw.access_token,
+    refreshToken: raw.refreshToken || raw.refresh_token,
+    expiresAt: raw.expiresAt || raw.expires_at,
+    tokenType: raw.tokenType || raw.token_type,
+    user: raw.user || null,
+    profile: raw.profile || null,
+  };
+}
+
 export function AuthProvider({ children }) {
-  const [session, setSession] = useState(() => {
-    const cached = readSession();
-    if (cached) {
-      return {
-        accessToken: cached.accessToken || cached.access_token,
-        refreshToken: cached.refreshToken || cached.refresh_token,
-        expiresAt: cached.expiresAt || cached.expires_at,
-        user: cached.user,
-        profile: cached.profile,
-      };
-    }
-    return null;
-  });
+  const [session, setSession] = useState(() => normalizeSession(readSession()));
+  const [loading, setLoading] = useState(Boolean(readSession()?.accessToken || readSession()?.access_token));
+  const [bootstrapped, setBootstrapped] = useState(false);
 
-  const [loadingProfile, setLoadingProfile] = useState(false);
+  const persist = useCallback((next) => {
+    const mapped = normalizeSession(next);
+    setSession(mapped);
+    if (mapped?.accessToken) writeSession(mapped);
+    else clearSession();
+    return mapped;
+  }, []);
 
-  // Synchronize session state to local storage
+  const signOut = useCallback(() => {
+    persist(null);
+  }, [persist]);
+
+  const loadMe = useCallback(
+    async (accessToken) => {
+      const data = await api("/auth/me", { token: accessToken });
+      return persist({
+        accessToken,
+        refreshToken: session?.refreshToken,
+        expiresAt: session?.expiresAt,
+        tokenType: session?.tokenType,
+        user: data.user,
+        profile: data.profile,
+      });
+    },
+    [persist, session?.expiresAt, session?.refreshToken, session?.tokenType],
+  );
+
   useEffect(() => {
-    if (session) {
-      writeSession(session);
-    } else {
-      clearSession();
+    let active = true;
+    const token = session?.accessToken;
+    if (!token) {
+      setLoading(false);
+      setBootstrapped(true);
+      return undefined;
     }
-  }, [session]);
-
-  // Load full user profile details upon token changes
-  useEffect(() => {
-    if (session?.accessToken && !session.profile) {
-      let active = true;
-      setLoadingProfile(true);
-      api("/v1/auth/me", {}, session.accessToken)
-        .then((profileData) => {
-          if (active) {
-            setSession((curr) => curr ? { ...curr, profile: profileData } : null);
-          }
-        })
-        .catch((err) => {
-          console.error("Failed to load profile, signing out", err);
-          if (active) {
-            signOut();
-          }
-        })
-        .finally(() => {
-          if (active) setLoadingProfile(false);
+    setLoading(true);
+    api("/auth/me", { token })
+      .then((data) => {
+        if (!active) return;
+        persist({
+          ...session,
+          user: data.user,
+          profile: data.profile,
         });
-      return () => {
-        active = false;
-      };
-    }
+      })
+      .catch(() => {
+        if (active) persist(null);
+      })
+      .finally(() => {
+        if (active) {
+          setLoading(false);
+          setBootstrapped(true);
+        }
+      });
+    return () => {
+      active = false;
+    };
+    // Only re-run when the access token changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session?.accessToken]);
 
-  const signIn = async (email, password) => {
-    const data = await api("/v1/auth/login", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-    });
-
-    const mapped = {
-      accessToken: data.session?.access_token || data.session?.accessToken,
-      refreshToken: data.session?.refresh_token || data.session?.refreshToken,
-      expiresAt: data.session?.expires_at || data.session?.expiresAt,
-      user: data.user,
-      profile: null,
-    };
-
-    setSession(mapped);
-    return mapped;
-  };
-
-  /**
-   * mockSignIn — bypasses the API, creates a local session from a plain user
-   * object. Used for development / demo mode when no backend is available.
-   * Any username + password combo is accepted; role is inferred from the
-   * sign-in form's selected tab and embedded in the session so RequireAuth
-   * guards route the user correctly.
-   */
-  const mockSignIn = (userObj) => {
-    const mapped = {
-      accessToken: "mock-token-" + Date.now(),
-      refreshToken: "mock-refresh",
-      expiresAt: new Date(Date.now() + 86400000).toISOString(),
-      user: userObj,
-      profile: userObj,
-    };
-    setSession(mapped);
-    return mapped;
-  };
-
-  const signUp = async (email, password, fullName, role) => {
-    return api("/v1/auth/register", {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-        password,
-        full_name: fullName,
-        role,
-      }),
-    });
-  };
-
-  const refresh = async () => {
-    if (!session?.refreshToken) return;
-    try {
-      const data = await api("/v1/auth/refresh", {
-        method: "POST",
-        body: JSON.stringify({ refresh_token: session.refreshToken }),
-      });
-      const mapped = {
-        accessToken: data.session?.access_token || data.session?.accessToken,
-        refreshToken: data.session?.refresh_token || data.session?.refreshToken,
-        expiresAt: data.session?.expires_at || data.session?.expiresAt,
+  const applyAuthPayload = useCallback(
+    async (data) => {
+      const accessToken = data.session?.access_token;
+      if (!accessToken) {
+        persist(null);
+        return {
+          session: null,
+          confirmationRequired: Boolean(data.confirmationRequired),
+          user: data.user || null,
+          company: data.company || null,
+        };
+      }
+      const mapped = persist({
+        accessToken,
+        refreshToken: data.session?.refresh_token,
+        expiresAt: data.session?.expires_at,
+        tokenType: data.session?.token_type,
         user: data.user,
-        profile: data.user,
-      };
-      setSession(mapped);
-    } catch (e) {
-      console.error("Token refresh failed, signing out", e);
-      signOut();
-    }
-  };
-
-  const signOut = () => {
-    setSession(null);
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        session,
-        profile: session?.profile || session?.user || null,
-        loading: loadingProfile,
-        signIn,
-        mockSignIn,
-        signUp,
-        signOut,
-        refresh,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+        profile: null,
+      });
+      try {
+        const withProfile = await loadMe(accessToken);
+        return { ...withProfile, confirmationRequired: false, company: data.company || null };
+      } catch {
+        return { ...mapped, confirmationRequired: false, company: data.company || null };
+      }
+    },
+    [loadMe, persist],
   );
+
+  const signIn = useCallback(
+    async (email, password, expectedRole) => {
+      const data = await api("/auth/sign-in", {
+        method: "POST",
+        body: { email, password },
+      });
+      const accessToken = data.session?.access_token;
+      if (!accessToken) {
+        persist(null);
+        throw new ApiError({
+          status: 401,
+          code: "SIGN_IN_FAILED",
+          message: "That email or password did not match our records.",
+        });
+      }
+
+      const me = await api("/auth/me", { token: accessToken });
+      const actualRole = me.profile?.role;
+
+      const wantsSeeker = expectedRole === "job_seeker";
+      const wantsEmployer = expectedRole === "recruiter";
+      const isSeekerAccount = isSeekerRole(actualRole);
+      const isEmployerAccount = isRecruiterRole(actualRole);
+
+      if (wantsSeeker && !isSeekerAccount) {
+        persist(null);
+        throw new ApiError({
+          status: 403,
+          code: "ROLE_MISMATCH_SEEKER",
+          message:
+            "These credentials belong to an employer account. Use the Employer tab to sign in, or register a separate job seeker account with a different email.",
+        });
+      }
+      if (wantsEmployer && !isEmployerAccount) {
+        persist(null);
+        throw new ApiError({
+          status: 403,
+          code: "ROLE_MISMATCH_EMPLOYER",
+          message:
+            "These credentials belong to a job seeker account. Use the Job Seeker tab to sign in, or register a separate employer account with a different email.",
+        });
+      }
+
+      return persist({
+        accessToken,
+        refreshToken: data.session?.refresh_token,
+        expiresAt: data.session?.expires_at,
+        tokenType: data.session?.token_type,
+        user: me.user,
+        profile: me.profile,
+      });
+    },
+    [persist],
+  );
+
+  const signUp = useCallback(
+    async (payload) => {
+      const data = await api("/auth/sign-up", {
+        method: "POST",
+        body: payload,
+      });
+      return applyAuthPayload(data);
+    },
+    [applyAuthPayload],
+  );
+
+  const role = session?.profile?.role || "";
+  const value = useMemo(
+    () => ({
+      session,
+      user: session?.user || null,
+      profile: session?.profile || null,
+      role,
+      isAuthenticated: Boolean(session?.accessToken),
+      isSeeker: isSeekerRole(role),
+      isRecruiter: isRecruiterRole(role),
+      loading,
+      bootstrapped,
+      signIn,
+      signUp,
+      signOut,
+      refreshProfile: () => (session?.accessToken ? loadMe(session.accessToken) : Promise.resolve(null)),
+    }),
+    [bootstrapped, loadMe, loading, role, session, signIn, signOut, signUp],
+  );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
@@ -155,4 +209,5 @@ export function useAuth() {
   }
   return context;
 }
+
 export default AuthContext;

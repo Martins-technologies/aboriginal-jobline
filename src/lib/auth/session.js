@@ -1,4 +1,4 @@
-const KEY = "servicecare.session";
+const KEY = "aboriginal.session";
 
 export function readSession() {
   try {
@@ -12,11 +12,21 @@ export function readSession() {
 export function writeSession(session) {
   try {
     localStorage.setItem(KEY, JSON.stringify(session));
-  } catch {}
+  } catch {
+    /* ignore quota / private mode */
+  }
 }
 
 export function clearSession() {
   try {
     localStorage.removeItem(KEY);
-  } catch {}
+    localStorage.removeItem("servicecare.session");
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getStoredAccessToken() {
+  const cached = readSession();
+  return cached?.accessToken || cached?.access_token || null;
 }

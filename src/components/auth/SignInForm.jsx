@@ -2,13 +2,14 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Briefcase, Eye, EyeOff, Lock, Mail, User } from "lucide-react";
 import Button from "../common/Button";
+import { ApiError, fieldErrorsFromApi } from "../../lib/api";
+import { isRecruiterRole } from "../../lib/mappers";
 import { useAuth } from "../../lib/auth/AuthContext";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const emptyForm = {
   email: "",
-  username: "",
   password: "",
 };
 
@@ -17,9 +18,7 @@ function Field({ id, label, error, children }) {
     <div>
       <label htmlFor={id} className="mb-1.5 block text-sm font-semibold text-primary">
         {label}
-        <span className="ml-0.5 text-accent" aria-hidden="true">
-          *
-        </span>
+        <span className="ml-0.5 text-accent" aria-hidden="true">*</span>
       </label>
       {children}
       {error ? (
@@ -36,7 +35,7 @@ const inputClass =
 
 export default function SignInForm({ role, onRoleChange }) {
   const navigate = useNavigate();
-  const { mockSignIn } = useAuth();
+  const { signIn } = useAuth();
   const [form, setForm] = useState(emptyForm);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -49,24 +48,62 @@ export default function SignInForm({ role, onRoleChange }) {
     }
   };
 
-  // No validation — any username + password works in demo mode.
-  // The role tab determines where the user lands after sign-in.
-  const handleSubmit = (event) => {
+  const validate = () => {
+    const next = {};
+    if (!form.email.trim()) next.email = "Enter the email you used to register.";
+    else if (!EMAIL_PATTERN.test(form.email.trim())) next.email = "Enter a valid email address, like name@example.com.";
+    else if (form.email.trim().length > 320) next.email = "Email addresses cannot be longer than 320 characters.";
+    if (!form.password) next.password = "Enter your password.";
+    else if (form.password.length < 8) next.password = "Passwords are at least 8 characters.";
+    else if (form.password.length > 200) next.password = "Passwords cannot be longer than 200 characters.";
+    return next;
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    const nextErrors = validate();
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      const firstId = Object.keys(nextErrors)[0];
+      document.getElementById(`signin-${firstId}`)?.focus();
+      return;
+    }
+
     setLoading(true);
-    setErrors({});
-
-    // Mock sign-in: create a local session without hitting the API.
-    // Role is read from the active tab so RequireAuth guards route correctly.
-    mockSignIn({
-      email: form.email || "user@example.com",
-      full_name: form.email?.split("@")[0] || "User",
-      role: role === "employer" ? "employer" : "job-seeker",
-    });
-
-    const dest = role === "employer" ? "/employer-dashboard/overview" : "/dashboard/overview";
-    navigate(dest, { replace: true });
-    setLoading(false);
+    try {
+      const expectedRole = role === "employer" ? "recruiter" : "job_seeker";
+      const result = await signIn(form.email.trim(), form.password, expectedRole);
+      const actualRole = result?.profile?.role;
+      navigate(isRecruiterRole(actualRole) ? "/employer-dashboard/overview" : "/dashboard/overview", {
+        replace: true,
+      });
+    } catch (err) {
+      const fields = err instanceof ApiError ? fieldErrorsFromApi(err) : {};
+      let submit = err.message || "Sign in failed. Please try again.";
+      if (err instanceof ApiError) {
+        if (err.code === "ROLE_MISMATCH_SEEKER") {
+          submit =
+            "This email is registered as an employer. You cannot sign in as a job seeker with these credentials. Switch to the Employer tab, or create a job seeker account with a different email.";
+        } else if (err.code === "ROLE_MISMATCH_EMPLOYER") {
+          submit =
+            "This email is registered as a job seeker. You cannot sign in as an employer with these credentials. Switch to the Job Seeker tab, or create an employer account with a different email.";
+        } else if (err.code === "SIGN_IN_FAILED") {
+          submit = "That email or password did not match our records.";
+        } else if (err.code === "ACCOUNT_INACTIVE") {
+          submit = "This account is inactive. Contact support if you need it restored.";
+        } else if (err.code === "RATE_LIMITED") {
+          submit = "Too many sign-in attempts. Wait a few minutes and try again.";
+        }
+      }
+      setErrors({
+        ...fields,
+        email: fields.email,
+        password: fields.password,
+        submit,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const signupTo = role === "employer" ? "/create-employer-account" : "/create-profile";
@@ -79,7 +116,10 @@ export default function SignInForm({ role, onRoleChange }) {
           type="button"
           role="tab"
           aria-selected={role === "job-seeker"}
-          onClick={() => onRoleChange("job-seeker")}
+          onClick={() => {
+            onRoleChange("job-seeker");
+            setErrors({});
+          }}
           className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors ${
             role === "job-seeker"
               ? "border-primary bg-primary-50 text-primary"
@@ -93,7 +133,10 @@ export default function SignInForm({ role, onRoleChange }) {
           type="button"
           role="tab"
           aria-selected={role === "employer"}
-          onClick={() => onRoleChange("employer")}
+          onClick={() => {
+            onRoleChange("employer");
+            setErrors({});
+          }}
           className={`flex items-center justify-center gap-2 rounded-xl border px-3 py-3 text-sm font-semibold transition-colors ${
             role === "employer"
               ? "border-primary bg-primary-50 text-primary"
@@ -167,13 +210,20 @@ export default function SignInForm({ role, onRoleChange }) {
       <Button
         type="submit"
         variant="secondary"
-        icon={ArrowRight}
+        icon={loading ? undefined : ArrowRight}
         iconPosition="right"
         className="w-full"
         size="lg"
         disabled={loading}
       >
-        {loading ? "Signing In..." : "Sign In"}
+        {loading ? (
+          <span className="inline-flex items-center gap-2">
+            <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/40 border-t-white" />
+            Signing in
+          </span>
+        ) : (
+          "Sign In"
+        )}
       </Button>
 
       <p className="text-center text-sm text-muted">

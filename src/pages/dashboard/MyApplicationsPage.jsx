@@ -4,14 +4,14 @@ import { useDashboard } from "../../context/DashboardDataContext";
 import ApplicationListItem from "../../components/dashboard/ApplicationListItem";
 import Button from "../../components/common/Button";
 
-const STATUS_OPTIONS = ["All", "Applied", "In Review", "Interview", "Offer", "Not Selected"];
+const STATUS_OPTIONS = ["All", "Applied", "In Review", "Interview", "Offer", "Not Selected", "Withdrawn"];
 
 /**
  * MyApplicationsPage — list of the user's applications.
  * Filter by status + sort by date. Empty state when no applications.
  */
 export default function MyApplicationsPage() {
-  const { applications, withdrawApplication } = useDashboard();
+  const { applications, withdrawApplication, actionError } = useDashboard();
   const [statusFilter, setStatusFilter] = useState("All");
   const [sortOrder, setSortOrder] = useState("newest");
 
@@ -29,12 +29,17 @@ export default function MyApplicationsPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="My Applications"
         subtitle="Track the status of every job you've applied to."
       />
 
       <div className="px-6 py-6 lg:px-8">
+        {actionError ? (
+          <div className="mb-4 rounded-xl bg-accent/10 p-3.5 text-sm font-semibold text-accent" role="alert">
+            {actionError}
+          </div>
+        ) : null}
         {/* Filters / sort */}
         {applications.length > 0 && (
           <div className="mb-5 flex flex-wrap items-center gap-3">

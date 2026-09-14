@@ -49,14 +49,19 @@ function Toggle({ id, label, description, checked, onChange }) {
 // SettingsPage — Account + Notifications only. No Delete Account.
 // ---------------------------------------------------------------------------
 export default function SettingsPage() {
-  const { signOut } = useAuth();
+  const { signOut, user, profile } = useAuth();
   const navigate = useNavigate();
 
-  // Account form
-  const [email, setEmail] = useState("");
-  const [newPwd, setNewPwd] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
   const [accountMsg, setAccountMsg] = useState(null);
+  const currentEmail = profile?.email || user?.email || "";
+
+  const handleAccountSave = (e) => {
+    e.preventDefault();
+    setAccountMsg({
+      type: "error",
+      text: "Email and password changes are not available on this API. Sign out and create a new account if you need different credentials.",
+    });
+  };
 
   // Notification toggles
   const [notifications, setNotifications] = useState({
@@ -68,18 +73,6 @@ export default function SettingsPage() {
 
   const setNotif = (key) => (val) => setNotifications((n) => ({ ...n, [key]: val }));
 
-  const handleAccountSave = (e) => {
-    e.preventDefault();
-    if (newPwd && newPwd !== confirmPwd) {
-      setAccountMsg({ type: "error", text: "Passwords do not match." });
-      return;
-    }
-    setAccountMsg({ type: "success", text: "Account settings updated!" });
-    setTimeout(() => setAccountMsg(null), 3000);
-    setNewPwd("");
-    setConfirmPwd("");
-  };
-
   const handleSignOut = () => {
     signOut();
     navigate("/", { replace: true });
@@ -88,7 +81,7 @@ export default function SettingsPage() {
   return (
     <div>
       <DashboardTopBanner
-        eyebrow="Newcomer Jobline Dashboard"
+        eyebrow="Aboriginal Jobline Dashboard"
         title="Settings"
         subtitle="Manage your account and notification preferences."
       />
@@ -99,53 +92,21 @@ export default function SettingsPage() {
         {/* ---------------------------------------------------------------- */}
         <section className="surface-card p-6 sm:p-8">
           <h2 className="font-serif text-xl font-bold text-primary">Account</h2>
-          <p className="mt-1 text-sm text-muted">Update your email address or password.</p>
+          <p className="mt-1 text-sm text-muted">Your sign-in email is shown below. Password reset is not available on this API.</p>
 
           <form onSubmit={handleAccountSave} noValidate className="mt-5 space-y-4">
             <div>
               <label htmlFor="settings-email" className="mb-1.5 block text-sm font-semibold text-primary">
-                New Email Address
+                Email Address
               </label>
               <input
                 id="settings-email"
                 type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter new email address"
-                className={inputClass}
+                value={currentEmail}
+                readOnly
+                className={`${inputClass} bg-black/5`}
                 autoComplete="email"
               />
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div>
-                <label htmlFor="settings-new-pwd" className="mb-1.5 block text-sm font-semibold text-primary">
-                  New Password
-                </label>
-                <input
-                  id="settings-new-pwd"
-                  type="password"
-                  value={newPwd}
-                  onChange={(e) => setNewPwd(e.target.value)}
-                  placeholder="Enter new password"
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-              </div>
-              <div>
-                <label htmlFor="settings-confirm-pwd" className="mb-1.5 block text-sm font-semibold text-primary">
-                  Confirm New Password
-                </label>
-                <input
-                  id="settings-confirm-pwd"
-                  type="password"
-                  value={confirmPwd}
-                  onChange={(e) => setConfirmPwd(e.target.value)}
-                  placeholder="Re-enter new password"
-                  className={inputClass}
-                  autoComplete="new-password"
-                />
-              </div>
             </div>
 
             <div className="flex items-center gap-4">
