@@ -11,14 +11,14 @@ export default function CategoryCard({ category, compact = false, browse = false
       <Link
         to={buildJobsPath({ category: category.slug })}
         aria-label={`Explore ${category.title} jobs`}
-        className="surface-card flex min-h-[9.5rem] items-start gap-4 p-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:h-[11rem] lg:min-h-0"
+        className="surface-card flex h-full min-h-[9.5rem] items-stretch gap-4 p-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         <span
           className={`mt-1 flex h-14 w-14 shrink-0 items-center justify-center rounded-full ${category.iconBg} ${category.iconColor}`}
         >
           <Icon className="h-6 w-6" aria-hidden="true" />
         </span>
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-h-0 min-w-0 flex-1 flex-col">
           <h3 className="font-sans text-base font-bold leading-snug text-primary">
             {category.title}
           </h3>

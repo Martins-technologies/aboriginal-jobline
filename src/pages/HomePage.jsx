@@ -57,6 +57,7 @@ export default function HomePage() {
         title="Career Resources & Community Stories"
         description="Practical advice, inclusive hiring strategies, and inspiring stories from across Canada."
         resources={homeResources}
+        showTags={false}
       />
       <CommunityVoicesSection />
       <CTABanner

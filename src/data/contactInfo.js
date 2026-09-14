@@ -5,7 +5,15 @@ export const contactInfo = {
   phoneHref: "tel:+18665229898",
   address: "200 – 275 Slater Street, Ottawa, ON K1P 5H9, Canada",
   addressLines: ["200 – 275 Slater Street", "Ottawa, ON K1P 5H9, Canada"],
-  officeHours: "Monday–Friday, 9:00 AM–5:00 PM EST",
+  officeHours: [
+    { day: "Monday", hours: "9:00 AM–5:00 PM EST" },
+    { day: "Tuesday", hours: "9:00 AM–5:00 PM EST" },
+    { day: "Wednesday", hours: "9:00 AM–5:00 PM EST" },
+    { day: "Thursday", hours: "9:00 AM–5:00 PM EST" },
+    { day: "Friday", hours: "9:00 AM–5:00 PM EST" },
+    { day: "Saturday", hours: "Closed" },
+    { day: "Sunday", hours: "Closed" },
+  ],
 };
 
 export const employerContact = {

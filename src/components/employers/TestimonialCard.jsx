@@ -64,11 +64,13 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
           <p className={`mt-3 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
           <p className="text-xs text-muted">{testimonial.role}</p>
         </div>
-        <img
-          src={testimonial.avatar}
-          alt={testimonial.name}
-          className="h-[4.75rem] w-[4.75rem] shrink-0 rounded-full object-cover object-top"
-        />
+        <div className="h-20 w-20 shrink-0 overflow-hidden rounded-full">
+          <img
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            className="h-full w-full object-cover object-center"
+          />
+        </div>
       </article>
     );
   }

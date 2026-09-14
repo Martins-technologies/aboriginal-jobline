@@ -17,7 +17,7 @@ export default function CareerResourcesSection({
   return (
     <PageSection id="resources" className={className}>
       <SectionHeader eyebrow={eyebrow} title={title} description={description} />
-      <div className="mt-5 grid gap-4 md:grid-cols-3">
+      <div className="mt-8 grid gap-6 md:grid-cols-3 md:items-stretch">
         {resources.map((resource) => (
           <ResourceCard key={resource.id} resource={resource} showTag={showTags} />
         ))}

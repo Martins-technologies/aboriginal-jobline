@@ -43,13 +43,15 @@ export default function EmployerSolutionsSection() {
           and Indigenous talent across Canada.
         </p>
 
-        <div className="relative mt-8 overflow-hidden pb-6">
+        <div className="relative mt-8 pb-6 md:pb-10">
+          <WaveGraphic
+            className="pointer-events-none absolute -bottom-10 -right-8 z-0 hidden w-[38%] max-w-xs opacity-90 wave-graphic-blend md:block lg:max-w-sm"
+          />
           <div className="relative z-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {employerSolutions.map((item) => (
               <SolutionCard key={item.id} item={item} />
             ))}
           </div>
-          <WaveGraphic className="pointer-events-none absolute -right-10 -bottom-12 z-10 hidden w-[42%] max-w-sm md:block" />
         </div>
 
         <div className="mt-10">
