@@ -76,15 +76,17 @@ export default function WhyChooseEmployerSection() {
       </div>
 
       <div className="relative overflow-hidden">
-        <WaveGraphic className="pointer-events-none absolute -bottom-8 -left-10 z-0 w-56 max-w-[45%] sm:w-72" />
         <LeafBranch className="pointer-events-none absolute -bottom-4 -right-2 z-0 h-40 w-36 text-accent-light sm:h-48 sm:w-44" />
         <div className="container-page relative z-10 flex flex-col gap-6 py-8 sm:py-10 lg:flex-row lg:items-center lg:justify-between">
-          <div className="max-w-xl">
-            <h2 className="section-title">Start Hiring Today</h2>
-            <p className="mt-3 text-base leading-relaxed text-muted">
-              Join employers across Canada who are building inclusive workplaces and
-              stronger communities.
-            </p>
+          <div className="flex min-w-0 flex-col gap-6 sm:flex-row sm:items-center sm:gap-8 lg:gap-10">
+            <WaveGraphic className="pointer-events-none w-40 shrink-0 self-center sm:w-44 md:w-52 lg:w-56" />
+            <div className="max-w-xl min-w-0">
+              <h2 className="section-title">Start Hiring Today</h2>
+              <p className="mt-3 text-base leading-relaxed text-muted">
+                Join employers across Canada who are building inclusive workplaces and
+                stronger communities.
+              </p>
+            </div>
           </div>
           <div className="lg:text-center">
             <Button to="/post-a-job" variant="secondary" size="lg" icon={Briefcase}>

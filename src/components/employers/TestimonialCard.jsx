@@ -50,10 +50,33 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
     );
   }
 
+  if (layout === "split") {
+    return (
+      <article className="surface-card flex min-w-[15.5rem] flex-1 flex-row items-center gap-2.5 p-3 sm:min-w-0 sm:gap-3 sm:p-3.5">
+        <img
+          src={testimonial.avatar}
+          alt={testimonial.name}
+          loading="lazy"
+          className="h-[4.25rem] w-[4.25rem] shrink-0 object-contain sm:h-[4.5rem] sm:w-[4.5rem] lg:h-[4.75rem] lg:w-[4.75rem]"
+        />
+        <div className="min-w-0 flex-1">
+          <Quote className={`h-4 w-4 sm:h-[1.125rem] sm:w-[1.125rem] ${quoteClass}`} aria-hidden="true" />
+          <p className="mt-1 text-xs leading-snug text-muted sm:text-[13px] sm:leading-relaxed">
+            {testimonial.quote}
+          </p>
+          <p className="mt-2 font-sans text-xs font-semibold text-primary sm:text-sm">
+            {testimonial.name}
+          </p>
+          <p className="text-[11px] leading-snug text-muted sm:text-xs">{testimonial.role}</p>
+        </div>
+      </article>
+    );
+  }
+
   if (layout === "featured") {
     return (
-      <article className="surface-card flex h-full items-center gap-4 p-5">
-        <div className="min-w-0 flex-[1.15]">
+      <article className="surface-card flex h-full items-center gap-5 p-6">
+        <div className="min-w-0 flex-1">
           <span
             className={`mb-3 flex h-8 w-8 items-center justify-center rounded-full ${tone.badge}`}
             aria-hidden="true"
@@ -61,14 +84,17 @@ export default function TestimonialCard({ testimonial, layout = "card" }) {
             <Quote className="h-3.5 w-3.5 fill-white text-white" />
           </span>
           <p className="text-sm leading-relaxed text-body">“{testimonial.quote}”</p>
-          <p className={`mt-3 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
-          <p className="text-xs text-muted">{testimonial.role}</p>
+          <p className={`mt-4 font-sans text-sm font-semibold ${tone.name}`}>{testimonial.name}</p>
+          <p className={`text-xs font-medium ${tone.name}`}>{testimonial.role}</p>
         </div>
-        <img
-          src={testimonial.avatar}
-          alt={testimonial.name}
-          className="h-[4.75rem] w-[4.75rem] shrink-0 rounded-full object-cover object-top"
-        />
+        <div className="h-24 w-24 shrink-0 overflow-hidden rounded-full sm:h-[5.5rem] sm:w-[5.5rem]">
+          <img
+            src={testimonial.avatar}
+            alt={testimonial.name}
+            loading="lazy"
+            className={`h-full w-full object-cover ${testimonial.avatarClass || "object-center"}`}
+          />
+        </div>
       </article>
     );
   }

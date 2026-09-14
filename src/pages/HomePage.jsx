@@ -14,7 +14,7 @@ import WhyEmployersChooseSection from "../components/home/WhyEmployersChooseSect
 import CareerResourcesSection from "../components/sections/CareerResourcesSection";
 import CTABanner from "../components/sections/CTABanner";
 import PageWithFooter from "../components/layout/PageWithFooter";
-import { homeResources } from "../data/homeResources";
+import { homeInsightResources } from "../data/homeResources";
 import { homeFooterConfig } from "../data/footerConfigs";
 import { images } from "../data/images";
 
@@ -56,7 +56,9 @@ export default function HomePage() {
         eyebrow="Resources & Insights"
         title="Career Resources & Community Stories"
         description="Practical advice, inclusive hiring strategies, and inspiring stories from across Canada."
-        resources={homeResources}
+        resources={homeInsightResources}
+        showTags={true}
+        cardVariant="split"
       />
       <CommunityVoicesSection />
       <CTABanner

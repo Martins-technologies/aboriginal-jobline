@@ -26,8 +26,10 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
         <div className="max-w-xl lg:max-w-[46%]">
           <DashedDivider className="mb-5 justify-start" />
           <h1 className="font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
-            <span className="block">Browse Aboriginal and</span>
-            <span className="block">Indigenous Jobs</span>
+            <span className="block">
+              Browse Aboriginal{" "}
+              <span className="whitespace-nowrap">and Indigenous Jobs</span>
+            </span>
             <span className="mt-1 block text-accent">Across Canada</span>
           </h1>
           <p className="mt-4 max-w-md text-base leading-relaxed text-muted">

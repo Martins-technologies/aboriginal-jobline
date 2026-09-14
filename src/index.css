@@ -76,4 +76,9 @@
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 16%, black 100%);
     mask-image: linear-gradient(to right, transparent 0%, black 16%, black 100%);
   }
+
+  .wave-graphic-blend {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 32%, black 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 32%, black 100%);
+  }
 }

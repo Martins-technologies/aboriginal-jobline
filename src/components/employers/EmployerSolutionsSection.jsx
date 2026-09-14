@@ -43,13 +43,15 @@ export default function EmployerSolutionsSection() {
           and Indigenous talent across Canada.
         </p>
 
-        <div className="relative mt-8 overflow-hidden pb-6">
+        <div className="relative mt-8 pb-6 md:pb-10">
+          <WaveGraphic
+            className="pointer-events-none absolute -bottom-10 -right-8 z-0 hidden w-[38%] max-w-xs opacity-90 wave-graphic-blend md:block lg:max-w-sm"
+          />
           <div className="relative z-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {employerSolutions.map((item) => (
               <SolutionCard key={item.id} item={item} />
             ))}
           </div>
-          <WaveGraphic className="pointer-events-none absolute -right-10 -bottom-12 z-10 hidden w-[42%] max-w-sm md:block" />
         </div>
 
         <div className="mt-10">
@@ -68,25 +70,31 @@ export default function EmployerSolutionsSection() {
           </div>
         </div>
 
-        <div className="mt-10 grid items-start gap-8 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:gap-10">
-          <div>
-            <DashHeading className="text-3xl sm:text-4xl">
-              Trusted by Employers Across Canada
-            </DashHeading>
-            <p className="mt-4 max-w-md text-base leading-relaxed text-muted">
-              Organizations of all sizes trust Aboriginal Jobline to help them build diverse
-              teams and stronger communities.
-            </p>
-            <div className="mt-6">
-              <Button to="/contact" variant="primary" icon={Users}>
-                Talk to Our Team
-              </Button>
+        <div className="relative mt-10">
+          <WaveGraphic
+            className="pointer-events-none absolute -right-4 bottom-0 z-0 hidden w-[32%] max-w-[15rem] opacity-90 wave-graphic-blend lg:block xl:max-w-[17rem]"
+          />
+          <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-5 xl:gap-6">
+            <div className="shrink-0 lg:w-[26%] lg:max-w-[17.5rem] xl:max-w-[19rem]">
+              <span className="mb-3 block h-[3px] w-8 rounded-full bg-accent" aria-hidden="true" />
+              <h2 className="font-serif text-2xl font-bold leading-[1.2] text-primary sm:text-3xl lg:text-[1.85rem] xl:text-[2rem]">
+                Trusted by Employers Across Canada
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-muted sm:text-base">
+                Organizations of all sizes trust Aboriginal Jobline to help them build diverse
+                teams and stronger communities.
+              </p>
+              <div className="mt-5">
+                <Button to="/contact" variant="primary" icon={Users}>
+                  Talk to Our Team
+                </Button>
+              </div>
             </div>
-          </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {testimonials.map((testimonial) => (
-              <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-            ))}
+            <div className="flex min-w-0 flex-1 flex-row items-stretch gap-3 overflow-x-auto pb-1 sm:gap-3.5 lg:gap-4 lg:overflow-visible [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              {testimonials.map((testimonial) => (
+                <TestimonialCard key={testimonial.id} testimonial={testimonial} layout="split" />
+              ))}
+            </div>
           </div>
         </div>
       </div>

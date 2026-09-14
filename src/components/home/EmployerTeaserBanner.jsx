@@ -1,4 +1,5 @@
 import { Briefcase } from "lucide-react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
 import Button from "../common/Button";
 import PageSection from "../common/PageSection";
@@ -14,16 +15,14 @@ function EmployerBenefit({ item, index }) {
     <Link
       to={item.to}
       aria-label={item.title}
-      className={`flex items-center gap-4 rounded-xl py-3 transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:px-8 ${
-        index > 0 ? "lg:border-l lg:border-black/20" : ""
-      }`}
+      className="flex min-w-0 flex-1 items-center gap-3 rounded-xl px-1 py-2 transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:gap-3.5"
     >
       <span
-        className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full text-white ${iconColors[index]}`}
+        className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-white sm:h-16 sm:w-16 ${iconColors[index]}`}
       >
-        <Icon className="h-7 w-7" aria-hidden="true" />
+        <Icon className="h-6 w-6 sm:h-7 sm:w-7" aria-hidden="true" />
       </span>
-      <span className="font-sans text-base font-bold text-primary sm:text-lg">
+      <span className="min-w-0 font-sans text-sm font-bold leading-snug text-primary sm:text-base">
         {item.title}
       </span>
     </Link>
@@ -34,8 +33,8 @@ export default function EmployerTeaserBanner() {
   return (
     <PageSection className="bg-topo section-pad">
       <div className="rounded-3xl border border-black/10 bg-[#F8EDE0] px-6 py-6 shadow-sm sm:px-10 lg:px-12 lg:py-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:gap-10">
-          <div className="max-w-xl lg:w-[48%]">
+        <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.2fr)] lg:gap-12">
+          <div className="max-w-xl">
             <h2 className="font-serif text-3xl font-bold leading-[1.12] text-primary sm:text-4xl lg:text-[2.75rem]">
               For Employers: Build an Inclusive Workforce
             </h2>
@@ -50,9 +49,17 @@ export default function EmployerTeaserBanner() {
             </div>
           </div>
 
-          <div className="grid gap-2 sm:grid-cols-3 lg:flex-1 lg:grid-cols-3 lg:gap-0">
+          <div className="flex min-w-0 flex-col gap-4 lg:flex-row lg:items-center lg:gap-0">
             {employerTeaserItems.map((item, index) => (
-              <EmployerBenefit key={item.id} item={item} index={index} />
+              <Fragment key={item.id}>
+                {index > 0 && (
+                  <div
+                    aria-hidden="true"
+                    className="h-px w-full shrink-0 bg-black/15 lg:mx-5 lg:h-16 lg:w-px"
+                  />
+                )}
+                <EmployerBenefit item={item} index={index} />
+              </Fragment>
             ))}
           </div>
         </div>

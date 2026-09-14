@@ -57,17 +57,17 @@ export const images = {
   },
   resources: {
     jobSearch: {
-      src: "/img5.webp",
+      src: "/resource-clean-seeker.webp",
       alt: "Indigenous professional smiling outdoors with a lake and mountains in the background",
-      objectClass: "object-[center_20%]",
+      objectClass: "object-[center_35%]",
     },
     careerAdvice: {
-      src: "/img4.webp",
+      src: "/resource-clean-employer.webp",
       alt: "Two professionals talking across a table in a bright office",
-      objectClass: "object-center",
+      objectClass: "object-[center_40%]",
     },
     employerResources: {
-      src: "/img3.webp",
+      src: "/resource-clean-community.webp",
       alt: "Red canoe on a mountain lake surrounded by pine forest",
       objectClass: "object-center",
     },
