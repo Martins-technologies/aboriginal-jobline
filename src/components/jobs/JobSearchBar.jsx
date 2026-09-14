@@ -1,107 +1,151 @@
-import { FiSearch, FiMapPin, FiGrid, FiBriefcase } from 'react-icons/fi'
-import { JOB_CATEGORIES, JOB_TYPES } from '../data/browserJobsContent'
+import { useEffect, useState } from "react";
+import { Briefcase, ChevronDown, LayoutGrid, MapPin, Search } from "lucide-react";
+import Button from "../common/Button";
+import { useServiceCareCategories } from "../../hooks/useServiceCareCategories";
+import { jobTypes } from "../../data/jobs";
+import { emptyFilters } from "../../utils/jobs";
 
-/**
- * 4-field search bar from the mockup: keyword, location, category, job type.
- * Fully controlled — state lives in the BrowseJobs page.
- */
-export default function JobSearchBar({ filters, onChange, onSearch }) {
-  const set = (key) => (e) => onChange({ ...filters, [key]: e.target.value })
+export default function JobSearchBar({
+  filters = emptyFilters,
+  onSearch,
+  variant = "full",
+}) {
+  const compact = variant === "compact";
+  const idPrefix = compact ? "home-search" : "search";
+  const { categories } = useServiceCareCategories();
+
+  const [form, setForm] = useState({
+    keyword: filters.keyword || "",
+    location: filters.location || "",
+    category: filters.category || "",
+    type: filters.type || "",
+  });
+
+  useEffect(() => {
+    setForm({
+      keyword: filters.keyword || "",
+      location: filters.location || "",
+      category: filters.category || "",
+      type: filters.type || "",
+    });
+  }, [filters.keyword, filters.location, filters.category, filters.type]);
+
+  const update = (field) => (event) => {
+    setForm((current) => ({ ...current, [field]: event.target.value }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    onSearch(form);
+  };
 
   return (
-    <div className="relative z-10 -mb-10 px-4 sm:px-6 lg:px-10">
-      <form
-        role="search"
-        onSubmit={(e) => {
-          e.preventDefault()
-          onSearch?.()
-        }}
-        className="rounded-2xl bg-white p-4 shadow-lg sm:p-6"
+    <form
+      onSubmit={handleSubmit}
+      className={`grid gap-4 rounded-[32px] bg-white p-4 shadow-search sm:p-5 lg:items-center ${
+        compact
+          ? "lg:grid-cols-[1fr_1fr_auto]"
+          : "lg:grid-cols-[1fr_1fr_1fr_1fr_auto]"
+      }`}
+    >
+      <Field
+        icon={Search}
+        label="Job title or keyword"
+        htmlFor={`${idPrefix}-keyword`}
       >
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-[1.3fr_1.2fr_1fr_1fr_auto] xl:items-center">
-          {/* Keyword */}
-          <div className="flex items-center gap-3 xl:border-r xl:border-gray-200 xl:pr-5">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#f5f7f6] text-[#1a4a4a]">
-              <FiSearch size={18} aria-hidden="true" />
-            </span>
-            <label className="w-full">
-              <span className="block text-sm font-bold text-[#1a4a4a]">Job title or keyword</span>
-              <input
-                type="search"
-                value={filters.keyword}
-                onChange={set('keyword')}
-                placeholder="e.g. Teacher, Administrator, Nurse"
-                className="mt-0.5 w-full bg-transparent text-sm text-[#333] placeholder:text-[#999] focus:outline-none"
-              />
-            </label>
-          </div>
+        <input
+          id={`${idPrefix}-keyword`}
+          type="text"
+          value={form.keyword}
+          onChange={update("keyword")}
+          placeholder="e.g. Teacher, Administrator, Nurse"
+          className="w-full bg-transparent text-sm text-body placeholder:text-muted/80 focus:outline-none"
+        />
+      </Field>
 
-          {/* Location */}
-          <div className="flex items-center gap-3 xl:border-r xl:border-gray-200 xl:pr-5">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#f5f7f6] text-[#1a4a4a]">
-              <FiMapPin size={18} aria-hidden="true" />
-            </span>
-            <label className="w-full">
-              <span className="block text-sm font-bold text-[#1a4a4a]">Location</span>
-              <input
-                type="text"
-                value={filters.location}
-                onChange={set('location')}
-                placeholder="e.g. Toronto, ON or Remote"
-                className="mt-0.5 w-full bg-transparent text-sm text-[#333] placeholder:text-[#999] focus:outline-none"
-              />
-            </label>
-          </div>
+      <Field
+        icon={MapPin}
+        label="Location"
+        htmlFor={`${idPrefix}-location`}
+        divider={!compact}
+      >
+        <input
+          id={`${idPrefix}-location`}
+          type="text"
+          value={form.location}
+          onChange={update("location")}
+          placeholder="e.g. Toronto, ON or Remote"
+          className="w-full bg-transparent text-sm text-body placeholder:text-muted/80 focus:outline-none"
+        />
+      </Field>
 
-          {/* Category */}
-          <div className="flex items-center gap-3 xl:border-r xl:border-gray-200 xl:pr-5">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#f5f7f6] text-[#1a4a4a]">
-              <FiGrid size={18} aria-hidden="true" />
-            </span>
-            <label className="w-full">
-              <span className="block text-sm font-bold text-[#1a4a4a]">Category</span>
+      {compact ? null : (
+        <>
+          <Field icon={LayoutGrid} label="Category" htmlFor={`${idPrefix}-category`}>
+            <div className="relative">
               <select
-                value={filters.category}
-                onChange={set('category')}
-                className="mt-0.5 w-full bg-transparent text-sm text-[#333] focus:outline-none"
+                id={`${idPrefix}-category`}
+                value={form.category}
+                onChange={update("category")}
+                className="w-full appearance-none bg-transparent pr-6 text-sm text-body focus:outline-none"
               >
                 <option value="">All Categories</option>
-                {JOB_CATEGORIES.map((c) => (
-                  <option key={c}>{c}</option>
+                {categories.map((category) => (
+                  <option key={category.slug} value={category.slug}>
+                    {category.title}
+                  </option>
                 ))}
               </select>
-            </label>
-          </div>
+              <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            </div>
+          </Field>
 
-          {/* Job type */}
-          <div className="flex items-center gap-3 xl:pr-5">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#f5f7f6] text-[#1a4a4a]">
-              <FiBriefcase size={18} aria-hidden="true" />
-            </span>
-            <label className="w-full">
-              <span className="block text-sm font-bold text-[#1a4a4a]">Job type</span>
+          <Field icon={Briefcase} label="Job type" htmlFor={`${idPrefix}-type`} divider={false}>
+            <div className="relative">
               <select
-                value={filters.type}
-                onChange={set('type')}
-                className="mt-0.5 w-full bg-transparent text-sm text-[#333] focus:outline-none"
+                id={`${idPrefix}-type`}
+                value={form.type}
+                onChange={update("type")}
+                className="w-full appearance-none bg-transparent pr-6 text-sm text-body focus:outline-none"
               >
                 <option value="">All Job Types</option>
-                {JOB_TYPES.map((t) => (
-                  <option key={t}>{t}</option>
+                {jobTypes.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
                 ))}
               </select>
-            </label>
-          </div>
+              <ChevronDown className="pointer-events-none absolute right-0 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+            </div>
+          </Field>
+        </>
+      )}
 
-          {/* Search Button */}
-          <button 
-            type="submit" 
-            className="flex items-center justify-center gap-2 rounded-xl bg-rust-500 px-6 py-3.5 text-[15px] font-bold text-white bg-[oklch(47%_0.157_37.304)] transition-colors hover:bg-rust-600 md:col-span-2 xl:col-span-1 xl:w-auto"
-          >
-            <FiSearch size={19} aria-hidden="true" /> Search Jobs
-          </button>
-        </div>
-      </form>
+      <div className="flex items-end">
+        <Button type="submit" variant="secondary" icon={Search} className="h-[52px] w-full rounded-2xl px-7 lg:w-auto">
+          Search Jobs
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+function Field({ icon: Icon, label, htmlFor, divider = true, children }) {
+  return (
+    <div
+      className={`flex items-center gap-3 pb-3 lg:pb-0 ${
+        divider ? "border-b border-black/10 lg:border-b-0 lg:border-r lg:pr-4" : ""
+      }`}
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#F3E2C4] text-[#C4922A]">
+        <Icon className="h-5 w-5" aria-hidden="true" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <label htmlFor={htmlFor} className="mb-0.5 block text-xs font-semibold text-primary">
+          {label}
+        </label>
+        {children}
+      </div>
     </div>
-  )
+  );
 }

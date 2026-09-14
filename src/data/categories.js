@@ -1,0 +1,68 @@
+export const categories = [
+  {
+    slug: "office-administration",
+    title: "Office & Administration",
+    description: "Find roles in data entry, customer service, HR, and more.",
+    icon: "briefcase",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
+  },
+  {
+    slug: "skilled-trades",
+    title: "Skilled Trades",
+    description: "Explore opportunities in construction, welding, electrician, and more.",
+    icon: "wrench",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
+  },
+  {
+    slug: "education",
+    title: "Education",
+    description: "Find jobs in teaching, support services, and educational leadership.",
+    icon: "book-open",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
+  },
+  {
+    slug: "healthcare",
+    title: "Healthcare",
+    description: "Discover roles in nursing, caregiving, wellness, and allied health.",
+    icon: "heart-pulse",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
+  },
+  {
+    slug: "hospitality",
+    title: "Hospitality",
+    description: "Find opportunities in hotels, restaurants, tourism, and events.",
+    icon: "concierge-bell",
+    iconColor: "text-accent",
+    iconBg: "bg-accent/10",
+  },
+  {
+    slug: "transportation",
+    title: "Transportation",
+    description: "Explore driving, logistics, warehouse, and fleet support roles.",
+    icon: "truck",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
+  },
+  {
+    slug: "community-services",
+    title: "Community Services",
+    description:
+      "Support workers, outreach, and program roles focused on families, youth, and community wellbeing.",
+    icon: "users",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
+  },
+  {
+    slug: "remote-opportunities",
+    title: "Remote Opportunities",
+    description:
+      "Work-from-anywhere roles in administration, digital services, and Canada-wide program delivery.",
+    icon: "map-pin",
+    iconColor: "text-primary",
+    iconBg: "bg-primary/10",
+  },
+];

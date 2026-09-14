@@ -1,13 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
-import App from './App'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+const spaRedirect = sessionStorage.getItem("aj-spa-redirect");
+if (spaRedirect) {
+  sessionStorage.removeItem("aj-spa-redirect");
+  window.history.replaceState(null, "", spaRedirect);
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </React.StrictMode>
-)
+    <App />
+  </React.StrictMode>,
+);

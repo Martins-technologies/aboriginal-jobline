@@ -1,16 +1,30 @@
-# React + Vite
+# Newcomer Jobline — Aboriginal & Indigenous Jobs Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A frontend React application for Canada's Indigenous hiring platform.
 
-Currently, two official plugins are available:
+## Modules & Progress
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Employer / Recruiter Dashboard (New Module)
+- **Authenticated Route Group**: Fully gated `/employer-dashboard/*` workspace replacing the placeholder redirect stub.
+  - `/employer-dashboard/overview` — Overview Page (banner, stat cards, recent applicants, active job postings)
+  - `/employer-dashboard/job-postings` — Job Postings Page (filter by status/search, edit, close, delete)
+  - `/employer-dashboard/post-a-job` — Post Job Page (reuses Module 2's `JobPostingForm` for both creation and editing)
+  - `/employer-dashboard/job-postings/:jobId/applicants` — Job Applicants Page (per-posting candidate list)
+  - `/employer-dashboard/applicants` — All Applicants Page (filterable by job posting, pipeline stage, and candidate name)
+  - `/employer-dashboard/company-profile` — Company Profile Page (company info & logo upload)
+  - `/employer-dashboard/settings` — Employer Settings Page (account, notification preferences, team members, danger zone)
+- **Shared Dashboard Shell**: Parameterized `DashboardLayout` and `DashboardSidebar` shared between Job Seeker and Employer dashboards for complete visual and structural consistency.
+- **State Management**: `EmployerDataContext` manages state for job postings, candidate applications, pipeline stage transitions, recruiter notes, and company profile. Structured for seamless future API integration.
+- **Pipeline Stage Mapping (Seeker ↔ Employer)**:
+  - `Applied` ↔ `New`
+  - `In Review` ↔ `Reviewed`
+  - `Interview` ↔ `Interview`
+  - `Offer` ↔ `Offer`
+  - `Not Selected` ↔ `Rejected`
+  *(Plus employer-specific `Shortlisted` stage)*
 
-## React Compiler
+### Job Seeker Dashboard
+- Private workspace for job seekers under `/dashboard/*` (Overview, Find Jobs, My Applications, Saved Jobs, My Profile, Settings).
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Marketing & Public Site (Modules 1–6)
+- Public landing pages, Job Search, Job Details, Post a Job, Sign In flow for both roles.

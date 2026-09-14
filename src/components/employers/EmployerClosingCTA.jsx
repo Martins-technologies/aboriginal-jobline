@@ -1,0 +1,57 @@
+import { Briefcase, Phone, Users } from "lucide-react";
+import Button from "../common/Button";
+import PageSection from "../common/PageSection";
+import { images } from "../../data/images";
+
+export default function EmployerClosingCTA() {
+  return (
+    <PageSection className="bg-topo section-pad">
+      <div className="relative overflow-hidden rounded-3xl bg-primary text-white">
+        {/* Background Image/Banner for Desktop */}
+        <div className="absolute inset-0 hidden lg:block">
+          <img
+            src={images.employerClosing.src}
+            alt={images.employerClosing.alt}
+            className="h-full w-full object-cover object-[85%_center]"
+          />
+        </div>
+
+        {/* Content Container */}
+        <div className="relative z-10 px-6 py-10 sm:px-10 lg:px-12 lg:py-8">
+          <div className="w-full lg:w-[58%] lg:max-w-2xl">
+            <span className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-accent-light/80 text-accent-light">
+              <Users className="h-6 w-6" aria-hidden="true" />
+            </span>
+            <h2 className="font-serif text-3xl font-bold leading-tight text-white sm:text-4xl">
+              Build a Stronger Workforce with{" "}
+              <span className="text-accent">Aboriginal Jobline</span>
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-white/80">
+              Post jobs, connect with qualified Aboriginal and Indigenous talent, and build a
+              workplace that reflects the communities you serve.
+            </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Button to="/post-a-job" variant="secondary" icon={Briefcase}>
+                Post a Job
+              </Button>
+              <Button to="/contact" variant="outline-white" icon={Phone}>
+                Contact Us
+              </Button>
+            </div>
+          </div>
+
+          {/* Mobile Fallback Image - displayed inside the card on smaller screens */}
+          <div className="relative mx-auto mt-6 w-full max-w-md lg:hidden">
+            <div className="relative z-10 overflow-hidden rounded-[28px] shadow-card">
+              <img
+                src={images.employerClosing.src}
+                alt={images.employerClosing.alt}
+                className="aspect-[21/9] h-full w-full object-cover object-center"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </PageSection>
+  );
+}

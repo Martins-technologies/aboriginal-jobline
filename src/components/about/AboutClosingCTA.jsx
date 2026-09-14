@@ -1,0 +1,56 @@
+import { Briefcase, Handshake, Search } from "lucide-react";
+import Button from "../common/Button";
+import PageSection from "../common/PageSection";
+
+function GreenWaves() {
+  return (
+    <svg
+      className="pointer-events-none absolute inset-0 h-full w-full"
+      viewBox="0 0 1200 220"
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      <path
+        d="M0 180C180 120 280 40 460 70c140 24 180 110 340 90 140-18 200-80 400-50v110H0V180Z"
+        fill="#0B5A52"
+        opacity="0.45"
+      />
+      <path
+        d="M200 220C280 140 420 80 580 110c140 26 160 90 320 70 120-16 180-60 300-30v70H200Z"
+        fill="#0D635A"
+        opacity="0.35"
+      />
+    </svg>
+  );
+}
+
+export default function AboutClosingCTA() {
+  return (
+    <PageSection className="bg-topo section-pad">
+      <div className="relative overflow-hidden rounded-3xl bg-primary px-6 py-7 text-white sm:px-10 lg:px-12">
+        <GreenWaves />
+        <div className="relative z-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+          <div className="max-w-xl">
+            <span className="mb-4 flex h-14 w-14 items-center justify-center rounded-full border border-dashed border-white/70">
+              <Handshake className="h-6 w-6 text-white" aria-hidden="true" />
+            </span>
+            <h2 className="font-serif text-3xl font-bold text-white sm:text-4xl">
+              Ready to Take the Next Step?
+            </h2>
+            <p className="mt-3 text-white/80">
+              Explore job opportunities or connect with inclusive employers who value your talent.
+            </p>
+          </div>
+          <div className="flex shrink-0 flex-wrap gap-3">
+            <Button to="/browse-jobs" variant="white" icon={Search}>
+              Browse Jobs
+            </Button>
+            <Button to="/post-a-job" variant="outline-white" icon={Briefcase}>
+              Post a Job
+            </Button>
+          </div>
+        </div>
+      </div>
+    </PageSection>
+  );
+}

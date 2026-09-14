@@ -1,0 +1,38 @@
+export const employerHeroFeatures = [
+  {
+    id: "talent",
+    title: "Reach Skilled Indigenous Talent",
+    description: "Access a diverse pool of qualified Indigenous job seekers.",
+    icon: "users",
+    color: "bg-primary",
+    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    to: "/browse-jobs",
+  },
+  {
+    id: "inclusive",
+    title: "Inclusive Hiring Support",
+    description: "Get resources and guidance to build inclusive workplaces.",
+    icon: "heart-handshake",
+    color: "bg-accent",
+    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-accent",
+    to: "/inclusive-hiring",
+  },
+  {
+    id: "canada",
+    title: "Canada-Wide Employer Reach",
+    description: "Post jobs across Canada and connect with talent nationwide.",
+    icon: "maple-leaf",
+    color: "bg-accent-light",
+    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-accent-light",
+    to: "/post-a-job",
+  },
+  {
+    id: "posting",
+    title: "Simple Job Posting",
+    description: "Create and manage job postings in just a few steps.",
+    icon: "file-pen",
+    color: "bg-primary",
+    titleClassName: "font-sans text-[15px] font-semibold leading-snug text-primary",
+    to: "/post-a-job",
+  },
+];
