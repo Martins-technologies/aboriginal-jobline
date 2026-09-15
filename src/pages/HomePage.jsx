@@ -58,7 +58,7 @@ export default function HomePage() {
         description="Practical advice, inclusive hiring strategies, and inspiring stories from across Canada."
         resources={homeInsightResources}
         showTags={true}
-        cardVariant="split"
+        cardVariant="stacked"
       />
       <CommunityVoicesSection />
       <CTABanner

@@ -10,7 +10,7 @@ export default function CareerResourcesSection({
   description =
     "Helpful guides, tools, and community support to help you grow your career and achieve your goals.",
   showTags = true,
-  cardVariant = "split",
+  cardVariant = "stacked",
   className = "bg-topo section-pad",
 }) {
   return (

@@ -1,3 +1,9 @@
+function navOffset() {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue("--nav-height");
+  const parsed = Number.parseFloat(raw);
+  return Number.isFinite(parsed) ? parsed * 16 : 72;
+}
+
 export function scrollToTopInstant() {
   const html = document.documentElement;
   const previous = html.style.scrollBehavior;
@@ -11,6 +17,7 @@ export function scrollToId(id, { behavior = "smooth" } = {}) {
   if (!id) return false;
   const el = document.getElementById(id);
   if (!el) return false;
-  el.scrollIntoView({ behavior, block: "start" });
+  const top = el.getBoundingClientRect().top + window.scrollY - navOffset();
+  window.scrollTo({ top: Math.max(0, top), behavior });
   return true;
 }

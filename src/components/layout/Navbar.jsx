@@ -54,8 +54,11 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/5 bg-white/95 backdrop-blur">
-      <nav className="container-page relative flex h-16 items-center justify-between" aria-label="Primary">
+    <header className="sticky top-0 z-50 shrink-0 isolate border-b border-black/5 bg-white">
+      <nav
+        className="container-page relative flex h-[var(--nav-height)] items-center justify-between overflow-hidden"
+        aria-label="Primary"
+      >
         <Logo />
 
         <NavItems className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" />
