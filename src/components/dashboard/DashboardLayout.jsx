@@ -38,7 +38,7 @@ export default function DashboardLayout({ sidebarProps }) {
   };
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen flex-col bg-background lg:flex-row">
       {/* Sidebar (handles its own mobile drawer internally) */}
       <DashboardSidebar {...resolvedSidebarProps} />
 

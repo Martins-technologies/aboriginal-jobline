@@ -13,10 +13,10 @@ export default function JobPostingsFilterBar({
   onSearchChange,
 }) {
   return (
-    <div className="flex flex-wrap items-center gap-3">
+    <div className="flex w-full min-w-0 flex-wrap items-center gap-3">
       {/* Status tabs */}
       <div
-        className="flex gap-1 rounded-xl border border-black/10 bg-white p-1"
+        className="flex max-w-full gap-1 overflow-x-auto rounded-xl border border-black/10 bg-white p-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         role="tablist"
         aria-label="Filter by posting status"
       >
@@ -39,7 +39,7 @@ export default function JobPostingsFilterBar({
       </div>
 
       {/* Search input */}
-      <div className="relative flex-1 min-w-[200px]">
+      <div className="relative min-w-0 w-full flex-1 sm:min-w-[200px]">
         <Search
           className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
           aria-hidden="true"

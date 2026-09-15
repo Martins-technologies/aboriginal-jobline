@@ -62,9 +62,9 @@ export default function AllApplicantsPage() {
           </div>
         ) : null}
         {/* Filter bar */}
-        <div className="mb-6 flex flex-wrap items-center gap-3">
+        <div className="mb-6 flex flex-wrap items-stretch gap-3 sm:items-center">
           {/* Search by name */}
-          <div className="relative min-w-[200px] flex-1">
+          <div className="relative min-w-0 w-full flex-1 sm:min-w-[200px]">
             <Search
               className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted"
               aria-hidden="true"
@@ -83,7 +83,7 @@ export default function AllApplicantsPage() {
           <select
             value={selectedPostingId}
             onChange={(e) => setSelectedPostingId(e.target.value)}
-            className={inputClass}
+            className={`w-full sm:w-auto sm:min-w-[12rem] ${inputClass}`}
             aria-label="Filter by job posting"
           >
             <option value="All">All Job Postings</option>
@@ -98,7 +98,7 @@ export default function AllApplicantsPage() {
           <select
             value={selectedStage}
             onChange={(e) => setSelectedStage(e.target.value)}
-            className={inputClass}
+            className={`w-full sm:w-auto sm:min-w-[10rem] ${inputClass}`}
             aria-label="Filter by pipeline stage"
           >
             <option value="All">All Stages</option>
@@ -112,7 +112,7 @@ export default function AllApplicantsPage() {
 
         {/* Applicant list */}
         {filtered.length > 0 ? (
-          <div className="surface-card px-5">
+          <div className="surface-card px-4 sm:px-5">
             {filtered.map((applicant) => (
               <ApplicantListItem
                 key={applicant.id}

@@ -28,7 +28,7 @@ export default function HeroSection({ filters, onSearch, onTagSelect }) {
             <h1 className="font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
               <span className="block">
                 Browse Aboriginal{" "}
-                <span className="whitespace-nowrap">and Indigenous Jobs</span>
+                <span className="sm:whitespace-nowrap">and Indigenous Jobs</span>
               </span>
               <span className="mt-1 block text-accent">Across Canada</span>
             </h1>

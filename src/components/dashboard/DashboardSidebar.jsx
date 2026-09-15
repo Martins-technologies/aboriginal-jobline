@@ -139,7 +139,7 @@ export default function DashboardSidebar({ navLinks, roleLabel, settingsPath }) 
       {/* ------------------------------------------------------------------ */}
       {/* Mobile top bar (hamburger trigger)                                   */}
       {/* ------------------------------------------------------------------ */}
-      <div className="sticky top-0 z-40 flex h-14 items-center justify-between border-b border-black/8 bg-white px-4 lg:hidden">
+      <div className="sticky top-0 z-40 flex h-14 w-full shrink-0 items-center justify-between border-b border-black/8 bg-white px-4 lg:hidden">
         <Logo compact />
         <button
           type="button"

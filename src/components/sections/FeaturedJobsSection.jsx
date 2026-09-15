@@ -1,5 +1,5 @@
 import { ArrowRight } from "lucide-react";
-import FilterSidebar from "../jobs/FilterSidebar";
+import FilterSidebarPanel from "../jobs/FilterSidebarPanel";
 import JobResultsToolbar from "../jobs/JobResultsToolbar";
 import JobsGrid from "../jobs/JobsGrid";
 import Button from "../common/Button";
@@ -31,7 +31,7 @@ export default function FeaturedJobsSection({
         />
 
         <div className="grid w-full items-start gap-8 lg:grid-cols-[280px_minmax(0,1fr)]">
-          <FilterSidebar filters={filters} onApply={onApplyFilters} onReset={onResetFilters} />
+          <FilterSidebarPanel filters={filters} onApply={onApplyFilters} onReset={onResetFilters} />
           <div className="min-w-0">
             <JobResultsToolbar
               count={count}

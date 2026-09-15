@@ -76,6 +76,7 @@ function messageForCode(code, fallback) {
     PROFILE_UPDATE_FAILED: "Your profile could not be saved.",
     JOB_CREATE_FAILED: "The job could not be posted.",
     JOB_UPDATE_FAILED: "The job could not be updated.",
+    COMPANY_UPDATE_FAILED: "Your company profile could not be saved.",
     APPLICATION_FAILED: "The application could not be submitted.",
     APPLICATION_UPDATE_FAILED: "The application status could not be updated.",
     SAVE_JOB_FAILED: "This job could not be saved.",

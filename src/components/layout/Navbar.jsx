@@ -56,32 +56,34 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 shrink-0 isolate border-b border-black/5 bg-white">
       <nav
-        className="container-page relative flex h-[var(--nav-height)] items-center justify-between overflow-hidden"
+        className="container-page flex h-[var(--nav-height)] items-center gap-3 lg:gap-4"
         aria-label="Primary"
       >
         <Logo />
 
-        <NavItems className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-8 md:flex" />
+        <NavItems className="hidden min-w-0 flex-1 items-center justify-center gap-4 whitespace-nowrap lg:flex lg:gap-6 xl:gap-8" />
 
-        <div className="flex items-center gap-3">
+        <div className="flex shrink-0 items-center gap-2">
           <Button
             to="/post-a-job"
             variant="secondary"
+            size="sm"
             icon={Briefcase}
-            className="hidden sm:inline-flex"
+            className="hidden lg:inline-flex"
           >
             Post a Job
           </Button>
           {session ? (
             <>
-              <Button to={dashboardTo} variant="outline" className="hidden sm:inline-flex">
+              <Button to={dashboardTo} variant="outline" size="sm" className="hidden lg:inline-flex">
                 Dashboard
               </Button>
               <Button
                 type="button"
                 variant="secondary"
+                size="sm"
                 icon={LogOut}
-                className="hidden sm:inline-flex"
+                className="hidden lg:inline-flex"
                 onClick={handleSignOut}
               >
                 Sign Out
@@ -91,15 +93,16 @@ export default function Navbar() {
             <Button
               to="/sign-in"
               variant="secondary"
+              size="sm"
               icon={LogIn}
-              className="hidden sm:inline-flex"
+              className="hidden lg:inline-flex"
             >
               Sign In
             </Button>
           )}
           <button
             type="button"
-            className="rounded-lg p-2 text-primary md:hidden"
+            className="rounded-lg p-2 text-primary lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}
@@ -111,7 +114,7 @@ export default function Navbar() {
       </nav>
 
       {open ? (
-        <div id="mobile-nav" className="border-t border-black/5 bg-white md:hidden">
+        <div id="mobile-nav" className="border-t border-black/5 bg-white lg:hidden">
           <NavItems
             onNavigate={closeMenu}
             className="flex flex-col gap-4 px-6 py-5"
