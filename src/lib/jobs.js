@@ -1,4 +1,4 @@
-import { api } from "./api";
+import { api, ApiError } from "./api";
 import { createUserSupabase } from "./supabase";
 import { mapPublicJob } from "./mappers";
 import { categories as staticCategories } from "../data/categories";
@@ -146,6 +146,23 @@ export async function getRecruiterDashboard() {
 export async function getRecruiterCompanies() {
   const data = await api("/recruiter/companies");
   return data.items || [];
+}
+
+export async function updateRecruiterCompany(companyId, payload) {
+  if (!companyId) {
+    throw new Error("No company is linked to this recruiter account yet.");
+  }
+  try {
+    return await api(`/recruiter/companies/${companyId}`, {
+      method: "PATCH",
+      body: payload,
+    });
+  } catch (err) {
+    if (err instanceof ApiError && (err.status === 404 || err.status === 405)) {
+      return api("/recruiter/company", { method: "PATCH", body: payload });
+    }
+    throw err;
+  }
 }
 
 export async function createRecruiterJob(payload) {

@@ -3,7 +3,7 @@ import { popularTags } from "../../data/popularSearches";
 
 export default function PopularSearchTags({ activeFilters, onSelect }) {
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="flex min-w-0 flex-wrap items-center gap-2">
       <span className="mr-1 text-sm font-medium text-muted">Popular searches:</span>
       {popularTags.map((tag) => {
         const Icon = getIcon(tag.icon);

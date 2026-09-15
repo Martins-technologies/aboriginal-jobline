@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import DashboardTopBanner from "../../components/dashboard/DashboardTopBanner";
-import FilterSidebar from "../../components/jobs/FilterSidebar";
+import FilterSidebarPanel from "../../components/jobs/FilterSidebarPanel";
 import JobResultsToolbar from "../../components/jobs/JobResultsToolbar";
 import { useDashboard } from "../../context/DashboardDataContext";
 import { useServiceCareJobs } from "../../hooks/useServiceCareJobs";
@@ -44,7 +44,7 @@ function FindJobsCard({ job, isApplied, isSaved, onApply, onToggleSave, layout }
             <span className="font-semibold text-accent">{formatSalary(job)}</span>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap">
           <button
             type="button"
             onClick={() => onToggleSave(job)}
@@ -150,7 +150,7 @@ export default function FindJobsPage() {
       <div className="px-6 py-6 lg:px-8">
         <div className="grid items-start gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
           {/* Filter sidebar — reused from Browse Jobs */}
-          <FilterSidebar
+          <FilterSidebarPanel
             filters={filters}
             onApply={handleApplyFilters}
             onReset={handleResetFilters}

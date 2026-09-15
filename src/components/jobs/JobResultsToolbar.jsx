@@ -6,7 +6,7 @@ export default function JobResultsToolbar({ count, sort, view, onSortChange, onV
       <p className="text-sm text-muted">
         Showing <span className="font-semibold text-primary">{count}</span> {count === 1 ? "job" : "jobs"}
       </p>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <label className="flex items-center gap-2 text-sm text-muted">
           Sort by:
           <span className="relative">

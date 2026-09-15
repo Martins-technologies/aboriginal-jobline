@@ -42,17 +42,19 @@ export default function JobPostingsPage() {
         ) : null}
         {/* Filter bar + Post a Job CTA */}
         <div className="mb-6 flex flex-wrap items-center gap-3">
-          <JobPostingsFilterBar
-            activeStatus={activeStatus}
-            onStatusChange={setActiveStatus}
-            search={search}
-            onSearchChange={setSearch}
-          />
+          <div className="min-w-0 w-full flex-1 lg:w-auto">
+            <JobPostingsFilterBar
+              activeStatus={activeStatus}
+              onStatusChange={setActiveStatus}
+              search={search}
+              onSearchChange={setSearch}
+            />
+          </div>
           <Button
             to="/employer-dashboard/post-a-job"
             variant="secondary"
             icon={Plus}
-            className="ml-auto shrink-0"
+            className="w-full shrink-0 sm:w-auto lg:ml-auto"
           >
             Post a Job
           </Button>

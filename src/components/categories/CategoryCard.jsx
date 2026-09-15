@@ -47,7 +47,7 @@ export default function CategoryCard({ category, compact = false, browse = false
           >
             <Icon className="h-5 w-5" aria-hidden="true" />
           </span>
-          <h3 className="mt-2 w-full whitespace-nowrap text-[11px] font-bold leading-tight text-primary sm:text-xs lg:text-[13px]">
+          <h3 className="mt-2 w-full text-[11px] font-bold leading-tight text-primary sm:text-xs lg:whitespace-nowrap lg:text-[13px]">
             {category.title}
           </h3>
           <p className="mt-2.5 flex-1 text-xs leading-relaxed text-muted sm:mt-3 sm:text-[13px]">

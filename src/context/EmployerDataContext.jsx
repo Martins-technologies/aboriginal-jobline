@@ -10,6 +10,7 @@ import {
   getRecruiterCompanies,
   getRecruiterDashboard,
   updateApplicationStatus,
+  updateRecruiterCompany,
   updateRecruiterJob,
 } from "../lib/jobs";
 import {
@@ -158,13 +159,27 @@ export function EmployerDataProvider({ children }) {
     setActionError("Private recruiter notes are not stored by the API yet.");
   }, []);
 
-  const updateCompanyProfile = useCallback(async () => {
-    throw new ApiError({
-      status: 404,
-      code: "NOT_FOUND",
-      message: "Company profile updates are not available on the API yet.",
-    });
-  }, []);
+  const updateCompanyProfile = useCallback(
+    async (form) => {
+      const companyId = companies[0]?.id;
+      if (!companyId) {
+        throw new ApiError({
+          status: 404,
+          code: "RECRUITER_COMPANY_NOT_BOUND",
+          message: "Your recruiter account is not linked to a company yet.",
+        });
+      }
+      setActionError("");
+      await updateRecruiterCompany(companyId, {
+        name: form.name?.trim(),
+        website: form.website?.trim(),
+        registration_number: form.registration_number?.trim(),
+        description: form.description?.trim() || null,
+      });
+      await reload();
+    },
+    [companies, reload],
+  );
 
   const loadJobApplicants = useCallback(async (jobId) => {
     const items = await getJobApplications(jobId);

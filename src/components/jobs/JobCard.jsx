@@ -49,7 +49,7 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
               {job.title}
             </Link>
           </h3>
-          <div className="mt-1 flex items-center gap-x-3 whitespace-nowrap text-xs text-muted">
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
             <span className="inline-flex shrink-0 items-center gap-1">
               <MapPin className="h-3 w-3 text-primary" aria-hidden="true" />
               {job.location}
@@ -112,7 +112,7 @@ export default function JobCard({ job, layout = "grid", variant = "default" }) {
         <p className="mt-3 line-clamp-2 text-sm leading-relaxed text-muted">{job.description}</p>
         <p className="mt-3 font-sans text-base font-bold text-accent">{formatSalary(job)}</p>
 
-        <div className="mt-5 flex items-center justify-between gap-3">
+        <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
           <Button to={`/jobs/${job.id}`} variant="outline" size="sm">
             View Details
           </Button>
