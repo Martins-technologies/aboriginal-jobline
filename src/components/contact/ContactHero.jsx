@@ -19,7 +19,7 @@ export default function ContactHero() {
         <HeroBleedPhoto src={images.heroContact.src} />
         <div className="container-page relative z-10">
           <div className="flex min-h-[20rem] items-start pt-2 pb-8 lg:min-h-[24rem] lg:pt-3 lg:pb-10">
-            <div className="max-w-xl lg:max-w-[46%] -translate-y-[5%]">
+            <div className="max-w-xl lg:max-w-[46%]">
               <DashedDivider className="mb-5 justify-start" />
               <h1 className="max-w-xl font-serif text-4xl font-bold leading-[1.12] text-primary sm:text-5xl lg:text-[3.15rem]">
                 <span className="block">Connect With</span>

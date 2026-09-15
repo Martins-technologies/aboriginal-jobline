@@ -12,11 +12,13 @@
   --color-surface: #ffffff;
   --color-body: #3f4b4a;
   --color-muted: #6b7280;
+  --nav-height: 4.5rem;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-height);
   }
 
   body {

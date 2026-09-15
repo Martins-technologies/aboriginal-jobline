@@ -90,7 +90,8 @@ export default function JobDetailsPage() {
 
   return (
     <PageWithFooter config={browseJobsFooterConfig}>
-      <PageSection className="bg-topo hero-pad">
+      <PageSection className="bg-topo">
+        <div className="hero-pad">
         <DashedDivider className="mb-4 justify-start" />
         <Link
           to="/browse-jobs"
@@ -179,6 +180,7 @@ export default function JobDetailsPage() {
             </div>
           </div>
         ) : null}
+        </div>
       </PageSection>
     </PageWithFooter>
   );

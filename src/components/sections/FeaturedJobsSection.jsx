@@ -21,7 +21,7 @@ export default function FeaturedJobsSection({
   error,
 }) {
   return (
-    <PageSection id="featured-jobs" className="bg-topo section-pad scroll-mt-20">
+    <PageSection id="featured-jobs" className="bg-topo section-pad scroll-mt-[var(--nav-height)]">
       <div className="flex w-full flex-col gap-8 lg:gap-10">
         <SectionHeader
           className="w-full"
