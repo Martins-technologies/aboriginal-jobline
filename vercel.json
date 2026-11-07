@@ -4,5 +4,12 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
+  ],
+  "redirects": [
+    {
+      "source": "/forgot-password",
+      "destination": "https://www.jooblie.com/forgot-password",
+      "permanent": false
+    }
   ]
 }

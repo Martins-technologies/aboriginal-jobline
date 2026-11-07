@@ -199,12 +199,12 @@ export default function SignInForm({ role, onRoleChange }) {
       </Field>
 
       <div className="flex justify-end">
-        <Link
-          to="/forgot-password"
+        <a
+          href="https://www.jooblie.com/forgot-password"
           className="text-sm font-semibold text-accent hover:text-accent/80 hover:underline"
         >
           Forgot password?
-        </Link>
+        </a>
       </div>
 
       <Button
